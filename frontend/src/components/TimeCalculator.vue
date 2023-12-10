@@ -10,19 +10,19 @@ const from = ref(getTimeNow())
 const to = ref(getTimeNow())
 
 const changeFrom = (data) =>{
-    from.value = data;
+  from.value = data;
 }
 
 const changeTo = (data) =>{
-    to.value = data;
+  to.value = data;
 }
 
 const timeDiff = computed(()=>{
-    const minutesDiff = Interval.fromDateTimes(DateTime.fromISO(from.value),DateTime.fromISO(to.value)).length('minute');
-    if(isNaN(minutesDiff)) return '00:00'
-    const hours = (Math.floor(minutesDiff/60)).toString().padStart(2,'0');
-    const minutes = (Math.floor(minutesDiff)%60).toString().padStart(2,'0');
-    return `${hours}:${minutes}`
+  const minutesDiff = Interval.fromDateTimes(DateTime.fromISO(from.value),DateTime.fromISO(to.value)).length('minute');
+  if(isNaN(minutesDiff)) return '00:00'
+  const hours = (Math.floor(minutesDiff/60)).toString().padStart(2,'0');
+  const minutes = (Math.floor(minutesDiff)%60).toString().padStart(2,'0');
+  return `${hours}:${minutes}`
 })
 
 </script>
@@ -32,12 +32,12 @@ const timeDiff = computed(()=>{
     <div class="time-from">Von</div>
     <TimeBlock class="mr-sm" @change="changeFrom" :time="from" />
     <div class="time-to">
-        Bis
+      Bis
     </div>
     <TimeBlock class="mr-sm" @change="changeTo" :time="to" />
 
     <div class="time-diff">
-        <span>{{timeDiff}}</span>
+      <span>{{timeDiff}}</span>
     </div>
   </div>
 </template>
