@@ -28,7 +28,7 @@ const userSchema = mongoose.Schema(
 const User = mongoose.model('User', userSchema)
 
 export default User
-export const userById = (id)=> User.findById(decoded.id)
+export const userById = (id)=> User.findById(id)
 export const userByEmail = (email)=> User.findOne({ email })
-export const createUser = (data)=> User.User.create(data)
+export const createUser = (data)=> User.create(data)
 
