@@ -5,7 +5,7 @@ export const testData = [
     {from: DateTime.local(2018, 5, 15, 8, 30).toString(), to: DateTime.local(2018, 5, 15, 12, 30).toString(), project: 'Test Project', role: 'DEV', description: 'test Description'},
     {from: DateTime.local(2018, 5, 15, 13, 30).toString(), to: DateTime.local(2018, 5, 15, 15, 30).toString(), project: 'Test Project', role: 'DEV', description: 'test Description'},
     {from: DateTime.local(2018, 5, 15, 15, 30).toString(), to: DateTime.local(2018, 5, 15, 18, 30).toString(), project: 'Test Project', role: 'DEV', description: 'test Description'},
-    {from: DateTime.local(2018, 6, 15, 8, 30).toString(), to: DateTime.local(2018, 7, 15, 12, 30).toString(), project: 'Test Project', role: 'DEV', description: 'test Description'},
+    {from: DateTime.local(2018, 6, 15, 8, 30).toString(), to: DateTime.local(2018, 6, 15, 12, 30).toString(), project: 'Test Project', role: 'DEV', description: 'test Description'},
     {from: DateTime.local(2018, 7, 15, 8, 30).toString(), to: DateTime.local(2018, 7, 15, 12, 30).toString(), project: 'Test Project', role: 'DEV', description: 'test Description'},
     {from: DateTime.local(2019, 5, 15, 8, 30).toString(), to: DateTime.local(2019, 5, 15, 12, 30).toString(), project: 'Test Project', role: 'DEV', description: 'test Description'},
     {from: DateTime.local(2019, 6, 15, 8, 30).toString(), to: DateTime.local(2019, 6, 15, 12, 30).toString(), project: 'Test Project', role: 'DEV', description: 'test Description'},
