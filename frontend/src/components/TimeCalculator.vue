@@ -28,7 +28,7 @@ const timeDiff = computed(()=>{
 </script>
 
 <template>
-  <div class="time-calculator">
+  <div class="time-calculator q-mt-lg q-mb-lg">
     <div class="time-from">Von</div>
     <TimeBlock class="mr-sm" @change="changeFrom" :time="from" />
     <div class="time-to">
