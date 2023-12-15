@@ -1,8 +1,11 @@
 <script setup>
-import { ref, watch } from "vue"
+import { ref, watch, toRaw } from "vue"
 import TimeTable from "./TimeTable.vue"
 import { DateTime } from "luxon"
 import {testData, groupDatesByDay} from "../helpers/timeHelpers.js"
+
+let changedIndex = null
+let changedData = null
 
 const columns = [
   { name: 'from', label: 'Von', field: 'from',format: (val, row) => DateTime.fromISO(val).toLocaleString(DateTime.TIME_24_SIMPLE) },
@@ -13,6 +16,24 @@ const columns = [
 ]
 
 const groupedDates = ref(groupDatesByDay(testData))
+
+const indexOfChangedIndex = (index)=>{
+  changedIndex = index
+}
+const changedList = (data)=>{
+  updateChangedObject(toRaw(data))
+}
+const updateChangedObject = (data)=>{
+  try{
+    console.log(data[changedIndex]);
+    //editTimeObject(data[changedIndex])
+    //success notification
+    changedIndex = null;
+  } catch(err){
+    console.error(err)
+    //reload all data
+  }
+}
 </script>
 <template>
   <div class="container">
@@ -21,6 +42,8 @@ const groupedDates = ref(groupDatesByDay(testData))
         :data="data"
         :day="index"
         :columns="columns"
+        @changeIndex="indexOfChangedIndex"
+        @changedList="changedList"
       />
     </div>
   </div>

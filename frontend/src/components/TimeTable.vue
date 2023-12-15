@@ -16,6 +16,9 @@ const props = defineProps({
     required: true
   }
 })
+
+const emit = defineEmits(['changeIndex','changedList'])
+
 const sumTime = computed(()=>{
   const sumAllminutes = props.data.reduce((acc,obj)=>{
     const from = DateTime.fromISO(obj.from)
@@ -28,8 +31,12 @@ const sumTime = computed(()=>{
   return `${hours}:${minutes}`
 })
 
+const emitIndex = (index)=>{
+  emit('changeIndex', index)
+}
+
 watch(()=>props.data,(newVal,oldVal)=>{
-  console.log(newVal[0]);
+  emit('changedList', newVal)
 },{
   deep:true
 })
@@ -48,47 +55,41 @@ watch(()=>props.data,(newVal,oldVal)=>{
     <q-tr :props="props">
       <q-td key="from" :props="props">
         {{ props.cols[0].format(props.row.from) }}
-        <q-popup-edit v-model="props.row.from" title="Edit the Name" auto-save v-slot="scope">
-          <q-time mask="YYYY-MM-DDTHH:mm" v-model="scope.value">
-            <div class="row items-center justify-end">
-              <q-btn v-close-popup label="Close" color="primary" flat />
-            </div>
+        <q-popup-edit v-model="props.row.from" max-height="500px" @save="emitIndex(props.rowIndex)" title="Edit the Name" buttons v-slot="scope">
+          <q-time mask="YYYY-MM-DDTHH:mm" flat :now-btn="true" v-model="scope.value">
           </q-time>
         </q-popup-edit>
       </q-td>
       <q-td key="to" :props="props">
         {{ props.cols[0].format(props.row.to) }}
-        <q-popup-edit v-model="props.row.to" title="Edit the Name" auto-save v-slot="scope">
-          <q-time mask="YYYY-MM-DDTHH:mm" v-model="scope.value">
-            <div class="row items-center justify-end">
-              <q-btn v-close-popup label="Close" color="primary" flat />
-            </div>
+        <q-popup-edit v-model="props.row.to" max-height="500px" @save="emitIndex(props.rowIndex)" title="Edit the Name" buttons v-slot="scope">
+          <q-time mask="YYYY-MM-DDTHH:mm" flat :now-btn="true" v-model="scope.value">
           </q-time>
         </q-popup-edit>
       </q-td>
       <q-td key="project" :props="props">
         {{ props.row.project }}
-        <q-popup-edit v-model="props.row.project" auto-save v-slot="scope">
+        <q-popup-edit v-model="props.row.project" @save="emitIndex(props.rowIndex)" buttons v-slot="scope">
           <div class="text-italic text-primary q-mb-xs">
-            My Custom Title
+            Bearbeiten
           </div>
           <q-input type="text" v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
         </q-popup-edit>
       </q-td>
       <q-td key="role" :props="props">
         {{ props.row.role }}
-        <q-popup-edit v-model="props.row.role" auto-save v-slot="scope">
+        <q-popup-edit v-model="props.row.role" buttons v-slot="scope">
           <div class="text-italic text-primary q-mb-xs">
-            My Custom Title
+            Bearbeiten
           </div>
           <q-input type="text" v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
         </q-popup-edit>
       </q-td>
       <q-td key="description" :props="props">
         {{ props.row.description }}
-        <q-popup-edit v-model="props.row.description" auto-save v-slot="scope">
+        <q-popup-edit v-model="props.row.description" @save="emitIndex(props.rowIndex)" buttons v-slot="scope">
           <div class="text-italic text-primary q-mb-xs">
-            My Custom Title
+            Bearbeiten
           </div>
           <q-input type="text" v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
         </q-popup-edit>
