@@ -1,4 +1,5 @@
 <script setup>
+import { ref, watch } from "vue"
 import TimeTable from "./TimeTable.vue"
 import { DateTime } from "luxon"
 import {testData, groupDatesByDay} from "../helpers/timeHelpers.js"
@@ -11,7 +12,7 @@ const columns = [
   { name: 'description', label: 'Beschreibung', field: 'description' },
 ]
 
-const groupedDates = groupDatesByDay(testData);
+const groupedDates = ref(groupDatesByDay(testData))
 </script>
 <template>
   <div class="container">
