@@ -1,15 +1,13 @@
-import { watch, reactive } from 'vue'
+import { watch, ref } from 'vue'
 import { testData, groupDatesByDay } from "../helpers/timeHelpers.js"
 
-const timeTablesData = reactive([]);
+const timeTablesData = ref([]);
 
 export function useTimeTablesData(){
-  const groupedTimeTablesData = reactive({})
+  const groupedTimeTablesData = ref({})
 
   const setTimeTablesData = (newData)=>{
-    newData.forEach(element => {
-      timeTablesData.push(element)
-    });
+    timeTablesData.value = newData
   }
 
   setTimeout(() => {
@@ -17,8 +15,7 @@ export function useTimeTablesData(){
   }, 3000);
   
   watch(timeTablesData, (newVal)=>{
-    Object.keys(groupedTimeTablesData).forEach((key)=> delete groupedTimeTablesData[key])
-    Object.assign(groupedTimeTablesData, groupDatesByDay(newVal))
+    groupedTimeTablesData.value = groupDatesByDay(newVal)
   })
   return{
     timeTablesData,
