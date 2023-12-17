@@ -6,6 +6,10 @@ const props = defineProps({
   time: {
     type: String,
     default: DateTime.now()
+  },
+  btnColor:{
+    type: String,
+    default: 'purple'
   }
 })
 
@@ -23,7 +27,7 @@ const computedTime = computed({
 </script>
 
 <template>
-  <div class="time-block">
+  <q-btn class="time-block" round :color="props.btnColor" stack glossy icon="timer">
     {{ computedTime }}
     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
       <q-time v-model="computedTime">
@@ -32,15 +36,12 @@ const computedTime = computed({
         </div>
       </q-time>
     </q-popup-proxy>
-  </div>
+  </q-btn>
 </template>
 
 <style scoped>
 .time-block{
-  border: 2px solid;
-  padding-inline: 14px;
-  padding-block: 10px;
-  font-size: 1.2rem;
-  cursor: pointer;
+  width: 64px;
+  height: 64px;
 }
 </style>

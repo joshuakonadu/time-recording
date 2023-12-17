@@ -76,7 +76,7 @@ const clearValue = ()=>{
     <TimeBlock class="q-mr-lg" @change="changeTo" :time="to" />
 
     <div class="time-diff">
-      <q-btn @click="saveNewTimeEntry" color="primary" icon-right="timer" :label="`${timeDiff}h buchen`" />
+      <q-btn @click="saveNewTimeEntry" color="primary" icon-right="approval" :label="`${timeDiff}h buchen`" />
     </div>
   </div>
 </template>
