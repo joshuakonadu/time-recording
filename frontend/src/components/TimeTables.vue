@@ -5,8 +5,9 @@ import { DateTime } from "luxon"
 import { useTimeTablesData } from "../composables/useTimeTablesData.js"
 
 const { groupedTimeTablesData } = useTimeTablesData();
-let changedIndex = null
-let changedData = null
+const changedDataState = {
+  index: null
+}
 
 const columns = [
   { name: 'from', label: 'Von', field: 'from',format: (val, row) => DateTime.fromISO(val).toLocaleString(DateTime.TIME_24_SIMPLE) },
@@ -17,20 +18,21 @@ const columns = [
 ]
 
 const indexOfChangedIndex = (index)=>{
-  changedIndex = index
+  changedDataState.index = index
 }
 const changedList = (data)=>{
   updateChangedObject(toRaw(data))
 }
 const updateChangedObject = (data)=>{
   try{
-    console.log(data[changedIndex]);
+    console.log(data[changedDataState.index]);
     //editTimeObject(data[changedIndex])
     //success notification
-    changedIndex = null;
   } catch(err){
     console.error(err)
     //reload all data
+  } finally{
+    changedDataState.index = null;
   }
 }
 </script>
