@@ -19,7 +19,6 @@ export function useTimeTablesData(){
   }, 3000);
   
   watch(timeTablesData, (newVal)=>{
-    console.log("NEW GROUP");
     groupedTimeTablesData.value = groupDatesByDay(newVal)
   })
   return{
