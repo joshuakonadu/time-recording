@@ -2,8 +2,9 @@
 import { ref, watch, toRaw } from "vue"
 import TimeTable from "./TimeTable.vue"
 import { DateTime } from "luxon"
-import {testData, groupDatesByDay} from "../helpers/timeHelpers.js"
+import { useTimeTablesData } from "../composables/useTimeTablesData.js"
 
+const { groupedTimeTablesData } = useTimeTablesData();
 let changedIndex = null
 let changedData = null
 
@@ -14,8 +15,6 @@ const columns = [
   { name: 'role', label: 'Rolle', field: 'role' },
   { name: 'description', label: 'Beschreibung', field: 'description' },
 ]
-
-const groupedDates = ref(groupDatesByDay(testData))
 
 const indexOfChangedIndex = (index)=>{
   changedIndex = index
@@ -37,7 +36,7 @@ const updateChangedObject = (data)=>{
 </script>
 <template>
   <div class="container">
-    <div v-for="(data, index) in groupedDates" :key="data">
+    <div v-for="(data, index) in groupedTimeTablesData" :key="data">
       <TimeTable 
         :data="data"
         :day="index"
