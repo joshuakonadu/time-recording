@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex column flex-center">
+  <q-page>
     <TimeCalculator />
     <TimeTables/>
   </q-page>

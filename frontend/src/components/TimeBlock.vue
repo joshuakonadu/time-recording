@@ -38,8 +38,9 @@ const computedTime = computed({
 <style scoped>
 .time-block{
   border: 2px solid;
-  padding: 14px;
-  font-size: 1.6rem;
+  padding-inline: 14px;
+  padding-block: 10px;
+  font-size: 1.2rem;
   cursor: pointer;
 }
 </style>

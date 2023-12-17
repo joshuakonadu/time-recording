@@ -2,12 +2,21 @@
 import { ref, computed } from 'vue'
 import TimeBlock from './TimeBlock.vue'
 import { DateTime, Interval } from "luxon"
+import { useTimeTablesData } from "../composables/useTimeTablesData.js"
 
 function getTimeNow(){
     return DateTime.now().toString();
 }
 const from = ref(getTimeNow())
 const to = ref(getTimeNow())
+const selectedProject = ref(null)
+const selectedRole = ref(null)
+const description = ref(null)
+
+const { addNewData } = useTimeTablesData()
+
+const projectOption = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
+const roleOption = ['Dev (Frontend)', 'Dev (Backend)', 'Design', 'sales']
 
 const changeFrom = (data) =>{
   from.value = data;
@@ -25,19 +34,49 @@ const timeDiff = computed(()=>{
   return `${hours}:${minutes}`
 })
 
+const saveNewTimeEntry = ()=>{
+  if(!from.value || !to.value || !selectedProject.value || !selectedRole.value || !description.value){
+    //TODO: TOAST NOTIFICATION (WARNING)
+    return
+  }
+  const newData = {
+    from: from.value,
+    to: to.value,
+    project: selectedProject.value,
+    role: selectedRole.value,
+    description: description.value
+  }
+  //TODO POST NEW DATA TO API AND GET THE NEW DATA FROM BACKEND
+  addNewData(newData)
+  //TODO TOAST NOTIFICATION (SUCCESS)
+  clearValue()
+}
+
+const clearValue = ()=>{
+  description.value = null
+  selectedProject.value = null
+  selectedRole.value = null;
+}
 </script>
 
 <template>
-  <div class="time-calculator q-mt-lg q-mb-lg">
+  <div class="time-calculator q-mt-lg q-mb-lg container">
+    <div class="input-container"><q-input v-model="description" label="Beschreibung" /></div>
+    <div class="select-container q-mr-md ov-hidden">
+      <q-select v-model="selectedProject" :options="projectOption" label="Projekt" />
+    </div>
+    <div class="select-container q-mr-lg ov-hidden">
+      <q-select v-model="selectedRole" :options="roleOption" label="Rolle" />
+    </div>
     <div class="time-from">Von</div>
     <TimeBlock class="mr-sm" @change="changeFrom" :time="from" />
     <div class="time-to">
       Bis
     </div>
-    <TimeBlock class="mr-sm" @change="changeTo" :time="to" />
+    <TimeBlock class="q-mr-lg" @change="changeTo" :time="to" />
 
     <div class="time-diff">
-      <span>{{timeDiff}}</span>
+      <q-btn @click="saveNewTimeEntry" color="primary" icon-right="timer" :label="`${timeDiff}h buchen`" />
     </div>
   </div>
 </template>
@@ -50,18 +89,33 @@ const timeDiff = computed(()=>{
 }
 
 .time-from{
-    font-size: 1.6rem;
+    font-size: 1rem;
     margin-right: 0.5em;
 }
 
 .time-to{
-    font-size: 1.6rem;
+    font-size: 1rem;
     margin-right: 0.5em;
 }
 .mr-sm{
     margin-right: 0.5em;
 }
 .time-diff{
-    font-size: 1.6rem;
+    font-size: 1rem;
 }
+.input-container{
+  flex: auto;
+  margin-right: 1.5em;
+}
+.select-container{
+  width: 150px;
+}
+
+:deep(.q-field__control-container){
+  overflow: hidden;
+}
+:deep(.on-right){
+  margin-left: 5px;
+}
+
 </style>
