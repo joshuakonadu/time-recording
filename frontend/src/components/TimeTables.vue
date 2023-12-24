@@ -1,45 +1,57 @@
 <script setup>
-import { ref, watch, toRaw } from "vue"
-import TimeTable from "./TimeTable.vue"
-import { DateTime } from "luxon"
-import { useTimeTablesData } from "../composables/useTimeTablesData.js"
+import { ref, watch, toRaw } from "vue";
+import TimeTable from "./TimeTable.vue";
+import { DateTime } from "luxon";
+import { useTimeTablesData } from "../composables/useTimeTablesData.js";
 
 const { groupedTimeTablesData } = useTimeTablesData();
 const changedDataState = {
-  index: null
-}
+  index: null,
+};
 
 const columns = [
-  { name: 'from', label: 'Von', field: 'from',format: (val, row) => DateTime.fromISO(val).toLocaleString(DateTime.TIME_24_SIMPLE) },
-  { name: 'to', label: 'Bis', field: 'to', format: (val, row) => DateTime.fromISO(val).toLocaleString(DateTime.TIME_24_SIMPLE) },
-  { name: 'project', label: 'Projekt', field: 'project' },
-  { name: 'role', label: 'Rolle', field: 'role' },
-  { name: 'description', label: 'Beschreibung', field: 'description' },
-]
+  {
+    name: "from",
+    label: "Von",
+    field: "from",
+    format: (val, row) =>
+      DateTime.fromISO(val).toLocaleString(DateTime.TIME_24_SIMPLE),
+  },
+  {
+    name: "to",
+    label: "Bis",
+    field: "to",
+    format: (val, row) =>
+      DateTime.fromISO(val).toLocaleString(DateTime.TIME_24_SIMPLE),
+  },
+  { name: "project", label: "Projekt", field: "project" },
+  { name: "role", label: "Rolle", field: "role" },
+  { name: "description", label: "Beschreibung", field: "description" },
+];
 
-const indexOfChangedIndex = (index)=>{
-  changedDataState.index = index
-}
-const changedList = (data)=>{
-  updateChangedObject(toRaw(data))
-}
-const updateChangedObject = (data)=>{
-  try{
+const indexOfChangedIndex = (index) => {
+  changedDataState.index = index;
+};
+const changedList = (data) => {
+  updateChangedObject(toRaw(data));
+};
+const updateChangedObject = (data) => {
+  try {
     console.log(data[changedDataState.index]);
     //editTimeObject(data[changedIndex])
     //success notification
-  } catch(err){
-    console.error(err)
+  } catch (err) {
+    console.error(err);
     //reload all data
-  } finally{
+  } finally {
     changedDataState.index = null;
   }
-}
+};
 </script>
 <template>
   <div class="container">
     <div v-for="(data, index) in groupedTimeTablesData" :key="data">
-      <TimeTable 
+      <TimeTable
         :data="data"
         :day="index"
         :columns="columns"
@@ -50,6 +62,4 @@ const updateChangedObject = (data)=>{
   </div>
 </template>
 
-<style>
-
-</style>
+<style></style>

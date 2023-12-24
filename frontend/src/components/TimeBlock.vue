@@ -1,33 +1,42 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { DateTime } from "luxon"
+import { ref, computed } from "vue";
+import { DateTime } from "luxon";
 
 const props = defineProps({
   time: {
     type: String,
-    default: DateTime.now()
+    default: DateTime.now(),
   },
-  btnColor:{
+  btnColor: {
     type: String,
-    default: 'purple'
-  }
-})
+    default: "purple",
+  },
+});
 
-const emit = defineEmits(['change'])
+const emit = defineEmits(["change"]);
 
 const computedTime = computed({
-  get(){
-    return DateTime.fromISO(props.time).toLocaleString({ hour: '2-digit', minute: '2-digit' })
+  get() {
+    return DateTime.fromISO(props.time).toLocaleString({
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   },
-  set(newValue){
-    emit('change', DateTime.fromISO(newValue).toString())
-  }
-})
-
+  set(newValue) {
+    emit("change", DateTime.fromISO(newValue).toString());
+  },
+});
 </script>
 
 <template>
-  <q-btn class="time-block" round :color="props.btnColor" stack glossy icon="timer">
+  <q-btn
+    class="time-block"
+    round
+    :color="props.btnColor"
+    stack
+    glossy
+    icon="timer"
+  >
     {{ computedTime }}
     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
       <q-time v-model="computedTime">
@@ -40,7 +49,7 @@ const computedTime = computed({
 </template>
 
 <style scoped>
-.time-block{
+.time-block {
   width: 64px;
   height: 64px;
 }
