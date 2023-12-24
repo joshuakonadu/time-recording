@@ -47,6 +47,14 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
+import { useAuthStore } from '../stores';
+import { useRouter } from 'vue-router';
+
+// redirect home if already logged in
+const authStore = useAuthStore();
+if (authStore.user) {
+    router.push('/');
+}
 
 const linksList = [
   {

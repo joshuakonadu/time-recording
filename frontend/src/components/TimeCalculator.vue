@@ -60,7 +60,7 @@ const clearValue = ()=>{
 </script>
 
 <template>
-  <div class="time-calculator q-mt-lg q-mb-lg container">
+  <div class="time-calculator q-mt-lg q-mb-xl container">
     <div class="input-container"><q-input v-model="description" label="Beschreibung" /></div>
     <div class="select-container q-mr-md ov-hidden">
       <q-select v-model="selectedProject" :options="projectOption" label="Projekt" />
