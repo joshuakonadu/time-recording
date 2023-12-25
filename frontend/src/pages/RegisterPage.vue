@@ -13,9 +13,6 @@ const schema = Yup.object().shape({
   lastname: Yup.string()
     .required("Last Name is required")
     .min(2, "lastname must be at least 2 characters"),
-  username: Yup.string()
-    .required("Username is required")
-    .min(6, "username must be at least 6 characters"),
   email: Yup.string().email("Email is invalid").required("Email is required"),
   password: Yup.string()
     .required("Password is required")
@@ -66,16 +63,6 @@ async function onSubmit(values) {
             :class="{ 'is-invalid': errors.lastname }"
           />
           <div class="invalid-feedback">{{ errors.lastname }}</div>
-        </div>
-        <div class="form-group">
-          <label>Username</label>
-          <Field
-            name="username"
-            type="text"
-            class="form-control"
-            :class="{ 'is-invalid': errors.username }"
-          />
-          <div class="invalid-feedback">{{ errors.username }}</div>
         </div>
         <div class="form-group">
           <label>Email</label>

@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
-
+import { whoami, login } from "../service";
 import router from "../router";
 import { useAlertStore } from "./index";
+
+const unautherizedRoutes = ["login", "register"];
 
 export const useAuthStore = defineStore({
   id: "auth",
@@ -11,26 +13,35 @@ export const useAuthStore = defineStore({
     returnUrl: null,
   }),
   actions: {
-    async login(username, password) {
+    async login(data) {
       try {
-        const user = await fetchWrapper.post(`${baseUrl}/authenticate`, {
-          username,
-          password,
-        });
+        const userData = await login(data);
 
         // update pinia state
-        this.user = user;
+        this.user = userData.data;
 
         // redirect to previous url or default to home page
-        router.push(this.returnUrl || "/");
+        router.push(this.returnUrl || "/auth");
       } catch (error) {
         const alertStore = useAlertStore();
         alertStore.error(error.message);
       }
     },
+    async checkAuthenticated() {
+      try {
+        const userData = await whoami();
+
+        this.user = userData.data;
+        if (unautherizedRoutes.includes(router.currentRoute.value)) {
+          router.push("/auth/");
+        }
+      } catch (err) {
+        router.push("/login");
+      }
+    },
     logout() {
       this.user = null;
-      router.push("/account/login");
+      router.push("/login");
     },
   },
 });

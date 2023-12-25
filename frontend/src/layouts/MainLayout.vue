@@ -36,15 +36,7 @@
 <script>
 import { defineComponent, ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
-import { useAuthStore } from "../stores";
-import router from "../router";
-
-// redirect home if already logged in
-const authStore = useAuthStore();
-if (!authStore.user) {
-  console.log(router);
-  router.push("/login");
-}
+import { useAuthentication } from "../composables/useAuthentication";
 
 const linksList = [
   {
@@ -100,7 +92,7 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
-
+    useAuthentication();
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
