@@ -1,13 +1,12 @@
 import express from "express";
-import { config } from "dotenv";
 import { errorHandler } from "./middleware/errorMiddleware.js";
-import "./config/db.js";
 import userRouter from "./routes/userRoutes.js";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import "./config/db.js";
+import "./config/env.js";
 
-config();
 const port = process.env.PORT || 5000;
 
 const app = express();
