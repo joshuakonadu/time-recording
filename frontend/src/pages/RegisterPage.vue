@@ -1,25 +1,33 @@
 <script setup>
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
+import { register } from "../service";
 
-import { useUsersStore, useAlertStore } from "../stores";
+import { useAlertStore } from "../stores";
 import router from "../router";
 
 const schema = Yup.object().shape({
-  firstName: Yup.string().required("First Name is required"),
-  lastName: Yup.string().required("Last Name is required"),
-  username: Yup.string().required("Username is required"),
+  firstname: Yup.string()
+    .required("First Name is required")
+    .min(3, "firstname must be at least 3 characters"),
+  lastname: Yup.string()
+    .required("Last Name is required")
+    .min(2, "lastname must be at least 2 characters"),
+  username: Yup.string()
+    .required("Username is required")
+    .min(6, "username must be at least 6 characters"),
+  email: Yup.string().email("Email is invalid").required("Email is required"),
   password: Yup.string()
     .required("Password is required")
     .min(6, "Password must be at least 6 characters"),
 });
 
 async function onSubmit(values) {
-  const usersStore = useUsersStore();
   const alertStore = useAlertStore();
   try {
-    await usersStore.register(values);
-    await router.push("/account/login");
+    console.log("call register");
+    await register(values);
+    await router.push("/login");
     alertStore.success("Registration successful");
   } catch (error) {
     alertStore.error(error);
@@ -39,22 +47,22 @@ async function onSubmit(values) {
         <div class="form-group">
           <label>First Name</label>
           <Field
-            name="firstName"
+            name="firstname"
             type="text"
             class="form-control"
-            :class="{ 'is-invalid': errors.firstName }"
+            :class="{ 'is-invalid': errors.firstname }"
           />
-          <div class="invalid-feedback">{{ errors.firstName }}</div>
+          <div class="invalid-feedback">{{ errors.firstname }}</div>
         </div>
         <div class="form-group">
           <label>Last Name</label>
           <Field
-            name="lastName"
+            name="lastname"
             type="text"
             class="form-control"
-            :class="{ 'is-invalid': errors.lastName }"
+            :class="{ 'is-invalid': errors.lastname }"
           />
-          <div class="invalid-feedback">{{ errors.lastName }}</div>
+          <div class="invalid-feedback">{{ errors.lastname }}</div>
         </div>
         <div class="form-group">
           <label>Username</label>
@@ -65,6 +73,16 @@ async function onSubmit(values) {
             :class="{ 'is-invalid': errors.username }"
           />
           <div class="invalid-feedback">{{ errors.username }}</div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <Field
+            name="email"
+            type="text"
+            class="form-control"
+            :class="{ 'is-invalid': errors.email }"
+          />
+          <div class="invalid-feedback">{{ errors.email }}</div>
         </div>
         <div class="form-group">
           <label>Password</label>
