@@ -3,8 +3,6 @@ import { defineStore } from "pinia";
 import router from "../router";
 import { useAlertStore } from "./index";
 
-const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
-
 export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({

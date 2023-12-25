@@ -3,8 +3,6 @@ import axios from "axios";
 const getBaseUrlForEnv = () => {
   if (process.env.NODE_ENV === "production")
     return "https://landingpage.de/api";
-  else if (process.env.NODE_ENV === "dev")
-    return "https://dev.landingpage.de/api";
   else return "http://localhost:5000/api";
 };
 
