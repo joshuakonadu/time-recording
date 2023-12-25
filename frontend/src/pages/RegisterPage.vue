@@ -20,6 +20,9 @@ const schema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
     .min(6, "Password must be at least 6 characters"),
+  passwordConfirmation: Yup.string()
+    .required("Password wiederholen is required")
+    .oneOf([Yup.ref("password")], "Passwords must match"),
 });
 
 async function onSubmit(values) {
@@ -30,7 +33,7 @@ async function onSubmit(values) {
     await router.push("/login");
     alertStore.success("Registration successful");
   } catch (error) {
-    alertStore.error(error);
+    alertStore.error(error.message);
   }
 }
 </script>
@@ -93,6 +96,16 @@ async function onSubmit(values) {
             :class="{ 'is-invalid': errors.password }"
           />
           <div class="invalid-feedback">{{ errors.password }}</div>
+        </div>
+        <div class="form-group">
+          <label>Password wiederholen</label>
+          <Field
+            name="passwordConfirmation"
+            type="password"
+            class="form-control"
+            :class="{ 'is-invalid': errors.passwordConfirmation }"
+          />
+          <div class="invalid-feedback">{{ errors.passwordConfirmation }}</div>
         </div>
         <div class="form-group">
           <button class="btn btn-primary" :disabled="isSubmitting">

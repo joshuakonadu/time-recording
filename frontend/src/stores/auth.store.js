@@ -27,7 +27,7 @@ export const useAuthStore = defineStore({
         router.push(this.returnUrl || "/");
       } catch (error) {
         const alertStore = useAlertStore();
-        alertStore.error(error);
+        alertStore.error(error.message);
       }
     },
     logout() {

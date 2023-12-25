@@ -15,7 +15,7 @@ export const BackendConfig = {
 };
 export const ApiClient = axios.create({
   baseURL: BackendConfig.baseURL,
-  withCredentials: false,
+  withCredentials: true,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

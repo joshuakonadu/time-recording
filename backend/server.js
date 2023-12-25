@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     origin: "http://localhost:9000",
+    credentials: true,
   })
 );
 app.use(morgan("combined"));

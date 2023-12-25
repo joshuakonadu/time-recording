@@ -37,8 +37,10 @@
 import { defineComponent, ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 import { useAuthStore } from "../stores";
+import { useToastAlert } from "../composables/useToastAlert";
 import router from "../router";
 
+useToastAlert();
 // redirect home if already logged in
 const authStore = useAuthStore();
 if (!authStore.user) {
