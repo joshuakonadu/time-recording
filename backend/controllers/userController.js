@@ -76,6 +76,16 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json({ message: "Successfully logged out" });
 });
 
+const identifyUser = asyncHandler(async (req, res) => {
+  const user = req.user;
+  res.status(200).json({
+    _id: user.id,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    email: user.email,
+  });
+});
+
 // Generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -83,4 +93,4 @@ const generateToken = (id) => {
   });
 };
 
-export { registerUser, loginUser, logoutUser };
+export { registerUser, loginUser, logoutUser, identifyUser };

@@ -10,6 +10,8 @@ export const BackendConfig = {
   baseURL: getBaseUrlForEnv(),
   login: "/auth/login",
   register: "/auth/register",
+  logout: "/auth/logout",
+  whoami: "/auth/whoami",
 };
 export const ApiClient = axios.create({
   baseURL: BackendConfig.baseURL,

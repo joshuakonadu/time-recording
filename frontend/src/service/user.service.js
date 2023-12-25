@@ -5,5 +5,9 @@ export function login(data) {
 }
 
 export function logout() {
-  // remove user from local storage to log user out
+  return ApiClient.post(BackendConfig.logout);
+}
+
+export function whoami() {
+  return ApiClient.get(BackendConfig.whoami);
 }
