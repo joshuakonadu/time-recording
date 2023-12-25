@@ -52,17 +52,28 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await userByEmail(email);
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    res.json({
-      _id: user.id,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      email: user.email,
-      token: generateToken(user._id),
-    });
+    res
+      .cookie("access_token", generateToken(user._id), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      })
+      .json({
+        _id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+      });
   } else {
     res.status(400);
     throw new Error("Invalid credentials");
   }
+});
+
+const logoutUser = asyncHandler(async (req, res) => {
+  return res
+    .clearCookie("access_token")
+    .status(200)
+    .json({ message: "Successfully logged out" });
 });
 
 // Generate JWT
@@ -72,4 +83,4 @@ const generateToken = (id) => {
   });
 };
 
-export { registerUser, loginUser };
+export { registerUser, loginUser, logoutUser };

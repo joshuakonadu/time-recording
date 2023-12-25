@@ -5,6 +5,7 @@ import "./config/db.js";
 import userRouter from "./routes/userRoutes.js";
 import cors from "cors";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 config();
 const port = process.env.PORT || 5000;
@@ -13,6 +14,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:9000",
