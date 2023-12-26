@@ -28,6 +28,9 @@ export const useAuthStore = defineStore({
       }
     },
     async checkAuthenticated() {
+      if (this.user) {
+        return;
+      }
       try {
         const userData = await whoami();
 
