@@ -10,7 +10,6 @@ export const useUserStore = defineStore({
     async getWorkspaces() {
       try {
         const apiData = await getAllWorkspaces();
-        console.log(apiData);
         this.workspaces = apiData.data.workspaces;
       } catch (err) {
         console.error(err);

@@ -1,6 +1,23 @@
-<script setup></script>
+<script setup>
+import { useUserStore } from "../stores";
+import WorkSpaceCard from "./WorkSpaceCard.vue";
+
+const userStore = useUserStore();
+</script>
 <template>
-  <div></div>
+  <div class="flex-custom">
+    <WorkSpaceCard
+      v-for="workspace in userStore.workspaces"
+      :key="workspace.workspaceId"
+      :data="workspace"
+    />
+  </div>
 </template>
 
-<style></style>
+<style scoped>
+.flex-custom {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+</style>
