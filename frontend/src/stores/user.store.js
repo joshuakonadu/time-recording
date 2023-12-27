@@ -1,14 +1,20 @@
 import { defineStore } from "pinia";
+import { getAllWorkspaces } from "../service";
 
-export const useUsersStore = defineStore({
+export const useUserStore = defineStore({
   id: "user",
   state: () => ({
-    user: {},
     workspaces: [],
   }),
   actions: {
-    async setUser(user) {
-      console.log(user);
+    async getWorkspaces() {
+      try {
+        const apiData = await getAllWorkspaces();
+        console.log(apiData);
+        this.workspaces = apiData.data.register;
+      } catch (err) {
+        console.error(err);
+      }
     },
   },
 });

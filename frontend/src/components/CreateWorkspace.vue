@@ -1,5 +1,9 @@
 <script setup>
-import { ref } from "vue";
+import { ref, toRaw } from "vue";
+import { createWorkspace } from "../service";
+import { useUserStore } from "../stores";
+
+const userStore = useUserStore();
 
 const name = ref("");
 const showDialog = ref(false);
@@ -8,17 +12,29 @@ const roleText = ref("");
 const projectText = ref("");
 const roles = ref(new Set([]));
 const projects = ref(new Set([]));
+let createdWorkspaceId = null;
 
 const success = ref(false);
 const error = ref(false);
 
-const showTextLoading = () => {
-  loading.value = true;
+const sendData = async () => {
+  if (!name.value) return;
 
-  setTimeout(() => {
+  loading.value = true;
+  const data = {
+    name: name.value.toLocaleLowerCase(),
+    projectOption: [...toRaw(projects.value)],
+    roleOption: [...toRaw(roles.value)],
+  };
+  try {
+    const apiData = await createWorkspace(data);
+    createdWorkspaceId = apiData.data.workspaceById;
     loading.value = false;
     success.value = true;
-  }, 3000);
+    await userStore.getWorkspaces();
+  } catch (err) {
+    error.value = true;
+  }
 };
 
 const addRole = () => {
@@ -72,7 +88,9 @@ const openWorkspace = () => {
 
         <q-card-section v-if="!loading && !success" class="q-pt-none">
           <div class="name">
-            <q-input v-model="name" dense label="Name" />
+            <q-input bottom-slots v-model="name" dense label="Name">
+              <template v-slot:hint> Pflichtfeld </template>
+            </q-input>
           </div>
           <div class="q-mt-md project-role">
             <div class="input">
@@ -80,6 +98,7 @@ const openWorkspace = () => {
                 <template v-slot:append>
                   <q-btn @click="addProject" round dense flat icon="add" />
                 </template>
+                <template v-slot:hint> Optional </template>
               </q-input>
             </div>
             <div class="input">
@@ -87,6 +106,7 @@ const openWorkspace = () => {
                 <template v-slot:append>
                   <q-btn @click="addRole" round dense flat icon="add" />
                 </template>
+                <template v-slot:hint> Optional </template>
               </q-input>
             </div>
           </div>
@@ -140,7 +160,7 @@ const openWorkspace = () => {
             v-if="!loading && !success"
             flat
             label="Erstellen"
-            @click="showTextLoading"
+            @click="sendData"
           />
           <q-btn
             v-if="success"

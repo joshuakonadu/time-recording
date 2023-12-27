@@ -11,3 +11,7 @@ export function createWorkspace(data) {
 export function getWorkspace(id) {
   return ApiClient.get(BackendConfig.getWorkspace + id);
 }
+
+export function getAllWorkspaces() {
+  return ApiClient.get(BackendConfig.getAllWorkspaces);
+}

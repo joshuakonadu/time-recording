@@ -15,6 +15,7 @@ export const BackendConfig = {
   createRegisterWorkspace: "/workspace/newregister",
   addWorkspace: "/workspace/newspace",
   getWorkspace: "/workspace/",
+  getAllWorkspaces: "/workspace/register",
 };
 export const ApiClient = axios.create({
   baseURL: BackendConfig.baseURL,

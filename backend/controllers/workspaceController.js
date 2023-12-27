@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import {
   createRegisterWorkspace,
   registerAddWorkspace,
+  registerWorkspaceByUserId,
 } from "../models/registerWorkspaceModel.js";
 import { createWorkspace, workspaceById } from "../models/workspaceModel.js";
 
@@ -9,6 +10,16 @@ export const createUserRegisterWorkspace = asyncHandler(async (req, res) => {
   const { userId } = req.body;
   await createRegisterWorkspace(userId);
   res.status(200).send();
+});
+
+export const getAllRegisterWorkspaces = asyncHandler(async (req, res) => {
+  console.log("REINGEKOMMEN");
+  const user = req.user;
+  const registerWorkspace = await registerWorkspaceByUserId(user._id);
+  console.log(registerWorkspace);
+  res.status(200).json({
+    workspaces: registerWorkspace.register,
+  });
 });
 
 export const addWorkspace = asyncHandler(async (req, res) => {
@@ -21,7 +32,9 @@ export const addWorkspace = asyncHandler(async (req, res) => {
     workspaceId: workspace._id,
     name: workspace.name,
   });
-  res.status(201).send();
+  res.status(201).json({
+    workspaceById: workspace._id,
+  });
 });
 
 export const getWorkspace = asyncHandler(async (req, res) => {
