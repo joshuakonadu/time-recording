@@ -1,7 +1,7 @@
 <script setup>
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
-import { register } from "../service";
+import { register, createRegisterWorkspace } from "../service";
 
 import { useAlertStore } from "../stores";
 import router from "../router";
@@ -25,10 +25,11 @@ const schema = Yup.object().shape({
 async function onSubmit(values) {
   const alertStore = useAlertStore();
   try {
-    console.log("call register");
-    await register(values);
+    const { data: user } = await register(values);
+    console.log(user);
     await router.push("/login");
     alertStore.success("Registration successful");
+    await createRegisterWorkspace({ userId: user._id });
   } catch (error) {
     alertStore.error(error.message);
   }

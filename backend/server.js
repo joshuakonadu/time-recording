@@ -1,6 +1,7 @@
 import express from "express";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 import userRouter from "./routes/userRoutes.js";
+import workspaceRoutes from "./routes/workspaceRoutes.js";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -23,6 +24,7 @@ app.use(
 app.use(morgan("combined"));
 
 app.use("/api/auth", userRouter);
+app.user("/api/workspace", workspaceRoutes);
 
 app.use(errorHandler);
 

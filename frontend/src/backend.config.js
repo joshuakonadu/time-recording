@@ -12,6 +12,9 @@ export const BackendConfig = {
   register: "/auth/register",
   logout: "/auth/logout",
   whoami: "/auth/whoami",
+  createRegisterWorkspace: "/workspace/newregister",
+  addWorkspace: "/workspace/newspace",
+  getWorkspace: "/workspace/",
 };
 export const ApiClient = axios.create({
   baseURL: BackendConfig.baseURL,
