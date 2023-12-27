@@ -26,8 +26,8 @@ export const registerWorkspaceByUserId = (userId) =>
   RegisterWorkspace.findOne({ userId });
 export const createRegisterWorkspace = (userId) =>
   RegisterWorkspace.create({ userId });
-export const registerAddWorkspace = async (userId, workspaceId) => {
+export const registerAddWorkspace = async (userId, data) => {
   const registerWorkspace = await RegisterWorkspace.findOne({ userId });
-  registerWorkspace.register.push(workspaceId);
+  registerWorkspace.register.push(data);
   return registerWorkspace.save();
 };
