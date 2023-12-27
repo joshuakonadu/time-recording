@@ -18,6 +18,10 @@ const workspaceSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
+    mode: {
+      type: String,
+      default: "24h",
+    },
   },
   {
     timestamps: true,
