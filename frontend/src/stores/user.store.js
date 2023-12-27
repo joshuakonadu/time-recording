@@ -11,7 +11,7 @@ export const useUserStore = defineStore({
       try {
         const apiData = await getAllWorkspaces();
         console.log(apiData);
-        this.workspaces = apiData.data.register;
+        this.workspaces = apiData.data.workspaces;
       } catch (err) {
         console.error(err);
       }

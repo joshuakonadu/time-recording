@@ -13,10 +13,8 @@ export const createUserRegisterWorkspace = asyncHandler(async (req, res) => {
 });
 
 export const getAllRegisterWorkspaces = asyncHandler(async (req, res) => {
-  console.log("REINGEKOMMEN");
   const user = req.user;
   const registerWorkspace = await registerWorkspaceByUserId(user._id);
-  console.log(registerWorkspace);
   res.status(200).json({
     workspaces: registerWorkspace.register,
   });

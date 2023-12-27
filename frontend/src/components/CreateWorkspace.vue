@@ -70,7 +70,7 @@ const openWorkspace = () => {
 </script>
 
 <template>
-  <div class="q-mt-lg">
+  <div class="q-mt-lg q-mb-xl">
     <div class="custom-height">
       <q-btn
         color="primary"

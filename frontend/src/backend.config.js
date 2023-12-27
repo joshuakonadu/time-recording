@@ -14,7 +14,7 @@ export const BackendConfig = {
   whoami: "/auth/whoami",
   createRegisterWorkspace: "/workspace/newregister",
   addWorkspace: "/workspace/newspace",
-  getWorkspace: "/workspace/",
+  getWorkspace: "/workspace/getspace/",
   getAllWorkspaces: "/workspace/register",
 };
 export const ApiClient = axios.create({
