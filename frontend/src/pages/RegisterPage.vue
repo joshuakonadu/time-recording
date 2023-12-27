@@ -26,7 +26,6 @@ async function onSubmit(values) {
   const alertStore = useAlertStore();
   try {
     const { data: user } = await register(values);
-    console.log(user);
     await router.push("/login");
     alertStore.success("Registration successful");
     await createRegisterWorkspace({ userId: user._id });
