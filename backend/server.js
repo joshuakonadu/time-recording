@@ -24,7 +24,7 @@ app.use(
 app.use(morgan("combined"));
 
 app.use("/api/auth", userRouter);
-app.user("/api/workspace", workspaceRoutes);
+app.use("/api/workspace", workspaceRoutes);
 
 app.use(errorHandler);
 
