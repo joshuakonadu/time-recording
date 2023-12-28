@@ -2,6 +2,7 @@
 import { ref, toRaw } from "vue";
 import { createWorkspace } from "../service";
 import { useUserStore } from "../stores";
+import router from "../router";
 
 const userStore = useUserStore();
 
@@ -60,12 +61,13 @@ const resetValues = () => {
   projectText.value = "";
   roles.value = new Set([]);
   projects.value = new Set([]);
+  createdWorkspaceId = null;
 
   success.value = false;
   error.value = false;
 };
-const openWorkspace = () => {
-  console.log("open");
+const openWorkspace = async () => {
+  await router.push(`/workspace/${createdWorkspaceId}`);
 };
 </script>
 

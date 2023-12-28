@@ -24,7 +24,13 @@ export const addWorkspace = asyncHandler(async (req, res) => {
   const user = req.user;
   const data = req.body;
   data.members = [];
-  data.members.push({ ...user, role: "admin" });
+  data.members.push({
+    userId: user._id,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    joined: new Date(),
+    isAdmin: true,
+  });
   const workspace = await createWorkspace(data);
   await registerAddWorkspace(user._id, {
     workspaceId: workspace._id,

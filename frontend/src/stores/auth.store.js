@@ -2,8 +2,7 @@ import { defineStore } from "pinia";
 import { whoami, login } from "../service";
 import router from "../router";
 import { useAlertStore } from "./index";
-
-const unautherizedRoutes = ["login", "register"];
+import { unAutherizedRoutes } from "src/helpers/routesHelpers";
 
 export const useAuthStore = defineStore({
   id: "auth",
@@ -32,13 +31,23 @@ export const useAuthStore = defineStore({
       }
       try {
         const userData = await whoami();
-
         this.user = userData.data;
-        if (unautherizedRoutes.includes(router.currentRoute.value)) {
-          router.push("/auth/");
+        //TODO: ENCAPSULATE IF CONDITION IN routesHelpers
+        if (
+          unAutherizedRoutes.some(
+            (route) => route === router.currentRoute.value.path
+          )
+        ) {
+          router.push("/auth");
         }
       } catch (err) {
-        router.push("/login");
+        if (
+          !unAutherizedRoutes.some(
+            (route) => route === router.currentRoute.value.path
+          )
+        ) {
+          router.push("/login");
+        }
       }
     },
     logout() {

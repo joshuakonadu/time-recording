@@ -103,6 +103,7 @@ const clearValue = () => {
         @click="saveNewTimeEntry"
         color="primary"
         icon-right="approval"
+        size="lg"
         :label="`${timeDiff}h buchen`"
       />
     </div>
