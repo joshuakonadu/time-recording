@@ -1,15 +1,17 @@
 <script setup>
-import { ref, watch, toRaw } from "vue";
+import { ref, watch, toRaw, computed } from "vue";
 import TimeTable from "./TimeTable.vue";
 import { DateTime } from "luxon";
 import { useTimeTablesData } from "../composables/useTimeTablesData.js";
+import { useUserStore } from "../stores/user.store";
 
+const userStore = useUserStore();
 const { groupedTimeTablesData } = useTimeTablesData();
 const changedDataState = {
   index: null,
 };
 
-const columns = [
+const initColumns = [
   {
     name: "from",
     label: "Von",
@@ -28,6 +30,18 @@ const columns = [
   { name: "role", label: "Rolle", field: "role" },
   { name: "description", label: "Beschreibung", field: "description" },
 ];
+
+const columns = computed(() => {
+  return initColumns
+    .filter(
+      (obj) =>
+        obj.name !== "project" || userStore.activeWorkspace.projectOption.length
+    )
+    .filter(
+      (obj) =>
+        obj.name !== "role" || userStore.activeWorkspace.roleOption.length
+    );
+});
 
 const indexOfChangedIndex = (index) => {
   changedDataState.index = index;

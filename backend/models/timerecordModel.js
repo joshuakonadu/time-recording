@@ -42,6 +42,9 @@ export const createTimeRecord = (data) => TimeRecord.create(data);
 export const findTimeRecordsByWorkspaceId = (workspaceId) => {
   return TimeRecord.find({ workspaceId });
 };
+export const findTimeRecordsByUserAndWorkspaceId = (userId, workspaceId) => {
+  return TimeRecord.find({ workspaceId, userId });
+};
 export const updateTimeRecordById = async (id, data) => {
   const timeRecord = await TimeRecord.findById(id);
   Object.keys(data).forEach((key) => {

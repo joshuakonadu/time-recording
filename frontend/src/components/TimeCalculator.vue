@@ -3,6 +3,12 @@ import { ref, computed } from "vue";
 import TimeBlock from "./TimeBlock.vue";
 import { DateTime, Interval } from "luxon";
 import { useTimeTablesData } from "../composables/useTimeTablesData.js";
+import { useUserStore } from "../stores/user.store";
+import router from "../router";
+
+const userStore = useUserStore();
+
+const workspaceId = router.currentRoute.value.params?.id;
 
 function getTimeNow() {
   return DateTime.now().toString();
@@ -14,9 +20,6 @@ const selectedRole = ref(null);
 const description = ref(null);
 
 const { addNewData } = useTimeTablesData();
-
-const projectOption = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
-const roleOption = ["Dev (Frontend)", "Dev (Backend)", "Design", "sales"];
 
 const changeFrom = (data) => {
   from.value = data;
@@ -40,13 +43,7 @@ const timeDiff = computed(() => {
 });
 
 const saveNewTimeEntry = () => {
-  if (
-    !from.value ||
-    !to.value ||
-    !selectedProject.value ||
-    !selectedRole.value ||
-    !description.value
-  ) {
+  if (!from.value || !to.value || !description.value) {
     //TODO: TOAST NOTIFICATION (WARNING)
     return;
   }
@@ -56,6 +53,7 @@ const saveNewTimeEntry = () => {
     project: selectedProject.value,
     role: selectedRole.value,
     description: description.value,
+    workspaceId,
   };
   //TODO POST NEW DATA TO API AND GET THE NEW DATA FROM BACKEND
   addNewData(newData);
@@ -75,15 +73,25 @@ const clearValue = () => {
     <div class="input-container">
       <q-input v-model="description" label="Beschreibung" />
     </div>
-    <div class="select-container q-mr-md ov-hidden">
+    <div
+      v-if="userStore.activeWorkspace.projectOption.length"
+      class="select-container q-mr-md ov-hidden"
+    >
       <q-select
         v-model="selectedProject"
-        :options="projectOption"
+        :options="userStore.activeWorkspace.projectOption"
         label="Projekt"
       />
     </div>
-    <div class="select-container q-mr-lg ov-hidden">
-      <q-select v-model="selectedRole" :options="roleOption" label="Rolle" />
+    <div
+      v-if="userStore.activeWorkspace.roleOption.length"
+      class="select-container q-mr-lg ov-hidden"
+    >
+      <q-select
+        v-model="selectedRole"
+        :options="userStore.activeWorkspace.roleOption"
+        label="Rolle"
+      />
     </div>
     <div class="time-from">Von</div>
     <TimeBlock class="mr-sm" @change="changeFrom" :time="from" />

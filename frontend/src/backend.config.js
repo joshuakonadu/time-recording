@@ -16,6 +16,10 @@ export const BackendConfig = {
   addWorkspace: "/workspace/newspace",
   getWorkspace: "/workspace/getspace/",
   getAllWorkspaces: "/workspace/register",
+  addTimeRecord: "/timerecords/add",
+  getTimesByWorkspace: "/timerecords/byworkspace/",
+  getTimesByUser: "/timerecords/byuser",
+  getTimesByWorkspaceUser: "/timerecords/userworkspace/",
 };
 export const ApiClient = axios.create({
   baseURL: BackendConfig.baseURL,

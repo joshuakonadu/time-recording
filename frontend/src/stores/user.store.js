@@ -5,6 +5,14 @@ export const useUserStore = defineStore({
   id: "user",
   state: () => ({
     workspaces: [],
+    activeWorkspace: {
+      name: "",
+      members: [],
+      projectOption: [],
+      roleOption: [],
+      mode: null,
+    },
+    timeTablesData: [],
   }),
   actions: {
     async getWorkspaces() {
@@ -14,6 +22,15 @@ export const useUserStore = defineStore({
       } catch (err) {
         console.error(err);
       }
+    },
+    setTimeTablesData(data) {
+      this.timeTablesData = data;
+    },
+    addNewTimeData(data) {
+      this.timeTablesData = [data, ...this.timeTablesData];
+    },
+    setActiveWorkspace(data) {
+      this.activeWorkspace = data;
     },
   },
 });

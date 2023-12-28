@@ -1,30 +1,23 @@
 import { watch, ref } from "vue";
-import { testData, groupDatesByDay } from "../helpers/timeHelpers.js";
-
-const timeTablesData = ref([]);
+import { groupDatesByDay } from "../helpers/timeHelpers.js";
+import { useUserStore } from "src/stores/user.store.js";
+import { addTimeRecord } from "src/service/timerecords.service.js";
 
 export function useTimeTablesData() {
+  const userStore = useUserStore();
   const groupedTimeTablesData = ref({});
-
-  const setTimeTablesData = (newData) => {
-    timeTablesData.value = newData;
+  const addNewData = async (data) => {
+    const apiData = await addTimeRecord(data);
+    userStore.addNewTimeData(apiData.data);
   };
-  const addNewData = (newData) => {
-    //TODO POST NEW DATA TO API AND SET RETURNED VALUE TO timeTablesData
-    timeTablesData.value = [newData, ...timeTablesData.value];
-  };
-
-  setTimeout(() => {
-    setTimeTablesData(testData);
-  }, 3000);
-
-  watch(timeTablesData, (newVal) => {
-    groupedTimeTablesData.value = groupDatesByDay(newVal);
-  });
+  watch(
+    () => userStore.timeTablesData,
+    (newVal) => {
+      groupedTimeTablesData.value = groupDatesByDay(newVal);
+    }
+  );
   return {
-    timeTablesData,
     groupedTimeTablesData,
-    setTimeTablesData,
     addNewData,
   };
 }
