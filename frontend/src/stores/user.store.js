@@ -19,9 +19,7 @@ export const useUserStore = defineStore({
       try {
         const apiData = await getAllWorkspaces();
         this.workspaces = apiData.data.workspaces;
-      } catch (err) {
-        console.error(err);
-      }
+      } catch (err) {}
     },
     setTimeTablesData(data) {
       this.timeTablesData = data;

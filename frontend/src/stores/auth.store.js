@@ -31,7 +31,10 @@ export const useAuthStore = defineStore({
       }
       try {
         const userData = await whoami();
-        this.user = userData.data;
+        const { user, autherized } = userData.data;
+        if (!autherized) throw new Error("Not autherized");
+
+        this.user = user;
         if (isInUnautherizedRoute(router.currentRoute.value.path)) {
           router.push("/auth");
         }

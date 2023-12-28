@@ -6,11 +6,11 @@ import {
   logoutUser,
   identifyUser,
 } from "../controllers/userController.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { check } from "../middleware/authMiddleware.js";
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logoutUser);
-router.get("/whoami", protect, identifyUser);
+router.get("/whoami", check, identifyUser);
 
 export default router;

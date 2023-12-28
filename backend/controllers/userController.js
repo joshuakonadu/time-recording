@@ -77,11 +77,20 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 const identifyUser = asyncHandler(async (req, res) => {
   const user = req.user;
+  if (!user) {
+    return res.status(200).json({
+      user: null,
+      autherized: false,
+    });
+  }
   res.status(200).json({
-    _id: user.id,
-    firstname: user.firstname,
-    lastname: user.lastname,
-    email: user.email,
+    user: {
+      _id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+    },
+    autherized: true,
   });
 });
 

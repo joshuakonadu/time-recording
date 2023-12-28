@@ -52,7 +52,7 @@ export default defineComponent({
     const linksList = [
       {
         title: "Abmelden",
-        caption: "quasar.dev",
+        caption: "",
         icon: "school",
         clickAction: () => authStore.logout(),
       },

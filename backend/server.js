@@ -6,8 +6,8 @@ import timerecordsRoutes from "./routes/timerecordsRoutes.js";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import "./config/db.js";
 import "./config/env.js";
+import "./config/db.js";
 
 const port = process.env.PORT || 5000;
 
