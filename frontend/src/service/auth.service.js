@@ -9,7 +9,7 @@ export function login(data) {
 }
 
 export function logout() {
-  return ApiClient.post(BackendConfig.logout);
+  return ApiClient.get(BackendConfig.logout);
 }
 
 export function whoami() {

@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import { whoami, login } from "../service";
+import { whoami, login, logout } from "../service";
 import router from "../router";
 import { useAlertStore } from "./index";
-import { unAutherizedRoutes } from "src/helpers/routesHelpers";
+import { isInUnautherizedRoute } from "src/helpers/routesHelpers";
 
 export const useAuthStore = defineStore({
   id: "auth",
@@ -19,7 +19,7 @@ export const useAuthStore = defineStore({
         this.user = userData.data;
 
         // redirect to previous url or default to home page
-        router.push(this.returnUrl || "/auth");
+        router.push("/auth");
       } catch (error) {
         const alertStore = useAlertStore();
         alertStore.error(error.message);
@@ -32,26 +32,18 @@ export const useAuthStore = defineStore({
       try {
         const userData = await whoami();
         this.user = userData.data;
-        //TODO: ENCAPSULATE IF CONDITION IN routesHelpers
-        if (
-          unAutherizedRoutes.some(
-            (route) => route === router.currentRoute.value.path
-          )
-        ) {
+        if (isInUnautherizedRoute(router.currentRoute.value.path)) {
           router.push("/auth");
         }
       } catch (err) {
-        if (
-          !unAutherizedRoutes.some(
-            (route) => route === router.currentRoute.value.path
-          )
-        ) {
+        if (isInUnautherizedRoute(router.currentRoute.value.path) === false) {
           router.push("/login");
         }
       }
     },
-    logout() {
+    async logout() {
       this.user = null;
+      await logout();
       router.push("/login");
     },
   },
