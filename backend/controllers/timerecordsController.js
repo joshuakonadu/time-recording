@@ -4,6 +4,7 @@ import {
   createTimeRecord,
   findTimeRecordsByWorkspaceId,
   findTimeRecordsByUserAndWorkspaceId,
+  updateTimeRecordById,
 } from "../models/timerecordModel.js";
 
 export const addTime = asyncHandler(async (req, res) => {
@@ -33,4 +34,10 @@ export const getTimeByWorkspaceUser = asyncHandler(async (req, res) => {
     workspaceId
   );
   res.status(200).json(timeRecords);
+});
+
+export const updateTimeRecord = asyncHandler(async (req, res) => {
+  const data = req.body;
+  const updatedTimeRecord = await updateTimeRecordById(data._id, data);
+  res.status(200).json(updatedTimeRecord);
 });

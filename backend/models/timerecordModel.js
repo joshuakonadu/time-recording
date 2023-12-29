@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { workspaceById } from "./workspaceModel";
 
 const timerecordSchema = mongoose.Schema(
   {
@@ -17,16 +16,18 @@ const timerecordSchema = mongoose.Schema(
     },
     project: {
       type: String,
+      default: null,
     },
     role: {
       type: String,
+      default: null,
     },
     to: {
-      type: String,
+      type: Date,
       required: [true, "Please add a to Date"],
     },
     from: {
-      type: String,
+      type: Date,
       required: [true, "Please add a from Date"],
     },
   },
@@ -37,8 +38,17 @@ const timerecordSchema = mongoose.Schema(
 
 const TimeRecord = mongoose.model("TimeRecord", timerecordSchema);
 
+const updateTimeRecordProperties = [
+  "description",
+  "project",
+  "role",
+  "to",
+  "from",
+];
+
 export default TimeRecord;
 export const findTimeRecordsByUserId = (userId) => TimeRecord.find({ userId });
+export const findTimeRecordsById = (id) => TimeRecord.findById(id);
 export const createTimeRecord = (data) => TimeRecord.create(data);
 export const findTimeRecordsByWorkspaceId = (workspaceId) => {
   return TimeRecord.find({ workspaceId });
@@ -48,10 +58,10 @@ export const findTimeRecordsByUserAndWorkspaceId = (userId, workspaceId) => {
 };
 export const updateTimeRecordById = async (id, data) => {
   const timeRecord = await TimeRecord.findById(id);
-  Object.keys(data).forEach((key) => {
+  updateTimeRecordProperties.forEach((key) => {
     timeRecord[key] = data[key];
   });
-  timeRecord.save();
+  return timeRecord.save();
 };
 
 export const deleteAllTimeRecordsByUser = async (userId, workspaceId) => {
