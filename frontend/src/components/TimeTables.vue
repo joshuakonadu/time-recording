@@ -4,8 +4,12 @@ import TimeTable from "./TimeTable.vue";
 import { DateTime } from "luxon";
 import { useTimeTablesData } from "../composables/useTimeTablesData.js";
 import { useUserStore } from "../stores/user.store";
+import { useAlertStore } from "../stores/alert.store";
+import { updateTimeRecord, getTimesByWorkspaceUser } from "../service";
+import router from "../router";
 
 const userStore = useUserStore();
+const alertStore = useAlertStore();
 const { groupedTimeTablesData } = useTimeTablesData();
 const changedDataState = {
   index: null,
@@ -49,14 +53,18 @@ const indexOfChangedIndex = (index) => {
 const changedList = (data) => {
   updateChangedObject(toRaw(data));
 };
-const updateChangedObject = (data) => {
+const updateChangedObject = async (data) => {
   try {
-    console.log(data[changedDataState.index]);
-    //editTimeObject(data[changedIndex])
-    //success notification
+    const updateData = await updateTimeRecord(
+      toRaw(data[changedDataState.index])
+    );
+    data[changedDataState.index] = updateData.data;
+    alertStore.success("Erfolgreich gespeichert");
   } catch (err) {
-    console.error(err);
-    //reload all data
+    alertStore.error("Speichern Fehlgeschlagen");
+    const workspaceId = router.currentRoute.value.params?.id;
+    const { data } = await getTimesByWorkspaceUser(workspaceId);
+    userStore.setTimeTablesData(data);
   } finally {
     changedDataState.index = null;
   }

@@ -1,6 +1,9 @@
 <script setup>
 import { computed, watch } from "vue";
 import { DateTime, Interval } from "luxon";
+import { useUserStore } from "../stores/user.store";
+
+const userStore = useUserStore();
 
 const props = defineProps({
   data: {
@@ -108,25 +111,26 @@ watch(
             v-slot="scope"
           >
             <div class="text-italic text-primary q-mb-xs">Bearbeiten</div>
-            <q-input
-              type="text"
+            <q-select
               v-model="scope.value"
+              :options="userStore.activeWorkspace.projectOption"
               dense
-              autofocus
-              @keyup.enter="scope.set"
             />
           </q-popup-edit>
         </q-td>
         <q-td key="role" :props="props">
           {{ props.row.role }}
-          <q-popup-edit v-model="props.row.role" buttons v-slot="scope">
+          <q-popup-edit
+            v-model="props.row.role"
+            @save="emitIndex(props.rowIndex)"
+            buttons
+            v-slot="scope"
+          >
             <div class="text-italic text-primary q-mb-xs">Bearbeiten</div>
-            <q-input
-              type="text"
+            <q-select
               v-model="scope.value"
+              :options="userStore.activeWorkspace.roleOption"
               dense
-              autofocus
-              @keyup.enter="scope.set"
             />
           </q-popup-edit>
         </q-td>

@@ -15,3 +15,7 @@ export function getTimesByUser() {
 export function getTimesByWorkspaceUser(id) {
   return ApiClient.get(BackendConfig.getTimesByWorkspaceUser + id);
 }
+
+export function updateTimeRecord(data) {
+  return ApiClient.put(BackendConfig.updateTimeRecord, data);
+}

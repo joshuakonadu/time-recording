@@ -17,6 +17,7 @@ export const BackendConfig = {
   getWorkspace: "/workspace/getspace/",
   getAllWorkspaces: "/workspace/register",
   addTimeRecord: "/timerecords/add",
+  updateTimeRecord: "/timerecords/update",
   getTimesByWorkspace: "/timerecords/byworkspace/",
   getTimesByUser: "/timerecords/byuser",
   getTimesByWorkspaceUser: "/timerecords/userworkspace/",
