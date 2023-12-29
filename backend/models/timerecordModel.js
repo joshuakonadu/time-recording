@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { workspaceById } from "./workspaceModel";
 
 const timerecordSchema = mongoose.Schema(
   {
@@ -51,4 +52,8 @@ export const updateTimeRecordById = async (id, data) => {
     timeRecord[key] = data[key];
   });
   timeRecord.save();
+};
+
+export const deleteAllTimeRecordsByUser = async (userId, workspaceId) => {
+  return TimeRecord.deleteMany({ userId, workspaceId });
 };

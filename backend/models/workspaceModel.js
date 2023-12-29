@@ -38,3 +38,13 @@ export const workspaceAddMember = async (id, member) => {
   workspace.members.push(member);
   return workspace.save();
 };
+export const workspaceRemoveMember = async (userId, workspaceId) => {
+  const workspace = await Workspace.findById(workspaceId);
+  workspace.members = workspace.members.filters(
+    (user) => user.userId !== userId
+  );
+  if (workspace.members.length) {
+    return workspace.save();
+  }
+  return Workspace.deleteOne({ _id: workspaceId });
+};

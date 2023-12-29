@@ -31,3 +31,10 @@ export const registerAddWorkspace = async (userId, data) => {
   registerWorkspace.register.push(data);
   return registerWorkspace.save();
 };
+export const unregisterWorkspace = async (userId, workspaceId) => {
+  const registerWorkspace = await RegisterWorkspace.findOne({ userId });
+  registerWorkspace.register = registerWorkspace.register.filter(
+    (data) => data.workspaceId !== workspaceId
+  );
+  return registerWorkspace.save();
+};
