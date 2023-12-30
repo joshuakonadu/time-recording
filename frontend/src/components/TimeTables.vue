@@ -72,7 +72,7 @@ const updateChangedObject = async (data) => {
 </script>
 <template>
   <div class="container">
-    <div class="q-mb-lg">Insgesamt: {{ calculateAllTime }}</div>
+    <div class="q-mb-lg text-h5">Insgesamt: {{ calculateAllTime }}</div>
     <div v-for="(data, index) in groupedTimeTablesData" :key="data">
       <TimeTable
         :data="data"
