@@ -21,6 +21,7 @@ export const BackendConfig = {
   updateTimeRecord: "/timerecords/update",
   getTimesByWorkspace: "/timerecords/byworkspace/",
   getTimesByUser: "/timerecords/byuser",
+  deleteTimeRecord: "/timerecords/delete/",
   getTimesByWorkspaceUser: "/timerecords/userworkspace/",
 };
 export const ApiClient = axios.create({

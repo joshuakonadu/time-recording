@@ -64,6 +64,10 @@ export const updateTimeRecordById = async (id, data) => {
   return timeRecord.save();
 };
 
-export const deleteAllTimeRecordsByUser = async (userId, workspaceId) => {
+export const deleteAllTimeRecordsByUser = (userId, workspaceId) => {
   return TimeRecord.deleteMany({ userId, workspaceId });
+};
+
+export const deleteTimeRecordById = (id) => {
+  return TimeRecord.deleteOne({ _id: id });
 };

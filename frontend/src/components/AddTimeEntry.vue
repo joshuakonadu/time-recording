@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, markRaw } from "vue";
 import { DateTime, Interval } from "luxon";
 import { useTimeTablesData } from "../composables/useTimeTablesData.js";
 import { useUserStore } from "../stores/user.store";
@@ -14,8 +14,8 @@ const alertStore = useAlertStore();
 const workspaceId = router.currentRoute.value.params?.id;
 
 const dateModes = ref({
-  "24h": SameDate,
-  all: AllDate,
+  "24h": markRaw(SameDate),
+  all: markRaw(AllDate),
 });
 
 const activeDateMode = computed(() => {

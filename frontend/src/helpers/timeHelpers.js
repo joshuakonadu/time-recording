@@ -1,70 +1,7 @@
 import { DateTime, Interval } from "luxon";
-
-export const testData = [
-  {
-    from: DateTime.local(2017, 5, 15, 8, 30).toString(),
-    to: DateTime.local(2017, 5, 15, 12, 30).toString(),
-    project: "Test Project",
-    role: "DEV",
-    description: "test Description",
-  },
-  {
-    from: DateTime.local(2018, 5, 15, 8, 30).toString(),
-    to: DateTime.local(2018, 5, 15, 12, 30).toString(),
-    project: "Test Project",
-    role: "DEV",
-    description: "test Description",
-  },
-  {
-    from: DateTime.local(2018, 5, 15, 13, 30).toString(),
-    to: DateTime.local(2018, 5, 15, 15, 30).toString(),
-    project: "Test Project",
-    role: "DEV",
-    description: "test Description",
-  },
-  {
-    from: DateTime.local(2018, 5, 15, 15, 30).toString(),
-    to: DateTime.local(2018, 5, 15, 18, 30).toString(),
-    project: "Test Project",
-    role: "DEV",
-    description: "test Description",
-  },
-  {
-    from: DateTime.local(2018, 6, 15, 8, 30).toString(),
-    to: DateTime.local(2018, 6, 15, 12, 30).toString(),
-    project: "Test Project",
-    role: "DEV",
-    description: "test Description",
-  },
-  {
-    from: DateTime.local(2018, 7, 15, 8, 30).toString(),
-    to: DateTime.local(2018, 7, 15, 12, 30).toString(),
-    project: "Test Project",
-    role: "DEV",
-    description: "test Description",
-  },
-  {
-    from: DateTime.local(2019, 5, 15, 8, 30).toString(),
-    to: DateTime.local(2019, 5, 15, 12, 30).toString(),
-    project: "Test Project",
-    role: "DEV",
-    description: "test Description",
-  },
-  {
-    from: DateTime.local(2019, 6, 15, 8, 30).toString(),
-    to: DateTime.local(2019, 6, 15, 12, 30).toString(),
-    project: "Test Project",
-    role: "DEV",
-    description: "test Description",
-  },
-  {
-    from: DateTime.local(2019, 6, 15, 13, 30).toString(),
-    to: DateTime.local(2019, 6, 15, 16, 30).toString(),
-    project: "Test Project",
-    role: "DEV",
-    description: "test Description",
-  },
-];
+import { useUserStore } from "src/stores/user.store.js";
+import { getTimesByWorkspaceUser } from "../service";
+import router from "../router";
 
 export const groupDatesByDay = (dates) => {
   const timesObj = {};
@@ -94,4 +31,12 @@ export const calculateTime = (data) => {
 
 export const sortDate = (data1, data2) => {
   return data1.from > data2.from ? -1 : 1;
+};
+
+export const loadTimeTables = async () => {
+  const userStore = useUserStore();
+  const routeId = router.currentRoute.value.params?.id;
+  const { data } = await getTimesByWorkspaceUser(routeId);
+  data.sort(sortDate);
+  userStore.setTimeTablesData(data);
 };

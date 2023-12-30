@@ -19,3 +19,7 @@ export function getTimesByWorkspaceUser(id) {
 export function updateTimeRecord(data) {
   return ApiClient.put(BackendConfig.updateTimeRecord, data);
 }
+
+export function deleteTimeRecordById(id) {
+  return ApiClient.delete(BackendConfig.deleteTimeRecord + id);
+}

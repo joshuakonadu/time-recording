@@ -3,20 +3,18 @@ import { onUnmounted } from "vue";
 import AddTimeEntry from "../components/AddTimeEntry.vue";
 import TimeTables from "../components/TimeTables.vue";
 import WorkspaceActions from "../components/WorkspaceActions.vue";
-import router from "../router";
-import { getTimesByWorkspaceUser, getWorkspace } from "../service";
+import { getWorkspace } from "../service";
 import { useUserStore } from "src/stores/user.store.js";
-import { sortDate } from "../helpers/timeHelpers.js";
+import { loadTimeTables } from "../helpers/timeHelpers.js";
+import router from "../router";
 
 const userStore = useUserStore();
 
-const workspaceId = router.currentRoute.value.params?.id;
 const initializeData = async () => {
+  const workspaceId = router.currentRoute.value.params?.id;
   const workspace = await getWorkspace(workspaceId);
   userStore.setActiveWorkspace(workspace.data);
-  const { data } = await getTimesByWorkspaceUser(workspaceId);
-  data.sort(sortDate);
-  userStore.setTimeTablesData(data);
+  await loadTimeTables();
 };
 initializeData();
 
