@@ -25,24 +25,12 @@ const computedTime = computed({
 });
 
 const clockTime = computed(() => {
-  return DateTime.fromISO(props.time).toLocaleString({
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  return DateTime.fromISO(props.time).toLocaleString(DateTime.DATETIME_MED);
 });
 </script>
 
 <template>
-  <q-btn
-    class="time-clock"
-    round
-    :color="props.btnColor"
-    stack
-    glossy
-    icon="timer"
-  >
+  <q-btn :color="props.btnColor" stack flat size="lg" icon="calendar_month">
     {{ clockTime }}
     <q-popup-proxy
       class="flex-container flex-custom q-mt-md"
@@ -65,9 +53,4 @@ const clockTime = computed(() => {
   </q-btn>
 </template>
 
-<style scoped>
-.time-clock {
-  width: 64px;
-  height: 64px;
-}
-</style>
+<style scoped></style>

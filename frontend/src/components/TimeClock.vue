@@ -25,22 +25,12 @@ const computedTime = computed({
 });
 
 const clockTime = computed(() => {
-  return DateTime.fromISO(props.time).toLocaleString({
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  return DateTime.fromISO(props.time).toLocaleString(DateTime.TIME_24_SIMPLE);
 });
 </script>
 
 <template>
-  <q-btn
-    class="time-clock"
-    round
-    :color="props.btnColor"
-    stack
-    glossy
-    icon="timer"
-  >
+  <q-btn :color="props.btnColor" size="lg" stack flat icon="timer">
     {{ clockTime }}
     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
       <q-time mask="YYYY-MM-DDTHH:mm:ss" v-model="computedTime">
@@ -52,9 +42,4 @@ const clockTime = computed(() => {
   </q-btn>
 </template>
 
-<style scoped>
-.time-clock {
-  width: 64px;
-  height: 64px;
-}
-</style>
+<style scoped></style>

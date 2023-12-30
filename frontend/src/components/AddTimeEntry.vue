@@ -15,7 +15,7 @@ const workspaceId = router.currentRoute.value.params?.id;
 
 const dateModes = ref({
   "24h": SameDate,
-  AllDate: AllDate,
+  all: AllDate,
 });
 
 const activeDateMode = computed(() => {
@@ -81,7 +81,7 @@ const clearValue = () => {
 </script>
 
 <template>
-  <div class="time-calculator q-mt-lg q-mb-xl container">
+  <div class="time-calculator q-mt-lg q-mb-sm container">
     <div class="input-container">
       <q-input v-model="description" label="Beschreibung" />
     </div>
@@ -105,22 +105,25 @@ const clearValue = () => {
         label="Rolle"
       />
     </div>
-    <component
-      :is="activeDateMode"
-      @changeFrom="changeFrom"
-      @changeTo="changeTo"
-      :from="from"
-      :to="to"
-    />
-
-    <div class="time-diff">
-      <q-btn
-        @click="saveNewTimeEntry"
-        color="primary"
-        icon-right="approval"
-        size="lg"
-        :label="`${timeDiff}h buchen`"
+    <div class="flex-container flex-100 q-mt-lg q-mb-xl">
+      <component
+        :is="activeDateMode"
+        @changeFrom="changeFrom"
+        @changeTo="changeTo"
+        :from="from"
+        :to="to"
       />
+
+      <div class="time-diff">
+        <q-btn
+          @click="saveNewTimeEntry"
+          color="primary"
+          icon-right="fa-solid fa-stamp"
+          flat
+          size="lg"
+          :label="`${timeDiff}h buchen`"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -160,5 +163,11 @@ const clearValue = () => {
 }
 :deep(.on-right) {
   margin-left: 5px;
+}
+
+.flex-100 {
+  flex: 0 0 100%;
+  justify-content: center;
+  align-items: center;
 }
 </style>
