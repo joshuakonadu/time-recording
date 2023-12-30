@@ -42,7 +42,7 @@ const deleteTimeRecord = async () => {
   try {
     //TODO: Delete Time Record Api
     await deleteTimeRecordById(deleteTimeRecordId);
-    //await loadTimeTables();
+    await loadTimeTables();
     alertStore.success("Löschen Erfolgreich");
   } catch (err) {
     alertStore.error("Löschen Fehlgeschlagen");
