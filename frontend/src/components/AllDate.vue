@@ -1,6 +1,6 @@
 <script setup>
 import { DateTime } from "luxon";
-import TimeClock from "./TimeClock.vue";
+import TimeClockCalendar from "./TimeClockCalendar.vue";
 
 const props = defineProps({
   from: {
@@ -26,9 +26,9 @@ const changeTo = (data) => {
 <template>
   <div class="flex-container custom-flex">
     <div class="time-from">Von</div>
-    <TimeClock class="mr-sm" @change="changeFrom" :time="props.from" />
+    <TimeClockCalendar class="mr-sm" @change="changeFrom" :time="props.from" />
     <div class="time-to">Bis</div>
-    <TimeClock class="q-mr-lg" @change="changeTo" :time="props.to" />
+    <TimeClockCalendar class="q-mr-lg" @change="changeTo" :time="props.to" />
   </div>
 </template>
 

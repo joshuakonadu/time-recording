@@ -5,6 +5,7 @@ import { useTimeTablesData } from "../composables/useTimeTablesData.js";
 import { useUserStore } from "../stores/user.store";
 import { useAlertStore } from "../stores/alert.store";
 import SameDate from "./SameDate.vue";
+import AllDate from "./AllDate.vue";
 import router from "../router";
 
 const userStore = useUserStore();
@@ -14,6 +15,7 @@ const workspaceId = router.currentRoute.value.params?.id;
 
 const dateModes = ref({
   "24h": SameDate,
+  AllDate: AllDate,
 });
 
 const activeDateMode = computed(() => {
