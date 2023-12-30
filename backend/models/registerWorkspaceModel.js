@@ -34,7 +34,7 @@ export const registerAddWorkspace = async (userId, data) => {
 export const unregisterWorkspace = async (userId, workspaceId) => {
   const registerWorkspace = await RegisterWorkspace.findOne({ userId });
   registerWorkspace.register = registerWorkspace.register.filter(
-    (data) => data.workspaceId !== workspaceId
+    (data) => data.workspaceId.toString() !== workspaceId.toString()
   );
   return registerWorkspace.save();
 };

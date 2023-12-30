@@ -22,3 +22,10 @@
 .btn.btn-link{
   margin-left: 1em;
 }
+.flex-container{
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex-between{
+  justify-content: space-between;
+}

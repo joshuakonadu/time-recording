@@ -10,7 +10,7 @@ import router from "../router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
-const { groupedTimeTablesData } = useTimeTablesData();
+const { groupedTimeTablesData, calculateAllTime } = useTimeTablesData();
 const changedDataState = {
   index: null,
 };
@@ -72,6 +72,7 @@ const updateChangedObject = async (data) => {
 </script>
 <template>
   <div class="container">
+    <div class="q-mb-lg">Insgesamt: {{ calculateAllTime }}</div>
     <div v-for="(data, index) in groupedTimeTablesData" :key="data">
       <TimeTable
         :data="data"

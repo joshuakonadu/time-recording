@@ -16,6 +16,7 @@ export const BackendConfig = {
   addWorkspace: "/workspace/newspace",
   getWorkspace: "/workspace/getspace/",
   getAllWorkspaces: "/workspace/register",
+  deleteWorkspaceUser: "/workspace/workspaceuser/",
   addTimeRecord: "/timerecords/add",
   updateTimeRecord: "/timerecords/update",
   getTimesByWorkspace: "/timerecords/byworkspace/",

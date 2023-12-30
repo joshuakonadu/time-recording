@@ -15,3 +15,7 @@ export function getWorkspace(id) {
 export function getAllWorkspaces() {
   return ApiClient.get(BackendConfig.getAllWorkspaces);
 }
+
+export function deleteWorkspaceUser(workspaceId) {
+  return ApiClient.delete(BackendConfig.deleteWorkspaceUser + workspaceId);
+}

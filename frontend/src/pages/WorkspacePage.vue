@@ -1,13 +1,7 @@
-<template>
-  <q-page>
-    <TimeCalculator />
-    <TimeTables />
-  </q-page>
-</template>
-
 <script setup>
 import TimeCalculator from "../components/TimeCalculator.vue";
 import TimeTables from "../components/TimeTables.vue";
+import WorkspaceActions from "../components/WorkspaceActions.vue";
 import router from "../router";
 import { getTimesByWorkspaceUser, getWorkspace } from "../service";
 import { useUserStore } from "src/stores/user.store.js";
@@ -23,3 +17,11 @@ const initializeData = async () => {
 };
 initializeData();
 </script>
+
+<template>
+  <q-page>
+    <TimeCalculator />
+    <WorkspaceActions />
+    <TimeTables />
+  </q-page>
+</template>

@@ -56,6 +56,7 @@ const removeProject = (project) => {
   projects.value.delete(project);
 };
 const resetValues = () => {
+  name.value = "";
   loading.value = false;
   roleText.value = "";
   projectText.value = "";
@@ -77,7 +78,7 @@ const openWorkspace = async () => {
       <q-btn
         color="primary"
         @click="showDialog = true"
-        glossy
+        flat
         label="Workspace erstellen"
       />
     </div>

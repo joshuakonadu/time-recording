@@ -1,7 +1,8 @@
 <script setup>
 import { computed, watch } from "vue";
-import { DateTime, Interval } from "luxon";
 import { useUserStore } from "../stores/user.store";
+import { calculateTime } from "../helpers/timeHelpers";
+import { DateTime } from "luxon";
 
 const userStore = useUserStore();
 
@@ -23,17 +24,7 @@ const props = defineProps({
 const emit = defineEmits(["changeIndex", "changedList"]);
 
 const sumTime = computed(() => {
-  const sumAllminutes = props.data.reduce((acc, obj) => {
-    const from = DateTime.fromISO(obj.from);
-    const to = DateTime.fromISO(obj.to);
-    acc += Interval.fromDateTimes(from, to).length("minutes");
-    return acc;
-  }, 0);
-  const hours = Math.floor(sumAllminutes / 60)
-    .toString()
-    .padStart(2, "0");
-  const minutes = (Math.floor(sumAllminutes) % 60).toString().padStart(2, "0");
-  return `${hours}:${minutes}`;
+  return calculateTime(props.data);
 });
 
 const emitIndex = (index) => {
