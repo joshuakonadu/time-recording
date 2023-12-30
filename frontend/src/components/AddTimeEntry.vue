@@ -56,7 +56,7 @@ const timeDiff = computed(() => {
 
 const saveNewTimeEntry = () => {
   if (!from.value || !to.value || !description.value) {
-    alertStore.info("Bitte Beschreibung einfügen");
+    alertStore.info("Bitte Beschreibung hinzufügen");
     return;
   }
   const newData = {
@@ -81,7 +81,7 @@ const clearValue = () => {
 </script>
 
 <template>
-  <div class="time-calculator q-mt-lg q-mb-sm container">
+  <div class="time-calculator q-mt-lg q-mb-xl container">
     <div class="input-container">
       <q-input v-model="description" label="Beschreibung" />
     </div>
@@ -105,7 +105,7 @@ const clearValue = () => {
         label="Rolle"
       />
     </div>
-    <div class="flex-container flex-100 q-mt-lg q-mb-xl">
+    <div class="flex-container flex-100 q-mt-xl q-mb-xl">
       <component
         :is="activeDateMode"
         @changeFrom="changeFrom"
@@ -128,11 +128,13 @@ const clearValue = () => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .time-calculator {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  border: 8px dashed $secondary;
+  padding: 33px;
 }
 
 .time-from {

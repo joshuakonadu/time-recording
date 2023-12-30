@@ -186,7 +186,7 @@ watch(
           <q-td auto-width>
             <q-btn-dropdown
               size="sm"
-              color="accent"
+              color="dark"
               dense
               flat
               icon="fa-solid fa-ellipsis-vertical"

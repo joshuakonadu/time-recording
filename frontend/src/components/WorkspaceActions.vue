@@ -26,9 +26,6 @@ const navigateHome = () => {
 <template>
   <div class="q-py-lg container flex-container flex-between">
     <div>
-      <q-btn flat color="primary" label="Home" @click="navigateHome" />
-    </div>
-    <div>
       <q-btn
         flat
         color="negative"
