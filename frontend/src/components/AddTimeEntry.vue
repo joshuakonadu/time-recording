@@ -3,12 +3,22 @@ import { ref, computed } from "vue";
 import { DateTime, Interval } from "luxon";
 import { useTimeTablesData } from "../composables/useTimeTablesData.js";
 import { useUserStore } from "../stores/user.store";
+import { useAlertStore } from "../stores/alert.store";
 import SameDate from "./SameDate.vue";
 import router from "../router";
 
 const userStore = useUserStore();
+const alertStore = useAlertStore();
 
 const workspaceId = router.currentRoute.value.params?.id;
+
+const dateModes = ref({
+  "24h": SameDate,
+});
+
+const activeDateMode = computed(() => {
+  return dateModes.value[userStore.activeWorkspace.mode];
+});
 
 function getTimeNow() {
   return DateTime.now().toString();
@@ -22,7 +32,6 @@ const description = ref(null);
 const { addNewData } = useTimeTablesData();
 
 const changeFrom = (data) => {
-  console.log(data);
   from.value = data;
 };
 
@@ -45,7 +54,7 @@ const timeDiff = computed(() => {
 
 const saveNewTimeEntry = () => {
   if (!from.value || !to.value || !description.value) {
-    //TODO: TOAST NOTIFICATION (WARNING)
+    alertStore.info("Bitte Beschreibung einfügen");
     return;
   }
   const newData = {
@@ -94,7 +103,8 @@ const clearValue = () => {
         label="Rolle"
       />
     </div>
-    <SameDate
+    <component
+      :is="activeDateMode"
       @changeFrom="changeFrom"
       @changeTo="changeTo"
       :from="from"
