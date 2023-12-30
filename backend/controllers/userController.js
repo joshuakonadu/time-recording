@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
-import { userByEmail, createUser } from "../models/userModel.js";
+import { userByEmail, createUser } from "../utils/user.helper.js";
 
 const registerUser = asyncHandler(async (req, res) => {
   const { firstname, lastname, email, password } = req.body;

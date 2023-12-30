@@ -1,6 +1,6 @@
-import { unregisterWorkspace } from "../models/registerWorkspaceModel.js";
-import { workspaceRemoveMember } from "../models/workspaceModel.js";
-import { deleteAllTimeRecordsByUser } from "../models/timerecordModel.js";
+import { unregisterWorkspace } from "./registerWorkspace.helper.js";
+import { workspaceRemoveMember } from "./workspace.helper.js";
+import { deleteAllTimeRecordsByUser } from ".//timerecord.helper.js";
 
 export const deleteUserWorkspaceData = async ({ workspaceId, userId }) => {
   const actions = [

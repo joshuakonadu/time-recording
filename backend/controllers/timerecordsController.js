@@ -6,7 +6,7 @@ import {
   findTimeRecordsByUserAndWorkspaceId,
   updateTimeRecordById,
   deleteTimeRecordById,
-} from "../models/timerecordModel.js";
+} from "../utils/timerecord.helper.js";
 
 export const addTime = asyncHandler(async (req, res) => {
   const data = req.body;

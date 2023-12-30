@@ -3,8 +3,8 @@ import {
   createRegisterWorkspace,
   registerAddWorkspace,
   registerWorkspaceByUserId,
-} from "../models/registerWorkspaceModel.js";
-import { createWorkspace, workspaceById } from "../models/workspaceModel.js";
+} from "../utils/registerWorkspace.helper.js";
+import { createWorkspace, workspaceById } from "../utils/workspace.helper.js";
 import { deleteUserWorkspaceData } from "../utils/utils.js";
 
 export const createUserRegisterWorkspace = asyncHandler(async (req, res) => {
