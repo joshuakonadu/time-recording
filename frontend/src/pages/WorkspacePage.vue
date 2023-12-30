@@ -1,5 +1,5 @@
 <script setup>
-import TimeCalculator from "../components/TimeCalculator.vue";
+import AddTimeEntry from "../components/AddTimeEntry.vue";
 import TimeTables from "../components/TimeTables.vue";
 import WorkspaceActions from "../components/WorkspaceActions.vue";
 import router from "../router";
@@ -20,7 +20,7 @@ initializeData();
 
 <template>
   <q-page>
-    <TimeCalculator />
+    <AddTimeEntry />
     <WorkspaceActions />
     <TimeTables />
   </q-page>

@@ -17,29 +17,33 @@ const emit = defineEmits(["change"]);
 
 const computedTime = computed({
   get() {
-    return DateTime.fromISO(props.time).toLocaleString({
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    return props.time;
   },
   set(newValue) {
     emit("change", DateTime.fromISO(newValue).toString());
   },
 });
+
+const clockTime = computed(() => {
+  return DateTime.fromISO(props.time).toLocaleString({
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+});
 </script>
 
 <template>
   <q-btn
-    class="time-block"
+    class="time-clock"
     round
     :color="props.btnColor"
     stack
     glossy
     icon="timer"
   >
-    {{ computedTime }}
+    {{ clockTime }}
     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-      <q-time v-model="computedTime">
+      <q-time mask="YYYY-MM-DDTHH:mm:ss" v-model="computedTime">
         <div class="row items-center justify-end">
           <q-btn v-close-popup label="Close" color="primary" flat />
         </div>
@@ -49,7 +53,7 @@ const computedTime = computed({
 </template>
 
 <style scoped>
-.time-block {
+.time-clock {
   width: 64px;
   height: 64px;
 }

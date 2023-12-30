@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed } from "vue";
-import TimeBlock from "./TimeBlock.vue";
 import { DateTime, Interval } from "luxon";
 import { useTimeTablesData } from "../composables/useTimeTablesData.js";
 import { useUserStore } from "../stores/user.store";
+import SameDate from "./SameDate.vue";
 import router from "../router";
 
 const userStore = useUserStore();
@@ -22,6 +22,7 @@ const description = ref(null);
 const { addNewData } = useTimeTablesData();
 
 const changeFrom = (data) => {
+  console.log(data);
   from.value = data;
 };
 
@@ -93,10 +94,12 @@ const clearValue = () => {
         label="Rolle"
       />
     </div>
-    <div class="time-from">Von</div>
-    <TimeBlock class="mr-sm" @change="changeFrom" :time="from" />
-    <div class="time-to">Bis</div>
-    <TimeBlock class="q-mr-lg" @change="changeTo" :time="to" />
+    <SameDate
+      @changeFrom="changeFrom"
+      @changeTo="changeTo"
+      :from="from"
+      :to="to"
+    />
 
     <div class="time-diff">
       <q-btn
