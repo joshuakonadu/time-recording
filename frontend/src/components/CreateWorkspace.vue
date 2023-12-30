@@ -6,9 +6,11 @@ import router from "../router";
 
 const userStore = useUserStore();
 
-const name = ref("");
 const showDialog = ref(false);
 const loading = ref(false);
+
+const name = ref("");
+const timeMode = ref("all");
 const roleText = ref("");
 const projectText = ref("");
 const roles = ref(new Set([]));
@@ -18,6 +20,11 @@ let createdWorkspaceId = null;
 const success = ref(false);
 const error = ref(false);
 
+const timeModeOptions = [
+  { label: "Alle Zeiten", value: "all" },
+  { label: "Nur Selben Tag", value: "24h" },
+];
+
 const sendData = async () => {
   if (!name.value) return;
 
@@ -26,6 +33,7 @@ const sendData = async () => {
     name: name.value.toLocaleLowerCase(),
     projectOption: [...toRaw(projects.value)],
     roleOption: [...toRaw(roles.value)],
+    mode: timeMode.value,
   };
   try {
     const apiData = await createWorkspace(data);
@@ -62,6 +70,7 @@ const resetValues = () => {
   projectText.value = "";
   roles.value = new Set([]);
   projects.value = new Set([]);
+  timeMode.value = "all";
   createdWorkspaceId = null;
 
   success.value = false;
@@ -90,14 +99,26 @@ const openWorkspace = async () => {
         </q-card-section>
 
         <q-card-section v-if="!loading && !success" class="q-pt-none">
-          <div class="name">
-            <q-input bottom-slots v-model="name" dense label="Name">
-              <template v-slot:hint> Pflichtfeld </template>
-            </q-input>
+          <div class="flex-container">
+            <div class="name">
+              <q-input bottom-slots v-model="name" label="Name">
+                <template v-slot:hint> Pflichtfeld </template>
+              </q-input>
+            </div>
+            <div class="mode q-ml-lg">
+              <q-select
+                v-model="timeMode"
+                :options="timeModeOptions"
+                map-options
+                emit-value
+                label="Zeit Modus"
+              >
+              </q-select>
+            </div>
           </div>
           <div class="q-mt-md project-role">
             <div class="input">
-              <q-input bottom-slots v-model="projectText" label="Project" dense>
+              <q-input bottom-slots v-model="projectText" label="Project">
                 <template v-slot:append>
                   <q-btn @click="addProject" round dense flat icon="add" />
                 </template>
@@ -105,7 +126,7 @@ const openWorkspace = async () => {
               </q-input>
             </div>
             <div class="input">
-              <q-input bottom-slots v-model="roleText" label="Rolle" dense>
+              <q-input bottom-slots v-model="roleText" label="Rolle">
                 <template v-slot:append>
                   <q-btn @click="addRole" round dense flat icon="add" />
                 </template>
@@ -184,6 +205,9 @@ const openWorkspace = async () => {
 }
 .name {
   width: 50%;
+}
+.mode {
+  width: 20%;
 }
 .project-role {
   display: flex;

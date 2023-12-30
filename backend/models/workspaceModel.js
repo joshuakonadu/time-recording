@@ -21,6 +21,7 @@ const workspaceSchema = mongoose.Schema(
     mode: {
       type: String,
       default: "24h",
+      enum: ["24h", "all", "timer"],
     },
   },
   {
