@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { getAllWorkspaces } from "../service";
+import { sortDate } from "../helpers/timeHelpers.js";
 
 export const useUserStore = defineStore({
   id: "user",
@@ -25,10 +26,21 @@ export const useUserStore = defineStore({
       this.timeTablesData = data;
     },
     addNewTimeData(data) {
-      this.timeTablesData = [data, ...this.timeTablesData];
+      this.timeTablesData = [data, ...this.timeTablesData].sort(sortDate);
     },
     setActiveWorkspace(data) {
       this.activeWorkspace = data;
+    },
+    resetTimeData() {
+      this.activeWorkspace = {
+        name: "",
+        members: [],
+        projectOption: [],
+        roleOption: [],
+        mode: null,
+      };
+
+      this.timeTablesData = [];
     },
   },
 });

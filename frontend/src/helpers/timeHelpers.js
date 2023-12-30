@@ -91,3 +91,7 @@ export const calculateTime = (data) => {
   const minutes = (Math.floor(sumAllminutes) % 60).toString().padStart(2, "0");
   return `${hours}:${minutes}`;
 };
+
+export const sortDate = (data1, data2) => {
+  return data1.from > data2.from ? -1 : 1;
+};
