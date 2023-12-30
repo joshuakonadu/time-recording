@@ -54,7 +54,7 @@ const timeDiff = computed(() => {
   return `${hours}:${minutes}`;
 });
 
-const saveNewTimeEntry = () => {
+const saveNewTimeEntry = async () => {
   if (!from.value || !to.value || !description.value) {
     alertStore.info("Bitte Beschreibung hinzufügen");
     return;
@@ -67,9 +67,8 @@ const saveNewTimeEntry = () => {
     description: description.value,
     workspaceId,
   };
-  //TODO POST NEW DATA TO API AND GET THE NEW DATA FROM BACKEND
-  addNewData(newData);
-  //TODO TOAST NOTIFICATION (SUCCESS)
+  await addNewData(newData);
+  alertStore.success("Neuer Eintrag erfolgreich");
   clearValue();
 };
 

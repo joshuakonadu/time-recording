@@ -45,7 +45,7 @@ const deleteTimeRecord = async () => {
     await loadTimeTables();
     alertStore.success("Löschen Erfolgreich");
   } catch (err) {
-    alertStore.error("Löschen Fehlgeschlagen");
+    alertStore.error("Löschen Fehlgeschlagen", 3000);
   } finally {
     closeDeleteDialog();
   }

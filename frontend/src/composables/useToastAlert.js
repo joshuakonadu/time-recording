@@ -11,7 +11,7 @@ export function useToastAlert() {
     () => alertStore.alert,
     (newVal) => {
       toast[newVal.type](newVal.message, {
-        timeout: 5000,
+        timeout: newVal.ms,
       });
     }
   );

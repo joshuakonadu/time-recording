@@ -61,7 +61,7 @@ const updateChangedObject = async (data) => {
     data[changedDataState.index] = updateData.data;
     alertStore.success("Erfolgreich gespeichert");
   } catch (err) {
-    alertStore.error("Speichern Fehlgeschlagen");
+    alertStore.error("Speichern Fehlgeschlagen", 3000);
     const workspaceId = router.currentRoute.value.params?.id;
     const { data } = await getTimesByWorkspaceUser(workspaceId);
     userStore.setTimeTablesData(data);

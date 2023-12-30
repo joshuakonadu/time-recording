@@ -22,7 +22,7 @@ export const useAuthStore = defineStore({
         router.push("/auth");
       } catch (error) {
         const alertStore = useAlertStore();
-        alertStore.error(error.message);
+        alertStore.error(error.message, 5000);
       }
     },
     async checkAuthenticated() {

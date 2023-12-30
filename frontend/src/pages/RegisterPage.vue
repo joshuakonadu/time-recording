@@ -27,10 +27,10 @@ async function onSubmit(values) {
   try {
     const { data: user } = await register(values);
     await router.push("/login");
-    alertStore.success("Registration successful");
+    alertStore.success("Registration successful", 5000);
     await createRegisterWorkspace({ userId: user._id });
   } catch (error) {
-    alertStore.error(error.message);
+    alertStore.error(error.message, 5000);
   }
 }
 </script>
