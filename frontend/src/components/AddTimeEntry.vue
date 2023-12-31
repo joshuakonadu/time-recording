@@ -4,6 +4,7 @@ import { DateTime, Interval } from "luxon";
 import { useTimeTablesData } from "../composables/useTimeTablesData.js";
 import { useUserStore } from "../stores/user.store";
 import { useAlertStore } from "../stores/alert.store";
+import { addNewTimeRecord } from "../helpers/timeHelpers.js";
 import SameDate from "./SameDate.vue";
 import AllDate from "./AllDate.vue";
 import router from "../router";
@@ -30,8 +31,6 @@ const to = ref(getTimeNow());
 const selectedProject = ref(null);
 const selectedRole = ref(null);
 const description = ref(null);
-
-const { addNewData } = useTimeTablesData();
 
 const changeFrom = (data) => {
   from.value = data;
@@ -67,7 +66,7 @@ const saveNewTimeEntry = async () => {
     description: description.value,
     workspaceId,
   };
-  await addNewData(newData);
+  await addNewTimeRecord(newData);
   alertStore.success("Neuer Eintrag erfolgreich");
   clearValue();
 };

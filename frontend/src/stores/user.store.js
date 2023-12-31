@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { getAllWorkspaces } from "../service";
 import { sortDate } from "../helpers/timeHelpers.js";
+import { useAuthStore } from "./auth.store";
 
 export const useUserStore = defineStore({
   id: "user",
@@ -15,6 +16,14 @@ export const useUserStore = defineStore({
     },
     timeTablesData: [],
   }),
+  getters: {
+    isActiveWorkspaceAdmin(state) {
+      const authStore = useAuthStore();
+      return state.activeWorkspace.members.some(
+        (user) => user.userId === authStore.user._id
+      );
+    },
+  },
   actions: {
     async getWorkspaces() {
       try {

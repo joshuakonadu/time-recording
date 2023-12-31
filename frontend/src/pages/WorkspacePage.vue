@@ -6,6 +6,7 @@ import WorkspaceActions from "../components/WorkspaceActions.vue";
 import { getWorkspace } from "../service";
 import { useUserStore } from "src/stores/user.store.js";
 import { loadTimeTables } from "../helpers/timeHelpers.js";
+import UserTable from "../components/UserTable.vue";
 import router from "../router";
 
 const userStore = useUserStore();
@@ -19,12 +20,6 @@ const initializeData = async () => {
   await loadTimeTables();
 };
 initializeData();
-
-watch(tab, async (newVal) => {
-  if (newVal === "times") {
-    await loadTimeTables();
-  }
-});
 
 onUnmounted(() => {
   userStore.resetTimeData();
@@ -44,6 +39,7 @@ onUnmounted(() => {
         label="Einstellung"
       />
       <q-tab
+        v-if="userStore.isActiveWorkspaceAdmin"
         :ripple="false"
         name="admin"
         icon="manage_accounts"
@@ -55,13 +51,17 @@ onUnmounted(() => {
         <AddTimeEntry />
         <TimeTables />
       </q-tab-panel>
-      <q-tab-panel name="info"> <div class="container">info</div> </q-tab-panel>
+      <q-tab-panel name="info">
+        <div class="container">
+          <UserTable :data="userStore.activeWorkspace.members" />
+        </div>
+      </q-tab-panel>
       <q-tab-panel name="settings">
         <div>
           <WorkspaceActions />
         </div>
       </q-tab-panel>
-      <q-tab-panel name="admin">
+      <q-tab-panel v-if="userStore.isActiveWorkspaceAdmin" name="admin">
         <div class="container">Admin</div>
       </q-tab-panel>
     </q-tab-panels>

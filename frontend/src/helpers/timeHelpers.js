@@ -1,6 +1,7 @@
 import { DateTime, Interval } from "luxon";
 import { useUserStore } from "src/stores/user.store.js";
 import { getTimesByWorkspaceUser } from "../service";
+import { addTimeRecord } from "../service";
 import router from "../router";
 
 export const groupDatesByDay = (dates) => {
@@ -39,4 +40,10 @@ export const loadTimeTables = async () => {
   const { data } = await getTimesByWorkspaceUser(routeId);
   data.sort(sortDate);
   userStore.setTimeTablesData(data);
+};
+
+export const addNewTimeRecord = async (data) => {
+  const userStore = useUserStore();
+  const apiData = await addTimeRecord(data);
+  userStore.addNewTimeData(apiData.data);
 };

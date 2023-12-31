@@ -1,16 +1,11 @@
 import { watch, ref } from "vue";
 import { groupDatesByDay, calculateTime } from "../helpers/timeHelpers.js";
 import { useUserStore } from "src/stores/user.store.js";
-import { addTimeRecord } from "src/service/timerecords.service.js";
 
 export function useTimeTablesData() {
   const userStore = useUserStore();
-  const groupedTimeTablesData = ref({});
-  const calculateAllTime = ref("");
-  const addNewData = async (data) => {
-    const apiData = await addTimeRecord(data);
-    userStore.addNewTimeData(apiData.data);
-  };
+  const groupedTimeTablesData = ref(groupDatesByDay(userStore.timeTablesData));
+  const calculateAllTime = ref(calculateTime(userStore.timeTablesData));
   watch(
     () => userStore.timeTablesData,
     (newVal) => {
@@ -21,6 +16,5 @@ export function useTimeTablesData() {
   return {
     groupedTimeTablesData,
     calculateAllTime,
-    addNewData,
   };
 }
