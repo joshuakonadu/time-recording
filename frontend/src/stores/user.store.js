@@ -1,6 +1,10 @@
 import { defineStore } from "pinia";
 import { getAllWorkspaces } from "../service";
-import { sortDate } from "../helpers/timeHelpers.js";
+import {
+  sortDate,
+  getDateNow,
+  getFirstOfMonth,
+} from "../helpers/timeHelpers.js";
 import { useAuthStore } from "./auth.store";
 
 export const useUserStore = defineStore({
@@ -15,6 +19,10 @@ export const useUserStore = defineStore({
       mode: null,
     },
     timeTablesData: [],
+    timeTablesDate: {
+      from: getFirstOfMonth(),
+      to: getDateNow(),
+    },
   }),
   getters: {
     isActiveWorkspaceAdmin(state) {
@@ -50,6 +58,10 @@ export const useUserStore = defineStore({
       };
 
       this.timeTablesData = [];
+      this.timeTablesDate = {
+        from: getFirstOfMonth(),
+        to: getDateNow(),
+      };
     },
   },
 });

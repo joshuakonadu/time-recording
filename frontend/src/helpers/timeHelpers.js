@@ -4,6 +4,8 @@ import { getTimesByWorkspaceUser } from "../service";
 import { addTimeRecord } from "../service";
 import router from "../router";
 
+export const timeMask = "YYYY-MM-DDTHH:mm:ss";
+
 export const groupDatesByDay = (dates) => {
   const timesObj = {};
   dates.forEach((obj) => {
@@ -37,7 +39,12 @@ export const sortDate = (data1, data2) => {
 export const loadTimeTables = async () => {
   const userStore = useUserStore();
   const routeId = router.currentRoute.value.params?.id;
-  const { data } = await getTimesByWorkspaceUser(routeId);
+  const sendData = {
+    workspaceId: routeId,
+    from: userStore.timeTablesDate.from,
+    to: userStore.timeTablesDate.to,
+  };
+  const { data } = await getTimesByWorkspaceUser(sendData);
   data.sort(sortDate);
   userStore.setTimeTablesData(data);
 };
@@ -46,4 +53,14 @@ export const addNewTimeRecord = async (data) => {
   const userStore = useUserStore();
   const apiData = await addTimeRecord(data);
   userStore.addNewTimeData(apiData.data);
+};
+
+export const getFirstOfMonth = () => {
+  const date = new Date();
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  return DateTime.fromJSDate(firstDay).toString();
+};
+
+export const getDateNow = () => {
+  return DateTime.now().toString();
 };

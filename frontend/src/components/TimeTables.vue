@@ -6,11 +6,13 @@ import { useTimeTablesData } from "../composables/useTimeTablesData.js";
 import { useUserStore } from "../stores/user.store";
 import { useAlertStore } from "../stores/alert.store";
 import { updateTimeRecord, getTimesByWorkspaceUser } from "../service";
+import TimeRange from "./TimeRange.vue";
 import router from "../router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
 const { groupedTimeTablesData, calculateAllTime } = useTimeTablesData();
+
 const changedDataState = {
   index: null,
 };
@@ -72,7 +74,7 @@ const updateChangedObject = async (data) => {
 </script>
 <template>
   <div class="container">
-    <div class="q-mb-lg text-h5">Insgesamt: {{ calculateAllTime }}</div>
+    <TimeRange :sumTime="calculateAllTime" />
     <div v-for="(data, index) in groupedTimeTablesData" :key="data">
       <TimeTable
         :data="data"

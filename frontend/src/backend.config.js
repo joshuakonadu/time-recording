@@ -22,7 +22,7 @@ export const BackendConfig = {
   getTimesByWorkspace: "/timerecords/byworkspace/",
   getTimesByUser: "/timerecords/byuser",
   deleteTimeRecord: "/timerecords/delete/",
-  getTimesByWorkspaceUser: "/timerecords/userworkspace/",
+  getTimesByWorkspaceUser: "/timerecords/userworkspace",
 };
 export const ApiClient = axios.create({
   baseURL: BackendConfig.baseURL,

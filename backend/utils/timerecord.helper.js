@@ -10,8 +10,20 @@ export const findTimeRecordsByWorkspaceId = (workspaceId) => {
   return TimeRecord.find({ workspaceId });
 };
 
-export const findTimeRecordsByUserAndWorkspaceId = (userId, workspaceId) => {
-  return TimeRecord.find({ workspaceId, userId });
+export const findTimeRecordsByUserAndWorkspaceId = (
+  userId,
+  workspaceId,
+  from,
+  to
+) => {
+  return TimeRecord.find({
+    workspaceId,
+    userId,
+    from: {
+      $gte: from,
+      $lte: to,
+    },
+  });
 };
 
 export const updateTimeRecordById = async (id, data) => {

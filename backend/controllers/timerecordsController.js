@@ -28,11 +28,14 @@ export const getTimeByUser = asyncHandler(async (req, res) => {
 });
 
 export const getTimeByWorkspaceUser = asyncHandler(async (req, res) => {
-  const { id: workspaceId } = req.params;
+  const { from, to, workspaceId } = req.body;
   const user = req.user;
+
   const timeRecords = await findTimeRecordsByUserAndWorkspaceId(
     user._id,
-    workspaceId
+    workspaceId,
+    from,
+    to
   );
   res.status(200).json(timeRecords);
 });

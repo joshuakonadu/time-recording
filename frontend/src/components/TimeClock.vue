@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { DateTime } from "luxon";
+import { timeMask } from "../helpers/timeHelpers.js";
 
 const props = defineProps({
   time: {
@@ -33,7 +34,7 @@ const clockTime = computed(() => {
   <q-btn :color="props.btnColor" size="lg" stack flat icon="timer">
     {{ clockTime }}
     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-      <q-time mask="YYYY-MM-DDTHH:mm:ss" v-model="computedTime">
+      <q-time :mask="timeMask" v-model="computedTime">
         <div class="row items-center justify-end">
           <q-btn v-close-popup label="Close" color="primary" flat />
         </div>

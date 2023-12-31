@@ -5,11 +5,11 @@ import TimeClockCalendar from "./TimeClockCalendar.vue";
 const props = defineProps({
   from: {
     type: String,
-    default: DateTime.now(),
+    default: DateTime.now().toString(),
   },
   to: {
     type: String,
-    default: DateTime.now(),
+    default: DateTime.now().toString(),
   },
 });
 
