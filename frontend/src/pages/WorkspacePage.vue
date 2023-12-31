@@ -7,6 +7,7 @@ import { getWorkspace } from "../service";
 import { useUserStore } from "src/stores/user.store.js";
 import { loadTimeTables } from "../helpers/timeHelpers.js";
 import UserTable from "../components/UserTable.vue";
+import EditableUserTable from "../components/EditableUserTable.vue";
 import router from "../router";
 
 const userStore = useUserStore();
@@ -62,7 +63,9 @@ onUnmounted(() => {
         </div>
       </q-tab-panel>
       <q-tab-panel v-if="userStore.isActiveWorkspaceAdmin" name="admin">
-        <div class="container">Admin</div>
+        <div class="container">
+          <EditableUserTable />
+        </div>
       </q-tab-panel>
     </q-tab-panels>
   </q-page>
