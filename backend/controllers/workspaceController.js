@@ -4,7 +4,12 @@ import {
   registerAddWorkspace,
   registerWorkspaceByUserId,
 } from "../utils/registerWorkspace.helper.js";
-import { createWorkspace, workspaceById } from "../utils/workspace.helper.js";
+import {
+  createWorkspace,
+  workspaceById,
+  workspaceUpdateMember,
+  checkWorkspacePermission,
+} from "../utils/workspace.helper.js";
 import { deleteUserWorkspaceData } from "../utils/utils.js";
 
 export const createUserRegisterWorkspace = asyncHandler(async (req, res) => {
@@ -53,4 +58,32 @@ export const deleteWorkspaceUser = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   await deleteUserWorkspaceData({ workspaceId, userId });
   res.status(200).send();
+});
+
+export const updateWorkspaceMember = asyncHandler(async (req, res) => {
+  const { id: workspaceId } = req.params;
+  const members = req.body;
+  const userId = req.user._id;
+  const updatedMembers = await workspaceUpdateMember(
+    userId,
+    workspaceId,
+    members
+  );
+  res.status(200).json(updatedMembers);
+});
+
+export const deleteWorkspaceMember = asyncHandler(async (req, res) => {
+  const { id: workspaceId } = req.params;
+  const deleteUserId = req.body;
+  const userId = req.user._id;
+  await checkWorkspacePermission(userId, workspaceId);
+  await deleteUserWorkspaceData({ workspaceId, deleteUserId });
+  const workspace = await workspaceById(workspaceId);
+  res.status(200).json(workspace.members);
+});
+
+export const getWorkspaceMembers = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const workspace = await workspaceById(id);
+  res.status(200).json(workspace.members);
 });

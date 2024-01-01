@@ -22,3 +22,23 @@ export const workspaceRemoveMember = async (userId, workspaceId) => {
   }
   return Workspace.deleteOne({ _id: workspaceId });
 };
+
+export const workspaceUpdateMember = async (userId, workspaceById, members) => {
+  const workspace = await Workspace.findById(workspaceById);
+  if (!isWorkspaceAdminCheck(userId, workspace.members)) {
+    throw new Error("Not authorized");
+  }
+  workspace.members = members;
+  return workspace.save();
+};
+
+export const checkWorkspacePermission = async (userId, workspaceId) => {
+  const workspace = await workspaceById(workspaceId);
+  if (!isWorkspaceAdminCheck(userId, workspace.members)) {
+    throw new Error("Not authorized");
+  }
+};
+
+const isWorkspaceAdminCheck = (userId, members) => {
+  return members.some((user) => user.userId.toString() === userId.toString());
+};
