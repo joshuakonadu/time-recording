@@ -12,6 +12,11 @@ let deleteTimeRecordId = null;
 
 const editableColumns = ["firstname", "lastname", "isAdmin"];
 
+const adminOptions = [
+  { label: "Ja", value: true },
+  { label: "Nein", value: false },
+];
+
 const columns = [
   { name: "firstname", label: "Vorname", field: "firstname" },
   { name: "lastname", label: "Nachname", field: "lastname" },
@@ -133,6 +138,23 @@ const emitIndex = (index) => {
           <q-td key="isAdmin" :props="props">
             <span v-if="props.row.isAdmin">Ja</span>
             <span v-else>Nein</span>
+            <q-popup-edit
+              v-model="props.row.isAdmin"
+              @save="emitIndex(props.rowIndex)"
+              buttons
+              v-slot="scope"
+            >
+              <div class="text-italic text-primary q-mb-xs">
+                Admin Rechte geben?
+              </div>
+              <q-select
+                v-model="scope.value"
+                :options="adminOptions"
+                map-options
+                emit-value
+                label="Admin"
+              />
+            </q-popup-edit>
           </q-td>
           <q-td key="joined" :props="props">
             {{ formatDate(props.row.joined) }}
