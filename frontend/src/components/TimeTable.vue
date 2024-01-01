@@ -88,6 +88,11 @@ watch(
         <q-tr :props="props">
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.label }}
+            <q-icon
+              class="q-mb-xs q-ml-sm"
+              name="fa-solid fa-pen-to-square"
+              size="1.1em"
+            />
           </q-th>
           <q-th auto-width />
         </q-tr>

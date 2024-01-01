@@ -162,7 +162,7 @@ const clearValue = () => {
   overflow: hidden;
 }
 :deep(.on-right) {
-  margin-left: 5px;
+  margin-left: 10px;
 }
 
 .flex-100 {

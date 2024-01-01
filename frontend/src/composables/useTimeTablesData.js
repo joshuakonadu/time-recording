@@ -25,7 +25,7 @@ export function useTimeTablesData() {
     async () => {
       try {
         await loadTimeTables();
-        alertStore.success("Erfolgreich geladen", 1500);
+        alertStore.success("Erfolgreich geladen", 2500);
       } catch (err) {
         alertStore.error("Laden Fehlgeschlagen", 3000);
       }

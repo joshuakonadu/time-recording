@@ -10,6 +10,8 @@ const alertStore = useAlertStore();
 const showConfirmDelete = ref(false);
 let deleteTimeRecordId = null;
 
+const editableColumns = ["firstname", "lastname", "isAdmin"];
+
 const columns = [
   { name: "firstname", label: "Vorname", field: "firstname" },
   { name: "lastname", label: "Nachname", field: "lastname" },
@@ -25,14 +27,9 @@ const columns = [
   },
 ];
 
-const members = computed({
-  get() {
-    return userStore.activeWorkspace.members;
-  },
-  set(val) {
-    console.log(val);
-  },
-});
+const members = computed(() =>
+  userStore.activeWorkspace.members.filter((data) => true)
+);
 
 const emit = defineEmits(["changeIndex", "changedList"]);
 
@@ -51,7 +48,10 @@ const formatDate = (date) => {
 };
 
 const emitIndex = (index) => {
+  //TODO: API CALL UPDATE MEMBERS
   console.log(index);
+  //LOAD MEMBERS LIST
+  //CATCH RELOAD MEMBERS LIST
 };
 </script>
 
@@ -67,15 +67,29 @@ const emitIndex = (index) => {
     >
       <template v-slot:header="props">
         <q-tr :props="props">
+          <q-th auto-width />
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.label }}
+            <q-icon
+              v-if="editableColumns.includes(col.name)"
+              class="q-mb-xs q-ml-sm"
+              name="fa-solid fa-pen-to-square"
+              size="1.1em"
+            />
           </q-th>
           <q-th auto-width />
         </q-tr>
       </template>
-
       <template v-slot:body="props">
         <q-tr :props="props">
+          <q-td auto-width>
+            <q-btn
+              size="sm"
+              color="primary"
+              dense
+              icon="fa-solid fa-chart-line"
+            ></q-btn>
+          </q-td>
           <q-td key="firstname" :props="props">
             {{ props.row.firstname }}
             <q-popup-edit
