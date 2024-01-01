@@ -29,7 +29,12 @@ onUnmounted(() => {
 
 <template>
   <q-page>
-    <h1 class="container text-h2">{{ userStore.activeWorkspace?.name }}</h1>
+    <div class="container flex-container flex-between align-center">
+      <h1 class="container text-h2">{{ userStore.activeWorkspace?.name }}</h1>
+      <div>
+        <q-btn flat label="Zur Admin Ansicht" color="primary" />
+      </div>
+    </div>
     <q-tabs narrow-indicator v-model="tab" class="text-teal q-mb-xl">
       <q-tab :ripple="false" name="times" icon="alarm" label="Zeiten" />
       <q-tab :ripple="false" name="info" icon="info" label="Info" />

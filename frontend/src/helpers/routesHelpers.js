@@ -1,5 +1,5 @@
-export const unAutherizedRoutes = ["/", "/login", "/register"];
+export const unAuthorizedRoutes = ["/", "/login", "/register"];
 
-export const isInUnautherizedRoute = (currentRoutePath) => {
-  return unAutherizedRoutes.some((route) => route === currentRoutePath);
+export const isInUnauthorizedRoute = (currentRoutePath) => {
+  return unAuthorizedRoutes.some((route) => route === currentRoutePath);
 };

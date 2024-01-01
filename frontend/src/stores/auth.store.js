@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { whoami, login, logout } from "../service";
 import router from "../router";
 import { useAlertStore } from "./index";
-import { isInUnautherizedRoute } from "src/helpers/routesHelpers";
+import { isInUnauthorizedRoute } from "src/helpers/routesHelpers";
 
 export const useAuthStore = defineStore({
   id: "auth",
@@ -35,11 +35,11 @@ export const useAuthStore = defineStore({
         if (!autherized) throw new Error("Not autherized");
 
         this.user = user;
-        if (isInUnautherizedRoute(router.currentRoute.value.path)) {
+        if (isInUnauthorizedRoute(router.currentRoute.value.path)) {
           router.push("/auth");
         }
       } catch (err) {
-        if (isInUnautherizedRoute(router.currentRoute.value.path) === false) {
+        if (isInUnauthorizedRoute(router.currentRoute.value.path) === false) {
           router.push("/login");
         }
       }
