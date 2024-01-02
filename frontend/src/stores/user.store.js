@@ -31,6 +31,12 @@ export const useUserStore = defineStore({
         (user) => user.userId === authStore.user._id
       )?.isAdmin;
     },
+    isActiveWorkspaceMember(state) {
+      const authStore = useAuthStore();
+      return state.activeWorkspace.members?.some((user) => {
+        return user.userId === authStore.user._id;
+      });
+    },
   },
   actions: {
     async getWorkspaces() {

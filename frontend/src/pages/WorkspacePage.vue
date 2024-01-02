@@ -1,5 +1,5 @@
 <script setup>
-import { onUnmounted, ref, watch } from "vue";
+import { onUnmounted, ref, watch, nextTick } from "vue";
 import AddTimeEntry from "../components/AddTimeEntry.vue";
 import TimeTables from "../components/TimeTables.vue";
 import WorkspaceActions from "../components/WorkspaceActions.vue";
@@ -15,8 +15,13 @@ const tab = ref("times");
 
 const initializeData = async () => {
   const workspaceId = router.currentRoute.value.params?.id;
+
   const workspace = await getWorkspace(workspaceId);
   userStore.setActiveWorkspace(workspace.data);
+  await nextTick();
+  if (!userStore.isActiveWorkspaceMember) {
+    router.push("/auth");
+  }
   await loadTimeTables();
 };
 initializeData();
@@ -31,7 +36,12 @@ onUnmounted(() => {
     <div class="container flex-container flex-between align-center">
       <h1 class="container text-h2">{{ userStore.activeWorkspace?.name }}</h1>
       <div>
-        <q-btn flat label="Zur Admin Ansicht" color="primary" />
+        <q-btn
+          :href="`/adminworkspace/${router.currentRoute.value.params?.id}`"
+          flat
+          label="Zur Admin Ansicht"
+          color="primary"
+        />
       </div>
     </div>
     <q-tabs narrow-indicator v-model="tab" class="text-teal q-mb-xl">

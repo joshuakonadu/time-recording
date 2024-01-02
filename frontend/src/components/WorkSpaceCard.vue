@@ -1,14 +1,12 @@
 <script setup>
 import router from "../router";
+
 const props = defineProps({
   data: {
     type: Object,
     required: true,
   },
 });
-const openWorkspace = async () => {
-  await router.push(`/workspace/${props.data.workspaceId}`);
-};
 </script>
 
 <template>
@@ -20,7 +18,7 @@ const openWorkspace = async () => {
     <q-separator />
 
     <q-card-actions vertical>
-      <q-btn @click="openWorkspace" flat>Öffnen</q-btn>
+      <q-btn :href="`/workspace/${props.data.workspaceId}`" flat>Öffnen</q-btn>
     </q-card-actions>
   </q-card>
 </template>

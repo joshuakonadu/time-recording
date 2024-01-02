@@ -17,6 +17,10 @@ const routes = [
         path: "/workspace/:id",
         component: () => import("pages/WorkspacePage.vue"),
       },
+      {
+        path: "/adminworkspace/:id",
+        component: () => import("pages/WorkspaceAdmin.vue"),
+      },
     ],
   },
   // Always leave this as last one,

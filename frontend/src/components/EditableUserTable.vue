@@ -39,10 +39,6 @@ const columns = [
   },
 ];
 
-const members = computed(() =>
-  userStore.activeWorkspace.members.filter((data) => true)
-);
-
 const emit = defineEmits(["changeIndex", "changedList"]);
 
 const showDeleteMemberDialog = (id) => {
@@ -90,7 +86,7 @@ const deleteMember = async () => {
   <div>
     <q-table
       title="Mitglieder bearbeiten"
-      :rows="members"
+      :rows="userStore.activeWorkspace.members"
       :columns="columns"
       row-key="name"
       :hide-bottom="true"
