@@ -30,7 +30,7 @@ export const deleteWorkspaceMember = async (id) => {
     const { data } = await deleteMember(routeId, {
       deleteUserId: id,
     });
-    //TODOS
+
     if (!data.workspaceDeleted) {
       const apiData = await getWorkspaceMembers(routeId);
       userStore.updateWorkspaceMembers(apiData.data);

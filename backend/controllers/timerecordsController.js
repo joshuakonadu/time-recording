@@ -8,6 +8,8 @@ import {
   deleteTimeRecordById,
 } from "../utils/timerecord.helper.js";
 
+import { checkWorkspacePermission } from "../utils/workspace.helper.js";
+
 export const addTime = asyncHandler(async (req, res) => {
   const data = req.body;
   data.userId = req.user._id;
@@ -50,4 +52,25 @@ export const deleteTimeRecord = asyncHandler(async (req, res) => {
   const { id } = req.params;
   await deleteTimeRecordById(id);
   res.status(200).send();
+});
+
+export const addAdminTime = asyncHandler(async (req, res) => {
+  const data = req.body;
+  const user = req.user;
+  await checkWorkspacePermission(user._id, data.workspaceId);
+  const timeRecord = await createTimeRecord(data);
+  res.status(201).json(timeRecord);
+});
+
+export const getTimeByWorkspaceAdmin = asyncHandler(async (req, res) => {
+  const { from, to, workspaceId, userId } = req.body;
+  const user = req.user;
+  await checkWorkspacePermission(user._id, workspaceId);
+  const timeRecords = await findTimeRecordsByUserAndWorkspaceId(
+    userId,
+    workspaceId,
+    from,
+    to
+  );
+  res.status(200).json(timeRecords);
 });

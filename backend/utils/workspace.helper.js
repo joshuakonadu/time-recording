@@ -39,5 +39,6 @@ export const checkWorkspacePermission = async (userId, workspaceId) => {
 };
 
 const isWorkspaceAdminCheck = (userId, members) => {
-  return members.some((user) => user.userId.toString() === userId.toString());
+  return members.find((user) => user.userId.toString() === userId.toString())
+    ?.isAdmin;
 };

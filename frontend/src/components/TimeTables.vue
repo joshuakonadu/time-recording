@@ -73,7 +73,7 @@ const updateChangedObject = async (data) => {
 };
 </script>
 <template>
-  <div class="container">
+  <div>
     <TimeRange :sumTime="calculateAllTime" />
     <div v-for="(data, index) in groupedTimeTablesData" :key="data">
       <TimeTable

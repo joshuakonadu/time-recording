@@ -26,6 +26,8 @@ export const BackendConfig = {
   updateWorkspaceMembers: "/workspace/updatemembers/",
   deleteWorkspaceMember: "/workspace/removemember/",
   getWorkspaceMembers: "/workspace/members/",
+  adminAddTimeRecord: "/timerecords/adminadd",
+  adminworkspace: "/timerecords/adminworkspace",
 };
 export const ApiClient = axios.create({
   baseURL: BackendConfig.baseURL,

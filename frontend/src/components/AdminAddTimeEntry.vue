@@ -3,24 +3,24 @@ import { ref, computed, markRaw } from "vue";
 import { DateTime, Interval } from "luxon";
 import { useUserStore } from "../stores/user.store";
 import { useAlertStore } from "../stores/alert.store";
-import { addNewTimeRecord } from "../helpers/timeHelpers.js";
-import SameDate from "./SameDate.vue";
+import {
+  addNewTimeRecord,
+  adminloadTimeTables,
+} from "../helpers/timeHelpers.js";
 import AllDate from "./AllDate.vue";
 import router from "../router";
+
+const props = defineProps({
+  memberId: {
+    type: String,
+    required: true,
+  },
+});
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
 
 const workspaceId = router.currentRoute.value.params?.id;
-
-const dateModes = ref({
-  "24h": markRaw(SameDate),
-  all: markRaw(AllDate),
-});
-
-const activeDateMode = computed(() => {
-  return dateModes.value[userStore.activeWorkspace.mode];
-});
 
 function getTimeNow() {
   return DateTime.now().toString();
@@ -64,11 +64,18 @@ const saveNewTimeEntry = async () => {
     role: selectedRole.value,
     description: description.value,
     workspaceId,
+    userId: props.memberId,
   };
   await addNewTimeRecord(newData);
   alertStore.success("Neuer Eintrag erfolgreich");
   clearValue();
 };
+
+const initializeData = async () => {
+  await adminloadTimeTables(props.memberId);
+};
+
+initializeData();
 
 const clearValue = () => {
   description.value = null;
@@ -78,7 +85,7 @@ const clearValue = () => {
 </script>
 
 <template>
-  <div class="time-calculator q-mt-lg q-mb-xl container">
+  <div class="time-calculator q-mt-lg q-mb-xl">
     <div class="input-container">
       <q-input v-model="description" label="Beschreibung" />
     </div>
@@ -103,14 +110,12 @@ const clearValue = () => {
       />
     </div>
     <div class="flex-container flex-100 q-mt-xl q-mb-xl">
-      <component
-        :is="activeDateMode"
+      <AllDate
         @changeFrom="changeFrom"
         @changeTo="changeTo"
         :from="from"
         :to="to"
       />
-
       <div class="time-diff">
         <q-btn
           @click="saveNewTimeEntry"

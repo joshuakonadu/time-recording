@@ -7,6 +7,8 @@ import {
   getTimeByWorkspaceUser,
   updateTimeRecord,
   deleteTimeRecord,
+  addAdminTime,
+  getTimeByWorkspaceAdmin,
 } from "../controllers/timerecordsController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -16,5 +18,7 @@ router.get("/byuser", protect, getTimeByUser);
 router.post("/userworkspace", protect, getTimeByWorkspaceUser);
 router.put("/update", protect, updateTimeRecord);
 router.delete("/delete/:id", protect, deleteTimeRecord);
+router.post("/adminadd", protect, addAdminTime);
+router.post("/adminworkspace", protect, getTimeByWorkspaceAdmin);
 
 export default router;

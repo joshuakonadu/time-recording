@@ -1,7 +1,10 @@
 import { DateTime, Interval } from "luxon";
 import { useUserStore } from "src/stores/user.store.js";
-import { getTimesByWorkspaceUser } from "../service";
-import { addTimeRecord } from "../service";
+import {
+  getTimesByWorkspaceUser,
+  getTimesByWorkspaceAdmin,
+  addTimeRecord,
+} from "../service";
 import router from "../router";
 
 export const timeMask = "YYYY-MM-DDTHH:mm:ss";
@@ -63,4 +66,24 @@ export const getFirstOfMonth = () => {
 
 export const getDateNow = () => {
   return DateTime.now().toString();
+};
+
+export const adminAddNewTimeRecord = async (data) => {
+  const userStore = useUserStore();
+  const apiData = await addTimeRecord(data);
+  userStore.addNewTimeData(apiData.data);
+};
+
+export const adminloadTimeTables = async (userId) => {
+  const userStore = useUserStore();
+  const routeId = router.currentRoute.value.params?.id;
+  const sendData = {
+    workspaceId: routeId,
+    from: userStore.timeTablesDate.from,
+    to: userStore.timeTablesDate.to,
+    userId: userId,
+  };
+  const { data } = await getTimesByWorkspaceAdmin(sendData);
+  data.sort(sortDate);
+  userStore.setTimeTablesData(data);
 };

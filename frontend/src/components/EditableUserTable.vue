@@ -39,7 +39,7 @@ const columns = [
   },
 ];
 
-const emit = defineEmits(["changeIndex", "changedList"]);
+const emit = defineEmits(["selectMember"]);
 
 const showDeleteMemberDialog = (id) => {
   deleteMemberId = id;
@@ -64,6 +64,15 @@ const update = async () => {
   } catch (err) {
     alertStore.error("Änderung Fehlgeschlagen");
   }
+};
+
+const emitSelectedMember = (data) => {
+  const newData = {
+    firstname: data.firstname,
+    lastname: data.lastname,
+    id: data.userId,
+  };
+  emit("selectMember", newData);
 };
 
 const deleteMember = async () => {
@@ -115,6 +124,7 @@ const deleteMember = async () => {
               color="primary"
               dense
               icon="fa-solid fa-chart-line"
+              @click="emitSelectedMember(props.row)"
             ></q-btn>
           </q-td>
           <q-td key="firstname" :props="props">
