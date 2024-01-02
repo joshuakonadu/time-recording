@@ -16,7 +16,16 @@ export function useTimeTablesData() {
     () => userStore.timeTablesData,
     (newVal) => {
       groupedTimeTablesData.value = groupDatesByDay(newVal);
+    }
+  );
+
+  watch(
+    () => userStore.timeTablesData,
+    (newVal) => {
       calculateAllTime.value = calculateTime(newVal);
+    },
+    {
+      deep: true,
     }
   );
 
