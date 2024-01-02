@@ -12,7 +12,6 @@ export const workspaceAddMember = async (id, member) => {
 
 export const workspaceRemoveMember = async (userId, workspaceId) => {
   const workspace = await Workspace.findById(workspaceId);
-
   workspace.members = workspace.members.filter(
     (user) => user.userId.toString() !== userId.toString()
   );

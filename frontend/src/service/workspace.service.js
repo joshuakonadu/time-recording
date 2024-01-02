@@ -19,3 +19,17 @@ export function getAllWorkspaces() {
 export function deleteWorkspaceUser(workspaceId) {
   return ApiClient.delete(BackendConfig.deleteWorkspaceUser + workspaceId);
 }
+
+export function updateWorkspaceMembers(workspaceId, data) {
+  return ApiClient.put(BackendConfig.updateWorkspaceMembers + workspaceId, {
+    members: data,
+  });
+}
+
+export function deleteWorkspaceMember(workspaceId, data) {
+  return ApiClient.put(BackendConfig.deleteWorkspaceMember + workspaceId, data);
+}
+
+export function getWorkspaceMembers(workspaceId) {
+  return ApiClient.get(BackendConfig.getWorkspaceMembers + workspaceId);
+}

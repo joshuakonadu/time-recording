@@ -27,9 +27,9 @@ export const useUserStore = defineStore({
   getters: {
     isActiveWorkspaceAdmin(state) {
       const authStore = useAuthStore();
-      return state.activeWorkspace.members.some(
+      return state.activeWorkspace.members?.find(
         (user) => user.userId === authStore.user._id
-      );
+      )?.isAdmin;
     },
   },
   actions: {
@@ -47,6 +47,9 @@ export const useUserStore = defineStore({
     },
     setActiveWorkspace(data) {
       this.activeWorkspace = data;
+    },
+    updateWorkspaceMembers(data) {
+      this.activeWorkspace.members = data;
     },
     resetTimeData() {
       this.activeWorkspace = {

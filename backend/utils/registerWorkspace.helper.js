@@ -14,6 +14,7 @@ export const registerAddWorkspace = async (userId, data) => {
 
 export const unregisterWorkspace = async (userId, workspaceId) => {
   const registerWorkspace = await RegisterWorkspace.findOne({ userId });
+  if (!registerWorkspace) throw new Error("Register workspace not found");
   registerWorkspace.register = registerWorkspace.register.filter(
     (data) => data.workspaceId.toString() !== workspaceId.toString()
   );

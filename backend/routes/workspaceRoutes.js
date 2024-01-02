@@ -18,7 +18,7 @@ router.get("/getspace/:id", protect, getWorkspace);
 router.get("/register", protect, getAllRegisterWorkspaces);
 router.delete("/workspaceuser/:id", protect, deleteWorkspaceUser);
 router.put("/updatemembers/:id", protect, updateWorkspaceMember);
-router.delete("/removemember/:id", protect, deleteWorkspaceMember);
+router.put("/removemember/:id", protect, deleteWorkspaceMember);
 router.get("/members/:id", protect, getWorkspaceMembers);
 
 export default router;

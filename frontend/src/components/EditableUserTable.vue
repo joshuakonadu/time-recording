@@ -1,14 +1,21 @@
 <script setup>
-import { computed, watch, ref } from "vue";
+import { computed, watch, ref, nextTick } from "vue";
 import { useUserStore } from "../stores/user.store.js";
+import { useAuthStore } from "../stores/auth.store.js";
 import { useAlertStore } from "../stores/alert.store.js";
 import { DateTime } from "luxon";
+import {
+  updateMembers,
+  deleteWorkspaceMember,
+} from "../helpers/workspaceHelpers.js";
+import router from "../router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
+const authStore = useAuthStore();
 
 const showConfirmDelete = ref(false);
-let deleteTimeRecordId = null;
+let deleteMemberId = null;
 
 const editableColumns = ["firstname", "lastname", "isAdmin"];
 
@@ -38,13 +45,13 @@ const members = computed(() =>
 
 const emit = defineEmits(["changeIndex", "changedList"]);
 
-const showDeleteTimeRecordDialog = (id) => {
-  deleteTimeRecordId = id;
+const showDeleteMemberDialog = (id) => {
+  deleteMemberId = id;
   showConfirmDelete.value = true;
 };
 
 const closeDeleteDialog = () => {
-  deleteTimeRecordId = null;
+  deleteMemberId = null;
   showConfirmDelete.value = false;
 };
 
@@ -52,11 +59,30 @@ const formatDate = (date) => {
   return DateTime.fromISO(date).toLocaleString(DateTime.DATE_MED);
 };
 
-const emitIndex = (index) => {
-  //TODO: API CALL UPDATE MEMBERS
-  console.log(index);
-  //LOAD MEMBERS LIST
-  //CATCH RELOAD MEMBERS LIST
+const update = async () => {
+  try {
+    //nextTick important
+    await nextTick();
+    await updateMembers();
+    alertStore.success("Erfolgreich geändert", 2500);
+  } catch (err) {
+    alertStore.error("Änderung Fehlgeschlagen");
+  }
+};
+
+const deleteMember = async () => {
+  try {
+    if (!deleteMemberId) throw new Error("Fehler");
+    await deleteWorkspaceMember(deleteMemberId);
+    alertStore.success("Erfolgreich gelöscht", 2500);
+    if (deleteMemberId === authStore.user._id) {
+      router.push("/auth");
+    }
+    closeDeleteDialog();
+  } catch (err) {
+    console.error(err);
+    alertStore.error("Löschen Fehlgeschlagen");
+  }
 };
 </script>
 
@@ -100,7 +126,7 @@ const emitIndex = (index) => {
             <q-popup-edit
               v-model="props.row.firstname"
               max-height="500px"
-              @save="emitIndex(props.rowIndex)"
+              @save="update"
               title="Edit the Name"
               buttons
               v-slot="scope"
@@ -120,7 +146,7 @@ const emitIndex = (index) => {
             <q-popup-edit
               v-model="props.row.lastname"
               max-height="500px"
-              @save="emitIndex(props.rowIndex)"
+              @save="update"
               title="Edit the Name"
               buttons
               v-slot="scope"
@@ -140,7 +166,7 @@ const emitIndex = (index) => {
             <span v-else>Nein</span>
             <q-popup-edit
               v-model="props.row.isAdmin"
-              @save="emitIndex(props.rowIndex)"
+              @save="update"
               buttons
               v-slot="scope"
             >
@@ -172,7 +198,7 @@ const emitIndex = (index) => {
                 <q-item
                   clickable
                   v-close-popup
-                  @click="showDeleteTimeRecordDialog(props.row._id)"
+                  @click="showDeleteMemberDialog(props.row.userId)"
                 >
                   <q-item-section>
                     <q-item-label>Löschen</q-item-label>
@@ -187,18 +213,11 @@ const emitIndex = (index) => {
     <q-dialog v-model="showConfirmDelete" persistent>
       <q-card>
         <q-card-section class="row items-center">
-          <span class="q-ml-sm"
-            >Willst du den Zeiteintrag wirklich löschen?</span
-          >
+          <span class="q-ml-sm">Willst du den User wirklich löschen?</span>
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn
-            flat
-            label="Löschen"
-            color="negative"
-            @click="deleteTimeRecord"
-          />
+          <q-btn flat label="Löschen" color="negative" @click="deleteMember" />
           <q-btn
             flat
             label="Abbrechen"

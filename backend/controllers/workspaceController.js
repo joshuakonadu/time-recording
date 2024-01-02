@@ -62,28 +62,41 @@ export const deleteWorkspaceUser = asyncHandler(async (req, res) => {
 
 export const updateWorkspaceMember = asyncHandler(async (req, res) => {
   const { id: workspaceId } = req.params;
-  const members = req.body;
+  const { members } = req.body;
+
   const userId = req.user._id;
-  const updatedMembers = await workspaceUpdateMember(
+  const updatedWorkspace = await workspaceUpdateMember(
     userId,
     workspaceId,
     members
   );
-  res.status(200).json(updatedMembers);
+  res.status(200).json(updatedWorkspace.members);
 });
 
 export const deleteWorkspaceMember = asyncHandler(async (req, res) => {
   const { id: workspaceId } = req.params;
-  const deleteUserId = req.body;
+  const { deleteUserId } = req.body;
+
   const userId = req.user._id;
   await checkWorkspacePermission(userId, workspaceId);
-  await deleteUserWorkspaceData({ workspaceId, deleteUserId });
-  const workspace = await workspaceById(workspaceId);
-  res.status(200).json(workspace.members);
+
+  const promiseResolveList = await deleteUserWorkspaceData({
+    workspaceId,
+    userId: deleteUserId,
+  });
+  const [registerWorkspace, workspace, deletedTimes] = promiseResolveList;
+  let workspaceDeleted = false;
+  if (workspace.deletedCount && workspace.deletedCount > 0) {
+    workspaceDeleted = true;
+  }
+  res.status(200).json({
+    workspaceDeleted,
+  });
 });
 
 export const getWorkspaceMembers = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const workspace = await workspaceById(id);
+  if (!workspace) throw new Error("Workspace existiert nicht");
   res.status(200).json(workspace.members);
 });
