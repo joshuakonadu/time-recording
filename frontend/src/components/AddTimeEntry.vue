@@ -83,7 +83,7 @@ const clearValue = () => {
       <q-input v-model="description" label="Beschreibung" />
     </div>
     <div
-      v-if="userStore.activeWorkspace.projectOption.length"
+      v-if="userStore.activeWorkspace.projectOption?.length"
       class="select-container q-mr-md ov-hidden"
     >
       <q-select
@@ -93,7 +93,7 @@ const clearValue = () => {
       />
     </div>
     <div
-      v-if="userStore.activeWorkspace.roleOption.length"
+      v-if="userStore.activeWorkspace.roleOption?.length"
       class="select-container q-mr-lg ov-hidden"
     >
       <q-select
