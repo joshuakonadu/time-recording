@@ -31,6 +31,7 @@ const setSelectedMember = (data) => {
 
 const showTable = () => {
   panel.value = "table";
+  selectedMember.value = {};
 };
 
 onUnmounted(() => {
@@ -41,7 +42,7 @@ onUnmounted(() => {
 <template>
   <div class="container q-mt-xl">
     <h1 class="text-center text-h2">Admin Panel</h1>
-    <h2>Test</h2>
+    <h2>{{ userStore.activeWorkspace.name }}</h2>
     <q-tab-panels v-model="panel" animated class="shadow-2 rounded-borders">
       <q-tab-panel name="table">
         <div>
@@ -50,7 +51,9 @@ onUnmounted(() => {
       </q-tab-panel>
       <q-tab-panel name="user">
         <q-btn @click="showTable" color="primary" flat label="Zurück"></q-btn>
-        <div>User</div>
+        <div>
+          <h3>{{ selectedMember.firstname }} {{ selectedMember.lastname }}</h3>
+        </div>
         <AdminAddTimeEntry :memberId="selectedMember.id" />
         <TimeTables />
       </q-tab-panel>

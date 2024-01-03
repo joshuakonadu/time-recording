@@ -57,11 +57,7 @@ const changedList = (data) => {
 };
 const updateChangedObject = async (data) => {
   try {
-    const updateData = await updateTimeRecord(
-      toRaw(data[changedDataState.index])
-    );
-    //TODO
-    data[changedDataState.index] = updateData.data;
+    await updateTimeRecord(toRaw(data[changedDataState.index]));
     alertStore.success("Erfolgreich gespeichert");
   } catch (err) {
     alertStore.error("Speichern Fehlgeschlagen", 3000);
