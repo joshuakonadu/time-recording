@@ -2,7 +2,7 @@
 import { computed, watch, ref } from "vue";
 import { useUserStore } from "../stores/user.store.js";
 import { useAlertStore } from "../stores/alert.store.js";
-import { calculateTime } from "../helpers/timeHelpers";
+import { calculateTime, timeMask } from "../helpers/timeHelpers";
 import { DateTime } from "luxon";
 import { loadTimeTables } from "../helpers/timeHelpers.js";
 import { deleteTimeRecordById } from "../service";
@@ -111,7 +111,7 @@ watch(
               v-slot="scope"
             >
               <q-time
-                mask="YYYY-MM-DDTHH:mm"
+                :mask="timeMask"
                 flat
                 :now-btn="true"
                 v-model="scope.value"
@@ -130,7 +130,7 @@ watch(
               v-slot="scope"
             >
               <q-time
-                mask="YYYY-MM-DDTHH:mm"
+                :mask="timeMask"
                 flat
                 :now-btn="true"
                 v-model="scope.value"

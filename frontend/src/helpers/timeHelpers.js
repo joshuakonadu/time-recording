@@ -7,7 +7,7 @@ import {
 } from "../service";
 import router from "../router";
 
-export const timeMask = "YYYY-MM-DDTHH:mm:ss";
+export const timeMask = "YYYY-MM-DDTHH:mm:ss.SSSZ";
 
 export const groupDatesByDay = (dates) => {
   const timesObj = {};
