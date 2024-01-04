@@ -1,11 +1,9 @@
 <script setup>
-import { ref, computed, markRaw } from "vue";
+import { ref, computed, defineAsyncComponent } from "vue";
 import { DateTime, Interval } from "luxon";
 import { useUserStore } from "../stores/user.store";
 import { useAlertStore } from "../stores/alert.store";
 import { addNewTimeRecord } from "../helpers/timeHelpers.js";
-import SameDate from "./SameDate.vue";
-import AllDate from "./AllDate.vue";
 import router from "../router";
 
 const userStore = useUserStore();
@@ -13,13 +11,13 @@ const alertStore = useAlertStore();
 
 const workspaceId = router.currentRoute.value.params?.id;
 
-const dateModes = ref({
-  "24h": markRaw(SameDate),
-  all: markRaw(AllDate),
-});
+const dateModes = {
+  "24h": defineAsyncComponent(() => import("./SameDate.vue")),
+  all: defineAsyncComponent(() => import("./AllDate.vue")),
+};
 
 const activeDateMode = computed(() => {
-  return dateModes.value[userStore.activeWorkspace.mode];
+  return dateModes[userStore.activeWorkspace.mode];
 });
 
 function getTimeNow() {
