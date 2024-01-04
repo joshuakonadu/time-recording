@@ -25,7 +25,7 @@ const initializeData = async () => {
   userStore.setActiveWorkspace(workspace.data);
   await nextTick();
   if (!userStore.isActiveWorkspaceMember) {
-    router.push("/auth");
+    return router.push("/auth");
   }
   await loadTimeTables();
 };

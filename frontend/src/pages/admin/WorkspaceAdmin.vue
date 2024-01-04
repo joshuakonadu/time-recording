@@ -28,6 +28,7 @@ const initializeData = async () => {
     router.push("/auth");
   }
 };
+
 initializeData();
 
 const setSelectedMember = (data) => {
