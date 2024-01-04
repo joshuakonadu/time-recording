@@ -4,6 +4,7 @@ import {
   getTimesByWorkspaceUser,
   getTimesByWorkspaceAdmin,
   addTimeRecord,
+  adminAddTimeRecord,
 } from "../service";
 import router from "../router";
 
@@ -40,7 +41,7 @@ export const calculateTime = (data) => {
 };
 
 export const sortDate = (data1, data2) => {
-  return data1.from > data2.from ? -1 : 1;
+  return data1.from > data2.from ? -1 : data1.from < data2.from ? 1 : 0;
 };
 
 export const loadTimeTables = async () => {
@@ -60,7 +61,8 @@ export const loadTimeTables = async () => {
 export const addNewTimeRecord = async (data) => {
   const userStore = useUserStore();
   const apiData = await addTimeRecord(data);
-  userStore.addNewTimeData(apiData.data);
+  const timeZoneTransform = getTimeZoneTransform(apiData.data);
+  userStore.addNewTimeData(timeZoneTransform);
 };
 
 export const getFirstOfMonth = () => {
@@ -75,8 +77,9 @@ export const getDateNow = () => {
 
 export const adminAddNewTimeRecord = async (data) => {
   const userStore = useUserStore();
-  const apiData = await addTimeRecord(data);
-  userStore.addNewTimeData(apiData.data);
+  const apiData = await adminAddTimeRecord(data);
+  const timeZoneTransform = getTimeZoneTransform(apiData.data);
+  userStore.addNewTimeData(timeZoneTransform);
 };
 
 export const adminloadTimeTables = async (userId) => {
@@ -84,13 +87,14 @@ export const adminloadTimeTables = async (userId) => {
   const routeId = router.currentRoute.value.params?.id;
   const sendData = {
     workspaceId: routeId,
-    from: userStore.timeTablesDate.from,
-    to: userStore.timeTablesDate.to,
+    from: userStore.selectedTimeRange?.from,
+    to: userStore.selectedTimeRange?.to,
     userId: userId,
   };
   const { data } = await getTimesByWorkspaceAdmin(sendData);
-  data.sort(sortDate);
-  userStore.setTimeTablesData(data);
+
+  const processedTimeData = getProcessedTimeData(data);
+  userStore.setTimeTablesData(processedTimeData);
 };
 
 export const modifyToSelect = (time) => {
@@ -100,12 +104,22 @@ export const modifyToSelect = (time) => {
 };
 
 function getProcessedTimeData(timeData) {
-  timeData.sort(sortDate);
-  return timeData.map((timeObj) => {
+  const processedData = timeData.map((timeObj) => {
     return {
       ...timeObj,
       from: DateTime.fromISO(timeObj.from).toString(),
       to: DateTime.fromISO(timeObj.to).toString(),
     };
   });
+  processedData.sort(sortDate);
+  return processedData;
+}
+
+function getTimeZoneTransform(timeData) {
+  if (!timeData) return;
+  return {
+    ...timeData,
+    from: DateTime.fromISO(timeData.from).toString(),
+    to: DateTime.fromISO(timeData.to).toString(),
+  };
 }
