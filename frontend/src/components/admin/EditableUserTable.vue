@@ -61,6 +61,11 @@ const update = async () => {
     await nextTick();
     await updateMembers();
     alertStore.success("Erfolgreich geändert", 2500);
+    await nextTick();
+    if (!userStore.isActiveWorkspaceAdmin) {
+      const workspaceId = router.currentRoute.value.params?.id;
+      router.push("/workspace/" + workspaceId);
+    }
   } catch (err) {
     alertStore.error("Änderung Fehlgeschlagen");
   }
