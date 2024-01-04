@@ -1,15 +1,20 @@
 <script setup>
-import { onUnmounted, ref, watch, nextTick } from "vue";
+import { onUnmounted, ref, watch, nextTick, defineAsyncComponent } from "vue";
 import AddTimeEntry from "../../components/timerecord/AddTimeEntry.vue";
 import GroupedTimeTables from "../../components/GroupedTimeTables.vue";
-import WorkspaceActions from "../../components/workspace/WorkspaceActions.vue";
 import { getWorkspace } from "../../service";
 import { useUserStore } from "src/stores/user.store.js";
 import { loadTimeTables } from "../../helpers/timeHelpers.js";
-import UserTable from "../../components/table/UserTable.vue";
 import router from "../../router";
 
 const userStore = useUserStore();
+
+const asyncUserTableComponent = defineAsyncComponent(() =>
+  import("../../components/table/UserTable.vue")
+);
+const asyncWorkspaceActionsComponent = defineAsyncComponent(() =>
+  import("../../components/workspace/WorkspaceActions.vue")
+);
 
 const tab = ref("times");
 
@@ -63,12 +68,15 @@ onUnmounted(() => {
       </q-tab-panel>
       <q-tab-panel name="info">
         <div class="container">
-          <UserTable :data="userStore.activeWorkspace.members" />
+          <component
+            :is="asyncUserTableComponent"
+            :data="userStore.activeWorkspace.members"
+          />
         </div>
       </q-tab-panel>
       <q-tab-panel name="settings">
         <div>
-          <WorkspaceActions />
+          <component :is="asyncWorkspaceActionsComponent" />
         </div>
       </q-tab-panel>
     </q-tab-panels>
