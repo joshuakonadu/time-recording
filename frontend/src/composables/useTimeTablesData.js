@@ -30,7 +30,7 @@ export function useTimeTablesData() {
   );
 
   watch(
-    () => userStore.timeTablesDate,
+    () => userStore.selectedTimeRange,
     async () => {
       try {
         await loadTimeTables();

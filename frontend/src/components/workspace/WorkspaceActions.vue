@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed } from "vue";
 import { DateTime } from "luxon";
-import { deleteWorkspaceUser } from "../service";
-import router from "../router";
+import { deleteWorkspaceUser } from "../../service";
+import router from "../../router";
 
 const props = defineProps({
   time: {

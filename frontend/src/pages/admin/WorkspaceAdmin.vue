@@ -1,11 +1,11 @@
 <script setup>
 import { onUnmounted, nextTick, ref } from "vue";
-import EditableUserTable from "../components/EditableUserTable.vue";
-import TimeTables from "../components/TimeTables.vue";
+import EditableUserTable from "../../components/admin/EditableUserTable.vue";
+import GroupedTimeTables from "../../components/GroupedTimeTables.vue";
 import { useUserStore } from "src/stores/user.store.js";
-import { getWorkspace } from "../service";
-import AdminAddTimeEntry from "../components/AdminAddTimeEntry.vue";
-import router from "../router";
+import { getWorkspace } from "../../service";
+import AdminAddTimeEntry from "../../components/admin/AdminAddTimeEntry.vue";
+import router from "../../router";
 
 const userStore = useUserStore();
 
@@ -55,7 +55,7 @@ onUnmounted(() => {
           <h3>{{ selectedMember.firstname }} {{ selectedMember.lastname }}</h3>
         </div>
         <AdminAddTimeEntry :memberId="selectedMember.id" />
-        <TimeTables />
+        <GroupedTimeTables />
       </q-tab-panel>
     </q-tab-panels>
   </div>

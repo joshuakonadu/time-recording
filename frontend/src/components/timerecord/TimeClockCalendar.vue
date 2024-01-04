@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { DateTime } from "luxon";
-import { timeMask } from "../helpers/timeHelpers.js";
+import { timeMask } from "../../helpers/timeHelpers.js";
 
 const props = defineProps({
   time: {
@@ -26,19 +26,25 @@ const computedTime = computed({
 });
 
 const clockTime = computed(() => {
-  return DateTime.fromISO(props.time).toLocaleString(DateTime.TIME_24_SIMPLE);
+  return DateTime.fromISO(props.time).toLocaleString(DateTime.DATETIME_MED);
 });
 </script>
 
 <template>
-  <q-btn :color="props.btnColor" size="lg" stack flat icon="timer">
+  <q-btn :color="props.btnColor" stack flat size="lg" icon="calendar_month">
     {{ clockTime }}
-    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-      <q-time :mask="timeMask" v-model="computedTime">
+    <q-popup-proxy
+      class="flex-container flex-custom q-mt-md"
+      cover
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      <q-time class="q-mr-xs" :mask="timeMask" v-model="computedTime" flat />
+      <q-date v-model="computedTime" :mask="timeMask" color="purple">
         <div class="row items-center justify-end">
           <q-btn v-close-popup label="Close" color="primary" flat />
         </div>
-      </q-time>
+      </q-date>
     </q-popup-proxy>
   </q-btn>
 </template>

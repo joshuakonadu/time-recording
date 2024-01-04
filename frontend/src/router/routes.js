@@ -12,14 +12,14 @@ const routes = [
     path: "/auth",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/HomePage.vue") },
+      { path: "", component: () => import("pages/user/HomePage.vue") },
       {
         path: "/workspace/:id",
-        component: () => import("pages/WorkspacePage.vue"),
+        component: () => import("pages/user/WorkspacePage.vue"),
       },
       {
         path: "/adminworkspace/:id",
-        component: () => import("pages/WorkspaceAdmin.vue"),
+        component: () => import("pages/admin/WorkspaceAdmin.vue"),
       },
     ],
   },

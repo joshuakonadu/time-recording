@@ -1,24 +1,26 @@
 <script setup>
-import { ref, computed, defineAsyncComponent } from "vue";
+import { ref, computed, markRaw } from "vue";
 import { DateTime, Interval } from "luxon";
-import { useUserStore } from "../stores/user.store";
-import { useAlertStore } from "../stores/alert.store";
-import { addNewTimeRecord } from "../helpers/timeHelpers.js";
-import router from "../router";
+import { useUserStore } from "../../stores/user.store";
+import { useAlertStore } from "../../stores/alert.store";
+import {
+  addNewTimeRecord,
+  adminloadTimeTables,
+} from "../../helpers/timeHelpers.js";
+import AllDate from "../timerecord/AllDate.vue";
+import router from "../../router";
+
+const props = defineProps({
+  memberId: {
+    type: String,
+    required: true,
+  },
+});
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
 
 const workspaceId = router.currentRoute.value.params?.id;
-
-const dateModes = {
-  "24h": defineAsyncComponent(() => import("./SameDate.vue")),
-  all: defineAsyncComponent(() => import("./AllDate.vue")),
-};
-
-const activeDateMode = computed(() => {
-  return dateModes[userStore.activeWorkspace.mode];
-});
 
 function getTimeNow() {
   return DateTime.now().toString();
@@ -62,11 +64,18 @@ const saveNewTimeEntry = async () => {
     role: selectedRole.value,
     description: description.value,
     workspaceId,
+    userId: props.memberId,
   };
   await addNewTimeRecord(newData);
   alertStore.success("Neuer Eintrag erfolgreich");
   clearValue();
 };
+
+const initializeData = async () => {
+  await adminloadTimeTables(props.memberId);
+};
+
+initializeData();
 
 const clearValue = () => {
   description.value = null;
@@ -76,12 +85,12 @@ const clearValue = () => {
 </script>
 
 <template>
-  <div class="time-calculator q-mt-lg q-mb-xl container">
+  <div class="time-calculator q-mt-lg q-mb-xl">
     <div class="input-container">
       <q-input v-model="description" label="Beschreibung" />
     </div>
     <div
-      v-if="userStore.activeWorkspace.projectOption?.length"
+      v-if="userStore.activeWorkspace.projectOption.length"
       class="select-container q-mr-md ov-hidden"
     >
       <q-select
@@ -91,7 +100,7 @@ const clearValue = () => {
       />
     </div>
     <div
-      v-if="userStore.activeWorkspace.roleOption?.length"
+      v-if="userStore.activeWorkspace.roleOption.length"
       class="select-container q-mr-lg ov-hidden"
     >
       <q-select
@@ -101,14 +110,12 @@ const clearValue = () => {
       />
     </div>
     <div class="flex-container flex-100 q-mt-xl q-mb-xl">
-      <component
-        :is="activeDateMode"
+      <AllDate
         @changeFrom="changeFrom"
         @changeTo="changeTo"
         :from="from"
         :to="to"
       />
-
       <div class="time-diff">
         <q-btn
           @click="saveNewTimeEntry"

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, toRaw, computed } from "vue";
-import TimeTable from "./TimeTable.vue";
+import TimeTable from "./table/TimeTable.vue";
 import { DateTime } from "luxon";
 import { useTimeTablesData } from "../composables/useTimeTablesData.js";
 import { useUserStore } from "../stores/user.store";

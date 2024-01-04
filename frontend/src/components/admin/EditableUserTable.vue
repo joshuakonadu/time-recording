@@ -1,14 +1,14 @@
 <script setup>
 import { computed, watch, ref, nextTick } from "vue";
-import { useUserStore } from "../stores/user.store.js";
-import { useAuthStore } from "../stores/auth.store.js";
-import { useAlertStore } from "../stores/alert.store.js";
+import { useUserStore } from "../../stores/user.store.js";
+import { useAuthStore } from "../../stores/auth.store.js";
+import { useAlertStore } from "../../stores/alert.store.js";
 import { DateTime } from "luxon";
 import {
   updateMembers,
   deleteWorkspaceMember,
-} from "../helpers/workspaceHelpers.js";
-import router from "../router";
+} from "../../helpers/workspaceHelpers.js";
+import router from "../../router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();

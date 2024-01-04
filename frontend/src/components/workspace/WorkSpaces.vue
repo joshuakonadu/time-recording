@@ -1,5 +1,5 @@
 <script setup>
-import { useUserStore } from "../stores";
+import { useUserStore } from "../../stores";
 import WorkSpaceCard from "./WorkSpaceCard.vue";
 
 const userStore = useUserStore();

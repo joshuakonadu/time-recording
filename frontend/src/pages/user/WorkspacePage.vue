@@ -1,13 +1,13 @@
 <script setup>
 import { onUnmounted, ref, watch, nextTick } from "vue";
-import AddTimeEntry from "../components/AddTimeEntry.vue";
-import TimeTables from "../components/TimeTables.vue";
-import WorkspaceActions from "../components/WorkspaceActions.vue";
-import { getWorkspace } from "../service";
+import AddTimeEntry from "../../components/timerecord/AddTimeEntry.vue";
+import GroupedTimeTables from "../../components/GroupedTimeTables.vue";
+import WorkspaceActions from "../../components/workspace/WorkspaceActions.vue";
+import { getWorkspace } from "../../service";
 import { useUserStore } from "src/stores/user.store.js";
-import { loadTimeTables } from "../helpers/timeHelpers.js";
-import UserTable from "../components/UserTable.vue";
-import router from "../router";
+import { loadTimeTables } from "../../helpers/timeHelpers.js";
+import UserTable from "../../components/table/UserTable.vue";
+import router from "../../router";
 
 const userStore = useUserStore();
 
@@ -58,7 +58,7 @@ onUnmounted(() => {
       <q-tab-panel name="times">
         <AddTimeEntry />
         <section class="container">
-          <TimeTables />
+          <GroupedTimeTables />
         </section>
       </q-tab-panel>
       <q-tab-panel name="info">
