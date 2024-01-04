@@ -25,7 +25,11 @@ export const calculateTime = (data) => {
   const sumAllminutes = data.reduce((acc, obj) => {
     const from = DateTime.fromISO(obj.from);
     const to = DateTime.fromISO(obj.to);
-    acc += Interval.fromDateTimes(from, to).length("minutes");
+    let timeDiff = Interval.fromDateTimes(from, to).length("minutes");
+    if (isNaN(timeDiff)) {
+      timeDiff = 0;
+    }
+    acc += timeDiff;
     return acc;
   }, 0);
   const hours = Math.floor(sumAllminutes / 60)
@@ -44,12 +48,13 @@ export const loadTimeTables = async () => {
   const routeId = router.currentRoute.value.params?.id;
   const sendData = {
     workspaceId: routeId,
-    from: userStore.timeTablesDate.from,
-    to: userStore.timeTablesDate.to,
+    from: userStore.selectedTimeRange?.from,
+    to: userStore.selectedTimeRange?.to,
   };
   const { data } = await getTimesByWorkspaceUser(sendData);
-  data.sort(sortDate);
-  userStore.setTimeTablesData(data);
+
+  const processedTimeData = getProcessedTimeData(data);
+  userStore.setTimeTablesData(processedTimeData);
 };
 
 export const addNewTimeRecord = async (data) => {
@@ -87,3 +92,20 @@ export const adminloadTimeTables = async (userId) => {
   data.sort(sortDate);
   userStore.setTimeTablesData(data);
 };
+
+export const modifyToSelect = (time) => {
+  return DateTime.fromISO(time)
+    .set({ hour: 23, minute: 59, second: 59 })
+    .toString();
+};
+
+function getProcessedTimeData(timeData) {
+  timeData.sort(sortDate);
+  return timeData.map((timeObj) => {
+    return {
+      ...timeObj,
+      from: DateTime.fromISO(timeObj.from).toString(),
+      to: DateTime.fromISO(timeObj.to).toString(),
+    };
+  });
+}

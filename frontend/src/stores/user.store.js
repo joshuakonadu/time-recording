@@ -4,6 +4,7 @@ import {
   sortDate,
   getDateNow,
   getFirstOfMonth,
+  modifyToSelect,
 } from "../helpers/timeHelpers.js";
 import { useAuthStore } from "./auth.store";
 
@@ -36,6 +37,12 @@ export const useUserStore = defineStore({
       return state.activeWorkspace.members?.some((user) => {
         return user.userId === authStore.user._id;
       });
+    },
+    selectedTimeRange(state) {
+      return {
+        from: state.timeTablesDate.from,
+        to: modifyToSelect(state.timeTablesDate.to),
+      };
     },
   },
   actions: {

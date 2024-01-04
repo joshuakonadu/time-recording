@@ -23,11 +23,11 @@ const timerecordSchema = mongoose.Schema(
       default: null,
     },
     to: {
-      type: String,
+      type: Date,
       required: [true, "Please add a to Date"],
     },
     from: {
-      type: String,
+      type: Date,
       required: [true, "Please add a from Date"],
     },
   },
