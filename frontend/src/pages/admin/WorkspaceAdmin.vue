@@ -1,16 +1,22 @@
 <script setup>
-import { onUnmounted, nextTick, ref } from "vue";
+import { onUnmounted, nextTick, ref, defineAsyncComponent } from "vue";
 import EditableUserTable from "../../components/admin/EditableUserTable.vue";
-import GroupedTimeTables from "../../components/GroupedTimeTables.vue";
 import { useUserStore } from "src/stores/user.store.js";
 import { getWorkspace } from "../../service";
-import AdminAddTimeEntry from "../../components/admin/AdminAddTimeEntry.vue";
 import router from "../../router";
 
 const userStore = useUserStore();
 
 const selectedMember = ref(null);
 const panel = ref("table");
+
+const lazyGroupedTimeTablesComponent = defineAsyncComponent(() =>
+  import("../../components/GroupedTimeTables.vue")
+);
+
+const lazyAdminAddTimeEntryComponent = defineAsyncComponent(() =>
+  import("../../components/admin/AdminAddTimeEntry.vue")
+);
 
 const initializeData = async () => {
   const workspaceId = router.currentRoute.value.params?.id;
@@ -54,8 +60,11 @@ onUnmounted(() => {
         <div>
           <h3>{{ selectedMember.firstname }} {{ selectedMember.lastname }}</h3>
         </div>
-        <AdminAddTimeEntry :memberId="selectedMember.id" />
-        <GroupedTimeTables />
+        <component
+          :is="lazyAdminAddTimeEntryComponent"
+          :memberId="selectedMember.id"
+        />
+        <component :is="lazyGroupedTimeTablesComponent" />
       </q-tab-panel>
     </q-tab-panels>
   </div>
