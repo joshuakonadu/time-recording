@@ -46,32 +46,44 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="container q-mt-xl">
-    <h1 class="text-center text-h2">Admin Panel</h1>
-    <h2>{{ userStore.activeWorkspace.name }}</h2>
-    <q-tab-panels v-model="panel" animated class="shadow-2 rounded-borders">
-      <q-tab-panel name="table">
-        <div>
-          <EditableUserTable @selectMember="setSelectedMember" />
-        </div>
-      </q-tab-panel>
-      <q-tab-panel name="user">
-        <q-btn @click="showTable" color="primary" flat label="Zurück"></q-btn>
-        <div>
-          <h3>{{ selectedMember.firstname }} {{ selectedMember.lastname }}</h3>
-        </div>
-        <component
-          :is="lazyAdminAddTimeEntryComponent"
-          :memberId="selectedMember.id"
-        />
-        <component :is="lazyGroupedTimeTablesComponent" />
-      </q-tab-panel>
-    </q-tab-panels>
-  </div>
+  <section class="custom-full-height">
+    <div class="container q-pt-xl">
+      <h1 class="text-center text-h2">Admin Panel</h1>
+      <h2>{{ userStore.activeWorkspace.name }}</h2>
+      <q-tab-panels v-model="panel" animated class="shadow-2 rounded-borders">
+        <q-tab-panel name="table">
+          <div>
+            <EditableUserTable @selectMember="setSelectedMember" />
+          </div>
+        </q-tab-panel>
+        <q-tab-panel name="user">
+          <q-btn @click="showTable" color="primary" flat label="Zurück"></q-btn>
+          <div>
+            <h3>
+              {{ selectedMember.firstname }} {{ selectedMember.lastname }}
+            </h3>
+          </div>
+          <component
+            :is="lazyAdminAddTimeEntryComponent"
+            :memberId="selectedMember.id"
+          />
+          <component :is="lazyGroupedTimeTablesComponent" />
+        </q-tab-panel>
+      </q-tab-panels>
+    </div>
+  </section>
 </template>
 
 <style scoped>
 :deep(.q-tab-panels) {
   box-shadow: none;
+}
+.custom-full-height {
+  min-height: 100vh;
+  background: #e3ccfc;
+}
+
+:deep(.q-tab-panel) {
+  background: #e3ccfc;
 }
 </style>
