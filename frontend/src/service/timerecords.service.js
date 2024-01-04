@@ -25,7 +25,7 @@ export function deleteTimeRecordById(id) {
 }
 
 export function adminAddTimeRecord(data) {
-  return ApiClient.post(BackendConfig.addTimeRecord, data);
+  return ApiClient.post(BackendConfig.adminAddTimeRecord, data);
 }
 
 export function getTimesByWorkspaceAdmin(data) {

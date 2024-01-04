@@ -3,10 +3,7 @@ import { ref, computed, markRaw } from "vue";
 import { DateTime, Interval } from "luxon";
 import { useUserStore } from "../../stores/user.store";
 import { useAlertStore } from "../../stores/alert.store";
-import {
-  addNewTimeRecord,
-  adminloadTimeTables,
-} from "../../helpers/timeHelpers.js";
+import { adminAddNewTimeRecord } from "../../helpers/timeHelpers.js";
 import AllDate from "../timerecord/AllDate.vue";
 import router from "../../router";
 
@@ -66,16 +63,10 @@ const saveNewTimeEntry = async () => {
     workspaceId,
     userId: props.memberId,
   };
-  await addNewTimeRecord(newData);
+  await adminAddNewTimeRecord(newData);
   alertStore.success("Neuer Eintrag erfolgreich");
   clearValue();
 };
-
-const initializeData = async () => {
-  await adminloadTimeTables(props.memberId);
-};
-
-initializeData();
 
 const clearValue = () => {
   description.value = null;

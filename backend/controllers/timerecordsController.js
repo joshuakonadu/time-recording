@@ -8,7 +8,7 @@ import {
   deleteTimeRecordById,
 } from "../utils/timerecord.helper.js";
 
-import { checkWorkspacePermission } from "../utils/workspace.helper.js";
+import { checkWorkspaceAdminPermission } from "../utils/workspace.helper.js";
 
 export const addTime = asyncHandler(async (req, res) => {
   const data = req.body;
@@ -44,6 +44,7 @@ export const getTimeByWorkspaceUser = asyncHandler(async (req, res) => {
 
 export const updateTimeRecord = asyncHandler(async (req, res) => {
   const data = req.body;
+  //TODO: CHECK PERMISSION IF ITS OWN USER OR FROM WORKSPACE ADMIN
   const updatedTimeRecord = await updateTimeRecordById(data._id, data);
   res.status(200).json(updatedTimeRecord);
 });
@@ -57,7 +58,9 @@ export const deleteTimeRecord = asyncHandler(async (req, res) => {
 export const addAdminTime = asyncHandler(async (req, res) => {
   const data = req.body;
   const user = req.user;
-  await checkWorkspacePermission(user._id, data.workspaceId);
+  console.log("admin api");
+  await checkWorkspaceAdminPermission(user._id, data.workspaceId);
+  console.log("permission approved");
   const timeRecord = await createTimeRecord(data);
   res.status(201).json(timeRecord);
 });
@@ -65,7 +68,7 @@ export const addAdminTime = asyncHandler(async (req, res) => {
 export const getTimeByWorkspaceAdmin = asyncHandler(async (req, res) => {
   const { from, to, workspaceId, userId } = req.body;
   const user = req.user;
-  await checkWorkspacePermission(user._id, workspaceId);
+  await checkWorkspaceAdminPermission(user._id, workspaceId);
   const timeRecords = await findTimeRecordsByUserAndWorkspaceId(
     userId,
     workspaceId,

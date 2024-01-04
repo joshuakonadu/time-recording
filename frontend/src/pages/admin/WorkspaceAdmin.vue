@@ -1,5 +1,6 @@
 <script setup>
 import { onUnmounted, nextTick, ref, defineAsyncComponent } from "vue";
+import { adminloadTimeTables } from "../../helpers/timeHelpers.js";
 import EditableUserTable from "../../components/admin/EditableUserTable.vue";
 import { useUserStore } from "src/stores/user.store.js";
 import { getWorkspace } from "../../service";
@@ -9,6 +10,7 @@ const userStore = useUserStore();
 
 const selectedMember = ref(null);
 const panel = ref("table");
+const openTimeEntry = ref(false);
 
 const lazyGroupedTimeTablesComponent = defineAsyncComponent(() =>
   import("../../components/GroupedTimeTables.vue")
@@ -31,14 +33,19 @@ const initializeData = async () => {
 
 initializeData();
 
-const setSelectedMember = (data) => {
+const setSelectedMember = async (data) => {
   selectedMember.value = data;
   panel.value = "user";
+  adminloadTimeTables(data.id);
 };
 
 const showTable = () => {
   panel.value = "table";
   selectedMember.value = {};
+};
+
+const setOpenTimeEntry = () => {
+  openTimeEntry.value = true;
 };
 
 onUnmounted(() => {
@@ -70,11 +77,14 @@ onUnmounted(() => {
             icon="fa-solid fa-calendar-plus"
             label="Neuer Zeiteintrag"
             header-class="text-accent"
+            @before-show="setOpenTimeEntry"
           >
-            <component
-              :is="lazyAdminAddTimeEntryComponent"
-              :memberId="selectedMember.id"
-            />
+            <template v-if="openTimeEntry">
+              <component
+                :is="lazyAdminAddTimeEntryComponent"
+                :memberId="selectedMember.id"
+              />
+            </template>
           </q-expansion-item>
           <component :is="lazyGroupedTimeTablesComponent" />
         </q-tab-panel>

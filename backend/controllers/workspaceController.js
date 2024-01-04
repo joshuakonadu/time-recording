@@ -8,7 +8,7 @@ import {
   createWorkspace,
   workspaceById,
   workspaceUpdateMember,
-  checkWorkspacePermission,
+  checkWorkspaceAdminPermission,
 } from "../utils/workspace.helper.js";
 import { deleteUserWorkspaceData } from "../utils/utils.js";
 
@@ -78,7 +78,7 @@ export const deleteWorkspaceMember = asyncHandler(async (req, res) => {
   const { deleteUserId } = req.body;
 
   const userId = req.user._id;
-  await checkWorkspacePermission(userId, workspaceId);
+  await checkWorkspaceAdminPermission(userId, workspaceId);
 
   const promiseResolveList = await deleteUserWorkspaceData({
     workspaceId,

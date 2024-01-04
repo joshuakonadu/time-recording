@@ -31,7 +31,7 @@ export const workspaceUpdateMember = async (userId, workspaceById, members) => {
   return workspace.save();
 };
 
-export const checkWorkspacePermission = async (userId, workspaceId) => {
+export const checkWorkspaceAdminPermission = async (userId, workspaceId) => {
   const workspace = await workspaceById(workspaceId);
   if (!isWorkspaceAdminCheck(userId, workspace.members)) {
     throw new Error("Not authorized");
