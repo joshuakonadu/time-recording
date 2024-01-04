@@ -80,10 +80,10 @@ onUnmounted(() => {
 }
 .custom-full-height {
   min-height: 100vh;
-  background: #e3ccfc;
+  background: #ebdbfd;
 }
 
 :deep(.q-tab-panel) {
-  background: #e3ccfc;
+  background: #ebdbfd;
 }
 </style>

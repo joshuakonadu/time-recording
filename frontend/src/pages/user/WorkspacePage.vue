@@ -40,7 +40,7 @@ onUnmounted(() => {
   <q-page>
     <div class="container flex-container flex-between align-center">
       <h1 class="container text-h2">{{ userStore.activeWorkspace?.name }}</h1>
-      <div>
+      <div v-if="userStore.isActiveWorkspaceAdmin">
         <q-btn
           :href="`/adminworkspace/${router.currentRoute.value.params?.id}`"
           flat
