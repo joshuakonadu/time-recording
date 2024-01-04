@@ -9,10 +9,10 @@ import router from "../../router";
 
 const userStore = useUserStore();
 
-const asyncUserTableComponent = defineAsyncComponent(() =>
+const lazyUserTableComponent = defineAsyncComponent(() =>
   import("../../components/table/UserTable.vue")
 );
-const asyncWorkspaceActionsComponent = defineAsyncComponent(() =>
+const lazyWorkspaceActionsComponent = defineAsyncComponent(() =>
   import("../../components/workspace/WorkspaceActions.vue")
 );
 
@@ -69,14 +69,14 @@ onUnmounted(() => {
       <q-tab-panel name="info">
         <div class="container">
           <component
-            :is="asyncUserTableComponent"
+            :is="lazyUserTableComponent"
             :data="userStore.activeWorkspace.members"
           />
         </div>
       </q-tab-panel>
       <q-tab-panel name="settings">
         <div>
-          <component :is="asyncWorkspaceActionsComponent" />
+          <component :is="lazyWorkspaceActionsComponent" />
         </div>
       </q-tab-panel>
     </q-tab-panels>
