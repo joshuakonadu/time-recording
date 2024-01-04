@@ -109,6 +109,8 @@ watch(
               title="Edit the Name"
               buttons
               v-slot="scope"
+              label-set="Speichern"
+              label-cancel="Abbrechen"
             >
               <q-time
                 :mask="timeMask"
@@ -128,6 +130,8 @@ watch(
               title="Edit the Name"
               buttons
               v-slot="scope"
+              label-set="Speichern"
+              label-cancel="Abbrechen"
             >
               <q-time
                 :mask="timeMask"
@@ -145,6 +149,8 @@ watch(
               @save="emitIndex(props.rowIndex)"
               buttons
               v-slot="scope"
+              label-set="Speichern"
+              label-cancel="Abbrechen"
             >
               <div class="text-italic text-primary q-mb-xs">Bearbeiten</div>
               <q-select
@@ -161,6 +167,8 @@ watch(
               @save="emitIndex(props.rowIndex)"
               buttons
               v-slot="scope"
+              label-set="Speichern"
+              label-cancel="Abbrechen"
             >
               <div class="text-italic text-primary q-mb-xs">Bearbeiten</div>
               <q-select
@@ -177,6 +185,8 @@ watch(
               @save="emitIndex(props.rowIndex)"
               buttons
               v-slot="scope"
+              label-set="Speichern"
+              label-cancel="Abbrechen"
             >
               <div class="text-italic text-primary q-mb-xs">Bearbeiten</div>
               <q-input

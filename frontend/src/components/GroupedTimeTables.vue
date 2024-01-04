@@ -24,6 +24,8 @@ const initColumns = [
     field: "from",
     format: (val, row) =>
       DateTime.fromISO(val).toLocaleString(DateTime.TIME_24_SIMPLE),
+    style: "width: 140px; text-align: center;",
+    headerStyle: "text-align: center;",
   },
   {
     name: "to",
@@ -31,10 +33,33 @@ const initColumns = [
     field: "to",
     format: (val, row) =>
       DateTime.fromISO(val).toLocaleString(DateTime.TIME_24_SIMPLE),
+    style: "width: 140px; text-align: center;",
+    headerStyle: "text-align: center;",
   },
-  { name: "project", label: "Projekt", field: "project" },
-  { name: "role", label: "Rolle", field: "role" },
-  { name: "description", label: "Beschreibung", field: "description" },
+  {
+    name: "project",
+    label: "Projekt",
+    field: "project",
+    style:
+      "max-width: 200px; text-align: center; text-overflow: ellipsis; overflow: hidden;",
+    headerStyle: "text-align: center;",
+  },
+  {
+    name: "role",
+    label: "Rolle",
+    field: "role",
+    style:
+      "max-width: 200px; text-align: center; text-overflow: ellipsis; overflow: hidden;",
+    headerStyle: "text-align: center;",
+  },
+  {
+    name: "description",
+    label: "Beschreibung",
+    field: "description",
+    style:
+      "max-width: 500px; text-overflow: ellipsis; overflow: hidden; text-align: center;",
+    headerStyle: "text-align: center;",
+  },
 ];
 
 const columns = computed(() => {

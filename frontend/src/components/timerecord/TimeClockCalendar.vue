@@ -42,7 +42,7 @@ const clockTime = computed(() => {
       <q-time class="q-mr-xs" :mask="timeMask" v-model="computedTime" flat />
       <q-date v-model="computedTime" :mask="timeMask" color="purple">
         <div class="row items-center justify-end">
-          <q-btn v-close-popup label="Close" color="primary" flat />
+          <q-btn v-close-popup label="Schliessen" color="primary" flat />
         </div>
       </q-date>
     </q-popup-proxy>

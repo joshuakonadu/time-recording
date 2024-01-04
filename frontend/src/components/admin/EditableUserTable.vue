@@ -25,17 +25,36 @@ const adminOptions = [
 ];
 
 const columns = [
-  { name: "firstname", label: "Vorname", field: "firstname" },
-  { name: "lastname", label: "Nachname", field: "lastname" },
+  {
+    name: "firstname",
+    label: "Vorname",
+    field: "firstname",
+    classes: "text-center",
+    style: "text-align: center;",
+    headerStyle: "text-align: center;",
+  },
+  {
+    name: "lastname",
+    label: "Nachname",
+    field: "lastname",
+    classes: "text-center",
+    style: "text-align: center;",
+    headerStyle: "text-align: center;",
+  },
   {
     name: "isAdmin",
     label: "Admin",
     field: "isAdmin",
+    classes: "text-center",
+    style: "text-align: center;",
+    headerStyle: "text-align: center;",
   },
   {
     name: "joined",
     label: "Beitritt",
     field: "joined",
+    style: "text-align: center;",
+    headerStyle: "text-align: center;",
   },
 ];
 
@@ -125,10 +144,11 @@ const deleteMember = async () => {
         <q-tr :props="props">
           <q-td auto-width>
             <q-btn
-              size="sm"
+              size="md"
               color="primary"
               dense
-              icon="fa-solid fa-chart-line"
+              flat
+              icon="fa-regular fa-clock"
               @click="emitSelectedMember(props.row)"
             ></q-btn>
           </q-td>
@@ -141,6 +161,8 @@ const deleteMember = async () => {
               title="Edit the Name"
               buttons
               v-slot="scope"
+              label-set="Speichern"
+              label-cancel="Abbrechen"
             >
               <div class="text-italic text-primary q-mb-xs">Bearbeiten</div>
               <q-input
@@ -161,6 +183,8 @@ const deleteMember = async () => {
               title="Edit the Name"
               buttons
               v-slot="scope"
+              label-set="Speichern"
+              label-cancel="Abbrechen"
             >
               <div class="text-italic text-primary q-mb-xs">Bearbeiten</div>
               <q-input
@@ -180,6 +204,8 @@ const deleteMember = async () => {
               @save="update"
               buttons
               v-slot="scope"
+              label-set="Speichern"
+              label-cancel="Abbrechen"
             >
               <div class="text-italic text-primary q-mb-xs">
                 Admin Rechte geben?

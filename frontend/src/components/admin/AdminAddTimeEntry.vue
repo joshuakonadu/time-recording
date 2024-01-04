@@ -118,6 +118,7 @@ const clearValue = () => {
       />
       <div class="time-diff">
         <q-btn
+          class="custom-border"
           @click="saveNewTimeEntry"
           color="primary"
           icon-right="fa-solid fa-stamp"

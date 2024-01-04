@@ -64,10 +64,18 @@ onUnmounted(() => {
               {{ selectedMember.firstname }} {{ selectedMember.lastname }}
             </h3>
           </div>
-          <component
-            :is="lazyAdminAddTimeEntryComponent"
-            :memberId="selectedMember.id"
-          />
+          <q-expansion-item
+            class="q-mb-xl"
+            style="width: fit-content"
+            icon="fa-solid fa-calendar-plus"
+            label="Neuer Zeiteintrag"
+            header-class="text-accent"
+          >
+            <component
+              :is="lazyAdminAddTimeEntryComponent"
+              :memberId="selectedMember.id"
+            />
+          </q-expansion-item>
           <component :is="lazyGroupedTimeTablesComponent" />
         </q-tab-panel>
       </q-tab-panels>
@@ -86,5 +94,9 @@ onUnmounted(() => {
 
 :deep(.q-tab-panel) {
   background: #ebdbfd;
+}
+
+:deep(.q-tab-panel .time-calculator) {
+  background: #ffffff;
 }
 </style>

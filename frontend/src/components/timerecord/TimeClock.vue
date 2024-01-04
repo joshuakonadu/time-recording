@@ -36,7 +36,7 @@ const clockTime = computed(() => {
     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
       <q-time :mask="timeMask" v-model="computedTime">
         <div class="row items-center justify-end">
-          <q-btn v-close-popup label="Close" color="primary" flat />
+          <q-btn v-close-popup label="Schliessen" color="primary" flat />
         </div>
       </q-time>
     </q-popup-proxy>

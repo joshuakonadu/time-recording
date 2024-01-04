@@ -42,7 +42,7 @@ const formatTo = computed(
         readonly
       >
         <template v-slot:append>
-          <q-icon name="event" class="cursor-pointer">
+          <q-icon name="event" color="accent" class="cursor-pointer">
             <q-popup-proxy
               cover
               transition-show="scale"
@@ -64,7 +64,7 @@ const formatTo = computed(
 
       <q-input standout style="max-width: 160px" v-model="formatTo" readonly>
         <template v-slot:append>
-          <q-icon name="event" class="cursor-pointer">
+          <q-icon name="event" color="accent" class="cursor-pointer">
             <q-popup-proxy
               cover
               transition-show="scale"
