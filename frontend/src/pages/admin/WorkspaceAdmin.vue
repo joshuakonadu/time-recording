@@ -2,7 +2,7 @@
 import { onUnmounted, nextTick, ref, defineAsyncComponent } from "vue";
 import { adminloadTimeTables } from "../../helpers/timeHelpers.js";
 import EditableUserTable from "../../components/admin/EditableUserTable.vue";
-import { useUserStore } from "src/stores/user.store.js";
+import { useUserStore } from "src/stores";
 import { getWorkspace } from "../../service";
 import router from "../../router";
 

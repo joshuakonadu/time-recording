@@ -3,7 +3,7 @@ import { onUnmounted, ref, watch, nextTick, defineAsyncComponent } from "vue";
 import AddTimeEntry from "../../components/timerecord/AddTimeEntry.vue";
 import GroupedTimeTables from "../../components/GroupedTimeTables.vue";
 import { getWorkspace } from "../../service";
-import { useUserStore } from "src/stores/user.store.js";
+import { useUserStore } from "src/stores";
 import { loadTimeTables } from "../../helpers/timeHelpers.js";
 import router from "../../router";
 

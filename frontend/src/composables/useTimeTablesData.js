@@ -4,8 +4,7 @@ import {
   calculateTime,
   loadTimeTables,
 } from "../helpers/timeHelpers.js";
-import { useUserStore } from "src/stores/user.store.js";
-import { useAlertStore } from "src/stores/alert.store.js";
+import { useUserStore, useAlertStore } from "src/stores";
 
 export function useTimeTablesData() {
   const userStore = useUserStore();

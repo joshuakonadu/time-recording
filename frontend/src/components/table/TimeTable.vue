@@ -1,7 +1,6 @@
 <script setup>
 import { computed, watch, ref } from "vue";
-import { useUserStore } from "../../stores/user.store.js";
-import { useAlertStore } from "../../stores/alert.store.js";
+import { useUserStore, useAlertStore } from "../../stores";
 import { calculateTime, timeMask } from "../../helpers/timeHelpers";
 import { DateTime } from "luxon";
 import { loadTimeTables } from "../../helpers/timeHelpers.js";

@@ -1,5 +1,5 @@
 import { DateTime, Interval } from "luxon";
-import { useUserStore } from "src/stores/user.store.js";
+import { useUserStore } from "src/stores";
 import {
   getTimesByWorkspaceUser,
   getTimesByWorkspaceAdmin,

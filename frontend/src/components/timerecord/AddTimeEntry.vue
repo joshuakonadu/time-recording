@@ -1,8 +1,7 @@
 <script setup>
 import { ref, computed, defineAsyncComponent } from "vue";
 import { DateTime, Interval } from "luxon";
-import { useUserStore } from "../../stores/user.store";
-import { useAlertStore } from "../../stores/alert.store";
+import { useUserStore, useAlertStore } from "../../stores";
 import { addNewTimeRecord } from "../../helpers/timeHelpers.js";
 import router from "../../router";
 

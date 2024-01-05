@@ -1,8 +1,6 @@
 <script setup>
 import { computed, watch, ref, nextTick } from "vue";
-import { useUserStore } from "../../stores/user.store.js";
-import { useAuthStore } from "../../stores/auth.store.js";
-import { useAlertStore } from "../../stores/alert.store.js";
+import { useUserStore, useAuthStore, useAlertStore } from "../../stores";
 import { DateTime } from "luxon";
 import {
   updateMembers,

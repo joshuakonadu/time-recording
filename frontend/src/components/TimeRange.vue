@@ -2,7 +2,7 @@
 import { computed, ref } from "vue";
 import { DateTime } from "luxon";
 import { timeMask } from "../helpers/timeHelpers";
-import { useUserStore } from "../stores/user.store.js";
+import { useUserStore } from "../stores";
 
 const props = defineProps({
   sumTime: {

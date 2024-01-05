@@ -1,5 +1,5 @@
 import { toRaw } from "vue";
-import { useUserStore } from "src/stores/user.store.js";
+import { useUserStore } from "src/stores";
 import router from "../router";
 import {
   updateWorkspaceMembers,
