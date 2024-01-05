@@ -37,7 +37,7 @@ const sendData = async () => {
   };
   try {
     const apiData = await createWorkspace(data);
-    createdWorkspaceId = apiData.data.workspaceById;
+    createdWorkspaceId = apiData.data.workspaceId;
     loading.value = false;
     success.value = true;
     await userStore.getWorkspaces();

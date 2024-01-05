@@ -9,11 +9,16 @@ import {
   workspaceById,
   workspaceUpdateMember,
   checkWorkspaceAdminPermission,
+  checkWorkspacePermission,
 } from "../utils/workspace.helper.js";
 import { deleteUserWorkspaceData } from "../utils/utils.js";
 
 export const createUserRegisterWorkspace = asyncHandler(async (req, res) => {
   const { userId } = req.body;
+  const registerWorkspace = await registerWorkspaceByUserId(userId);
+  if (registerWorkspace) {
+    throw new Error("Register workspace already exist");
+  }
   await createRegisterWorkspace(userId);
   res.status(200).send();
 });
@@ -43,13 +48,15 @@ export const addWorkspace = asyncHandler(async (req, res) => {
     name: workspace.name,
   });
   res.status(201).json({
-    workspaceById: workspace._id,
+    workspaceId: workspace._id,
   });
 });
 
 export const getWorkspace = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const workspace = await workspaceById(id);
+  if (!workspace) throw new Error("No Workspace");
+  checkWorkspacePermission(req.user._id, workspace.members);
   res.status(200).json(workspace);
 });
 
@@ -97,6 +104,7 @@ export const deleteWorkspaceMember = asyncHandler(async (req, res) => {
 export const getWorkspaceMembers = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const workspace = await workspaceById(id);
-  if (!workspace) throw new Error("Workspace existiert nicht");
+  if (!workspace) throw new Error("No Workspace");
+  checkWorkspacePermission(req.user._id, workspace.members);
   res.status(200).json(workspace.members);
 });
