@@ -62,9 +62,14 @@ const saveNewTimeEntry = async () => {
     workspaceId,
     userId: props.memberId,
   };
-  await adminAddNewTimeRecord(newData);
-  alertStore.success("Neuer Eintrag erfolgreich");
-  clearValue();
+  try {
+    await adminAddNewTimeRecord(newData);
+    alertStore.success("Neuer Eintrag erfolgreich");
+  } catch (err) {
+    alertStore.error("Neuer Eintrag fehlgeschlagen", 3000);
+  } finally {
+    clearValue();
+  }
 };
 
 const clearValue = () => {

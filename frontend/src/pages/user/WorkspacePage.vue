@@ -3,11 +3,12 @@ import { onUnmounted, ref, watch, nextTick, defineAsyncComponent } from "vue";
 import AddTimeEntry from "../../components/timerecord/AddTimeEntry.vue";
 import GroupedTimeTables from "../../components/GroupedTimeTables.vue";
 import { getWorkspace } from "../../service";
-import { useUserStore } from "src/stores";
+import { useUserStore, useAlertStore } from "src/stores";
 import { loadTimeTables } from "../../helpers/timeHelpers.js";
 import router from "../../router";
 
 const userStore = useUserStore();
+const alertStore = useAlertStore();
 
 const lazyUserTableComponent = defineAsyncComponent(() =>
   import("../../components/table/UserTable.vue")
@@ -20,14 +21,17 @@ const tab = ref("times");
 
 const initializeData = async () => {
   const workspaceId = router.currentRoute.value.params?.id;
-
-  const workspace = await getWorkspace(workspaceId);
-  userStore.setActiveWorkspace(workspace.data);
-  await nextTick();
-  if (!userStore.isActiveWorkspaceMember) {
-    return router.push("/auth");
+  try {
+    const workspace = await getWorkspace(workspaceId);
+    userStore.setActiveWorkspace(workspace.data);
+    await nextTick();
+    if (!userStore.isActiveWorkspaceMember) {
+      return router.push("/auth");
+    }
+    await loadTimeTables();
+  } catch (err) {
+    alertStore.error("Fehler beim Laden", 4000);
   }
-  await loadTimeTables();
 };
 initializeData();
 

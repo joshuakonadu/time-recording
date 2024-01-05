@@ -1,7 +1,7 @@
 <script setup>
 import { ref, toRaw } from "vue";
 import { createWorkspace } from "../service";
-import { useUserStore } from "../stores";
+import { useUserStore, useAlertStore } from "../stores";
 import router from "../router";
 
 const userStore = useUserStore();
@@ -38,11 +38,14 @@ const sendData = async () => {
   try {
     const apiData = await createWorkspace(data);
     createdWorkspaceId = apiData.data.workspaceId;
-    loading.value = false;
     success.value = true;
     await userStore.getWorkspaces();
   } catch (err) {
     error.value = true;
+  } finally {
+    loading.value = false;
+    const alertStore = useAlertStore();
+    alertStore.error("Konnte nicht erstellt werden", 3000);
   }
 };
 

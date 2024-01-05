@@ -5,12 +5,11 @@ import { useUserStore, useAlertStore } from "../../stores";
 
 const fetchAllWorkspaces = async () => {
   const userStore = useUserStore();
-  const alertStore = useAlertStore();
   try {
     await userStore.getWorkspaces();
   } catch (err) {
     const alertStore = useAlertStore();
-    alertStore.error("Workspaces konnten nicht geladen werden");
+    alertStore.error("Workspaces konnten nicht geladen werden", 4000);
   }
 };
 

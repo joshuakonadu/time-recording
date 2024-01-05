@@ -84,7 +84,7 @@ const update = async () => {
       router.push("/workspace/" + workspaceId);
     }
   } catch (err) {
-    alertStore.error("Änderung Fehlgeschlagen");
+    alertStore.error("Änderung Fehlgeschlagen", 3000);
   }
 };
 
@@ -107,8 +107,7 @@ const deleteMember = async () => {
     }
     closeDeleteDialog();
   } catch (err) {
-    console.error(err);
-    alertStore.error("Löschen Fehlgeschlagen");
+    alertStore.error("Löschen Fehlgeschlagen", 3000);
   }
 };
 </script>

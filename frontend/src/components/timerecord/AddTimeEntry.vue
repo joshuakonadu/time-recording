@@ -66,7 +66,7 @@ const saveNewTimeEntry = async () => {
     await addNewTimeRecord(newData);
     alertStore.success("Neuer Eintrag erfolgreich");
   } catch (err) {
-    alertStore.error("Neuer Eintrag Fehlgeschlagen");
+    alertStore.error("Neuer Eintrag Fehlgeschlagen", 3000);
   } finally {
     clearValue();
   }

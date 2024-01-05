@@ -22,7 +22,7 @@ const leaveWorkspace = async () => {
     alertStore.success("Löschen Erfolgreich");
     navigateHome();
   } catch (err) {
-    alertStore.error("Löschen Fehlgeschlagen");
+    alertStore.error("Löschen Fehlgeschlagen", 3000);
   }
 };
 const navigateHome = () => {

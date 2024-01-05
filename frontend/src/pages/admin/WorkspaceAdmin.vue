@@ -2,11 +2,12 @@
 import { onUnmounted, nextTick, ref, defineAsyncComponent } from "vue";
 import { adminloadTimeTables } from "../../helpers/timeHelpers.js";
 import EditableUserTable from "../../components/admin/EditableUserTable.vue";
-import { useUserStore } from "src/stores";
+import { useUserStore, useAlertStore } from "src/stores";
 import { getWorkspace } from "../../service";
 import router from "../../router";
 
 const userStore = useUserStore();
+const alertStore = useAlertStore();
 
 const selectedMember = ref(null);
 const panel = ref("table");
@@ -22,12 +23,15 @@ const lazyAdminAddTimeEntryComponent = defineAsyncComponent(() =>
 
 const initializeData = async () => {
   const workspaceId = router.currentRoute.value.params?.id;
-  //TODO: check if visitor is a member of the workspace
-  const workspace = await getWorkspace(workspaceId);
-  userStore.setActiveWorkspace(workspace.data);
-  await nextTick();
-  if (!userStore.isActiveWorkspaceAdmin) {
-    router.push("/auth");
+  try {
+    const workspace = await getWorkspace(workspaceId);
+    userStore.setActiveWorkspace(workspace.data);
+    await nextTick();
+    if (!userStore.isActiveWorkspaceAdmin) {
+      router.push("/auth");
+    }
+  } catch (err) {
+    alertStore.error("Laden fehlgeschlagen", 4000);
   }
 };
 
@@ -36,7 +40,11 @@ initializeData();
 const setSelectedMember = async (data) => {
   selectedMember.value = data;
   panel.value = "user";
-  adminloadTimeTables(data.id);
+  try {
+    await adminloadTimeTables(data.id);
+  } catch (err) {
+    alertStore.error("Zeiteinträge Laden fehlgeschlagen", 4000);
+  }
 };
 
 const showTable = () => {
