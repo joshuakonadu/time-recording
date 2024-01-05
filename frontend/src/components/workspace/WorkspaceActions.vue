@@ -3,6 +3,7 @@ import { ref, computed } from "vue";
 import { DateTime } from "luxon";
 import { deleteWorkspaceUser } from "../../service";
 import router from "../../router";
+import { useAlertStore } from "../../stores";
 
 const props = defineProps({
   time: {
@@ -15,8 +16,14 @@ const verifyLeave = ref(false);
 const leaveWorkspace = async () => {
   const workspaceId = router.currentRoute.value.params?.id;
   verifyLeave.value = false;
-  await deleteWorkspaceUser(workspaceId);
-  navigateHome();
+  const alertStore = useAlertStore();
+  try {
+    await deleteWorkspaceUser(workspaceId);
+    alertStore.success("Löschen Erfolgreich");
+    navigateHome();
+  } catch (err) {
+    alertStore.error("Löschen Fehlgeschlagen");
+  }
 };
 const navigateHome = () => {
   router.push("/auth");

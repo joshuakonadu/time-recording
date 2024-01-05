@@ -62,9 +62,14 @@ const saveNewTimeEntry = async () => {
     description: description.value,
     workspaceId,
   };
-  await addNewTimeRecord(newData);
-  alertStore.success("Neuer Eintrag erfolgreich");
-  clearValue();
+  try {
+    await addNewTimeRecord(newData);
+    alertStore.success("Neuer Eintrag erfolgreich");
+  } catch (err) {
+    alertStore.error("Neuer Eintrag Fehlgeschlagen");
+  } finally {
+    clearValue();
+  }
 };
 
 const clearValue = () => {
