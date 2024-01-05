@@ -1,8 +1,9 @@
 import TimeRecord from "../models/timerecordModel.js";
+import { isWorkspaceAdminCheck, workspaceById } from "./workspace.helper.js";
 
 export const findTimeRecordsByUserId = (userId) => TimeRecord.find({ userId });
 
-export const findTimeRecordsById = (id) => TimeRecord.findById(id);
+export const findTimeRecordById = (id) => TimeRecord.findById(id);
 
 export const createTimeRecord = (data) => TimeRecord.create(data);
 
@@ -44,6 +45,22 @@ export const updateTimeRecordById = async (id, data) => {
 
 export const deleteAllTimeRecordsByUser = (userId, workspaceId) => {
   return TimeRecord.deleteMany({ userId, workspaceId });
+};
+
+export const checkTimeRecordPermission = async (
+  userId,
+  workspaceId,
+  timeRecordUserId
+) => {
+  if (userId.toString() === timeRecordUserId.toString()) {
+    return;
+  }
+  const workspace = await workspaceById(workspaceId);
+  if (isWorkspaceAdminCheck(userId, workspace.members)) {
+    return;
+  } else {
+    throw new Error("No Permission");
+  }
 };
 
 export const deleteTimeRecordById = (id) => {
