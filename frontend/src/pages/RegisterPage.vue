@@ -1,7 +1,11 @@
 <script setup>
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
-import { register, createRegisterWorkspace } from "../service";
+import {
+  register,
+  createRegisterWorkspace,
+  createUserInvitations,
+} from "../service";
 
 import { useAlertStore } from "../stores";
 import router from "../router";
@@ -26,9 +30,10 @@ async function onSubmit(values) {
   const alertStore = useAlertStore();
   try {
     const { data: user } = await register(values);
+    await createRegisterWorkspace({ userId: user._id });
+    await createUserInvitations({ userId: user._id });
     await router.push("/login");
     alertStore.success("Registration successful", 5000);
-    await createRegisterWorkspace({ userId: user._id });
   } catch (error) {
     alertStore.error(error.message, 5000);
   }
