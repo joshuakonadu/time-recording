@@ -24,6 +24,22 @@ export const useUserStore = defineStore({
       from: getFirstOfMonth(),
       to: getDateNow(),
     },
+    invitations: [
+      {
+        workspaceId: "343534",
+        isAdmin: true,
+        workspaceName: "test",
+        sendUserName: "Test Beta",
+        sendUserId: "ddses233",
+        type: "invitation",
+      },
+      {
+        sendUserName: `Test Alpha`,
+        workspaceName: "Test",
+        sendUserId: "ugzgjzg",
+        type: "accept_invitation",
+      },
+    ],
   }),
   getters: {
     isActiveWorkspaceAdmin(state) {
