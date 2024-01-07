@@ -13,14 +13,19 @@
 
         <q-toolbar-title> Time App </q-toolbar-title>
         <q-btn
-          @click="fixed = true"
+          @click="showMessages"
           class="q-mr-md"
           dense
           round
           flat
           icon="email"
         >
-          <q-badge color="red" floating transparent>
+          <q-badge
+            v-if="userStore.invitations.length"
+            color="red"
+            floating
+            transparent
+          >
             {{ userStore.invitations.length }}
           </q-badge>
         </q-btn>
@@ -55,61 +60,44 @@
       <router-view />
     </q-page-container>
 
-    <q-dialog v-model="fixed">
-      <q-card style="min-width: 400px">
-        <q-card-section>
-          <div class="text-h6">Einladungen</div>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="max-height: 50vh; padding: 0" class="scroll">
-          <div
-            v-for="invitation in userStore.invitations"
-            :key="invitation.sendUserId"
-          >
-            <template v-if="invitation.type === 'invitation'">
-              <InvitationBanner :invitation="invitation" />
-            </template>
-            <template v-else-if="invitation.type === 'accept_invitation'">
-              <AcceptBanner :invitation="invitation" />
-            </template>
-          </div>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-actions align="right">
-          <q-btn flat label="Schliessen" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+    <template v-if="openMessageDialog">
+      <component
+        :is="lazyInvitationsDialogComponent"
+        @hide="openMessageDialog = false"
+        :show="openMessageDialog"
+      />
+    </template>
   </q-layout>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, defineAsyncComponent } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 import { useAuthentication } from "../composables/useAuthentication";
 import { useAuthStore, useUserStore } from "src/stores";
 import router from "../router";
-import AcceptBanner from "../components/AcceptBanner.vue";
-import InvitationBanner from "../components/InvitationBanner.vue";
 
 export default defineComponent({
   name: "MainLayout",
   components: {
     EssentialLink,
-    AcceptBanner,
-    InvitationBanner,
   },
 
   setup() {
     const leftDrawerOpen = ref(false);
     useAuthentication();
     const authStore = useAuthStore();
+    const userStore = useUserStore();
 
-    const fixed = ref(false);
+    const openMessageDialog = ref(false);
+    const lazyInvitationsDialogComponent = defineAsyncComponent(() =>
+      import("../components/InvitationsDialog.vue")
+    );
+
+    const showMessages = () => {
+      if (!userStore.invitations.length) return;
+      openMessageDialog.value = true;
+    };
 
     const toggleLeftDrawer = () => {
       leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -139,8 +127,10 @@ export default defineComponent({
       essentialLinks2: linksList2,
       leftDrawerOpen,
       toggleLeftDrawer,
-      userStore: useUserStore(),
-      fixed,
+      userStore,
+      openMessageDialog,
+      showMessages,
+      lazyInvitationsDialogComponent,
     };
   },
 });

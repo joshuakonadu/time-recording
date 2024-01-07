@@ -9,6 +9,9 @@ const props = defineProps({
 
 <template>
   <q-banner class="bg-positive text-white">
+    <template v-slot:avatar>
+      <q-icon name="fa-regular fa-square-check" color="white" />
+    </template>
     {{ props.invitation.sendUserName }} hat deine Einladung in den Workspace
     {{ props.invitation.workspaceName }} angenommen.
     <template v-slot:action>
