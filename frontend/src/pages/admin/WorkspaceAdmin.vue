@@ -12,6 +12,7 @@ const alertStore = useAlertStore();
 const selectedMember = ref(null);
 const panel = ref("table");
 const openTimeEntry = ref(false);
+const showAddUserDialog = ref(false);
 
 const lazyGroupedTimeTablesComponent = defineAsyncComponent(() =>
   import("../../components/GroupedTimeTables.vue")
@@ -19,6 +20,10 @@ const lazyGroupedTimeTablesComponent = defineAsyncComponent(() =>
 
 const lazyAdminAddTimeEntryComponent = defineAsyncComponent(() =>
   import("../../components/admin/AdminAddTimeEntry.vue")
+);
+
+const lazyAddUserDialogComponent = defineAsyncComponent(() =>
+  import("../../components/AddUserDialog.vue")
 );
 
 const initializeData = async () => {
@@ -65,7 +70,15 @@ onUnmounted(() => {
   <section class="custom-full-height">
     <div class="container q-pt-xl">
       <h1 class="text-center text-h2">Admin Panel</h1>
-      <h2>{{ userStore.activeWorkspace.name }}</h2>
+      <h2 class="text-h3">{{ userStore.activeWorkspace.name }}</h2>
+      <q-btn
+        @click="showAddUserDialog = true"
+        class="q-mr-md"
+        dense
+        round
+        flat
+        icon="fa-solid fa-user-plus"
+      />
       <q-tab-panels v-model="panel" animated class="shadow-2 rounded-borders">
         <q-tab-panel name="table">
           <div>
@@ -98,6 +111,13 @@ onUnmounted(() => {
         </q-tab-panel>
       </q-tab-panels>
     </div>
+    <template v-if="showAddUserDialog">
+      <component
+        :is="lazyAddUserDialogComponent"
+        :show="showAddUserDialog"
+        @hide="showAddUserDialog = false"
+      />
+    </template>
   </section>
 </template>
 
@@ -112,6 +132,7 @@ onUnmounted(() => {
 
 :deep(.q-tab-panel) {
   background: #ebdbfd;
+  padding-inline: 0;
 }
 
 :deep(.q-tab-panel .time-calculator) {

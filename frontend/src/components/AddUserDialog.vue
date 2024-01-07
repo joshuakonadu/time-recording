@@ -33,29 +33,13 @@ const lazyInvitationBannerComponent = defineAsyncComponent(() =>
   <q-dialog v-model="reactiveShow">
     <q-card style="width: 90vw; max-width: 760px">
       <q-card-section>
-        <div class="text-h6">Einladungen</div>
+        <div class="text-h6">Neues Mitglied</div>
       </q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh; padding: 0" class="scroll">
-        <div
-          v-for="invitation in userStore.invitations"
-          :key="invitation.sendUserId"
-        >
-          <template v-if="invitation.type === 'invitation'">
-            <component
-              :is="lazyInvitationBannerComponent"
-              :invitation="invitation"
-            />
-          </template>
-          <template v-else-if="invitation.type === 'accept_invitation'">
-            <component
-              :is="lazyAcceptBannerComponent"
-              :invitation="invitation"
-            />
-          </template>
-        </div>
+      <q-card-section style="max-height: 50vh" class="scroll">
+        hi
       </q-card-section>
 
       <q-separator />
@@ -66,6 +50,13 @@ const lazyInvitationBannerComponent = defineAsyncComponent(() =>
           flat
           label="Schliessen"
           color="primary"
+          v-close-popup
+        />
+        <q-btn
+          class="q-mt-xl"
+          flat
+          label="Senden"
+          color="positive"
           v-close-popup
         />
       </q-card-actions>
