@@ -1,10 +1,31 @@
 <script setup>
+import { removeInvite } from "../service";
+import { useUserStore, useAlertStore } from "src/stores";
 const props = defineProps({
   invitation: {
     type: Object,
     required: true,
   },
 });
+
+const alertStore = useAlertStore();
+const userStore = useUserStore();
+
+const removeInvitation = async () => {
+  try {
+    await removeInvite({ workspaceId: props.invitation.workspaceId });
+  } catch (err) {
+    alertStore.error("Aktion fehlgeschlagen", 4000);
+  }
+  try {
+    await userStore.getInvitations();
+  } catch (err) {
+    alertStore.error(
+      "Beim aktualisieren der Nachrichten ist ein Fehler aufgetreten",
+      5000
+    );
+  }
+};
 </script>
 
 <template>
@@ -15,7 +36,7 @@ const props = defineProps({
     {{ props.invitation.sendUserName }} hat deine Einladung in den Workspace
     {{ props.invitation.workspaceName }} angenommen.
     <template v-slot:action>
-      <q-btn flat color="white" label="Okay" />
+      <q-btn @click="removeInvitation" flat color="white" label="Okay" />
     </template>
   </q-banner>
 </template>

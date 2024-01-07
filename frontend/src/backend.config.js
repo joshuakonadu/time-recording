@@ -28,6 +28,10 @@ export const BackendConfig = {
   getWorkspaceMembers: "/workspace/members/",
   adminAddTimeRecord: "/timerecords/adminadd",
   adminworkspace: "/timerecords/adminworkspace",
+  inviteUserToWorkspace: "/invitation/add",
+  getAllInvitations: "/invitation/all",
+  acceptInvitation: "/invitation/accept",
+  removeInvitation: "/invitation/remove",
 };
 export const ApiClient = axios.create({
   baseURL: BackendConfig.baseURL,

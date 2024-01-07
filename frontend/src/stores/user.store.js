@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getAllWorkspaces } from "../service";
+import { getAllWorkspaces, getAllInvitations } from "../service";
 import {
   sortDate,
   getDateNow,
@@ -24,22 +24,7 @@ export const useUserStore = defineStore({
       from: getFirstOfMonth(),
       to: getDateNow(),
     },
-    invitations: [
-      {
-        workspaceId: "343534",
-        isAdmin: true,
-        workspaceName: "test",
-        sendUserName: "Test Beta",
-        sendUserId: "ddses233",
-        type: "invitation",
-      },
-      {
-        sendUserName: `Test Alpha`,
-        workspaceName: "Test",
-        sendUserId: "ugzgjzg",
-        type: "accept_invitation",
-      },
-    ],
+    invitations: [],
   }),
   getters: {
     isActiveWorkspaceAdmin(state) {
@@ -63,12 +48,12 @@ export const useUserStore = defineStore({
   },
   actions: {
     async getWorkspaces() {
-      try {
-        const apiData = await getAllWorkspaces();
-        this.workspaces = apiData.data.workspaces;
-      } catch (err) {
-        throw new Error(err);
-      }
+      const apiData = await getAllWorkspaces();
+      this.workspaces = apiData.data.workspaces;
+    },
+    async getInvitations() {
+      const apiData = await getAllInvitations();
+      this.invitations = apiData.data;
     },
     setTimeTablesData(data) {
       this.timeTablesData = data;

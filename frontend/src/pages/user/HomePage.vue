@@ -11,6 +11,12 @@ const fetchAllWorkspaces = async () => {
     const alertStore = useAlertStore();
     alertStore.error("Workspaces konnten nicht geladen werden", 4000);
   }
+  try {
+    await userStore.getInvitations();
+  } catch (err) {
+    const alertStore = useAlertStore();
+    alertStore.error("Nachrichten konnten nicht geladen werden", 4000);
+  }
 };
 
 fetchAllWorkspaces();

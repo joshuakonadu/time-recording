@@ -3,6 +3,7 @@ import { errorHandler } from "./middleware/errorMiddleware.js";
 import userRouter from "./routes/userRoutes.js";
 import workspaceRoutes from "./routes/workspaceRoutes.js";
 import timerecordsRoutes from "./routes/timerecordsRoutes.js";
+import invitationRoutes from "./routes/invitationRoutes.js";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -27,6 +28,7 @@ app.use(
 app.use("/api/auth", userRouter);
 app.use("/api/workspace", workspaceRoutes);
 app.use("/api/timerecords", timerecordsRoutes);
+app.use("/api/invitation", invitationRoutes);
 
 app.use(errorHandler);
 

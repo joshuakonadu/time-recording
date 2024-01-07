@@ -1,5 +1,6 @@
 <script setup>
-import { useUserStore } from "src/stores";
+import { useUserStore, useAlertStore } from "src/stores";
+import { acceptInvitation, removeInvite } from "../service";
 const props = defineProps({
   invitation: {
     type: Object,
@@ -7,11 +8,41 @@ const props = defineProps({
   },
 });
 const userStore = useUserStore();
+const alertStore = useAlertStore();
 
-const removeInvitation = () => {
-  userStore.invitations = userStore.invitations.filter(
-    (data, index) => index !== 0
-  );
+const accept = async () => {
+  try {
+    await acceptInvitation({ workspaceId: props.invitation.workspaceId });
+    alertStore.success("Aktion Erfolgreich", 2500);
+  } catch (err) {
+    alertStore.error("Beim Annehmen ist ein Fehler aufgetreten", 4000);
+  }
+  try {
+    await userStore.getWorkspaces();
+    await userStore.getInvitations();
+  } catch (err) {
+    alertStore.error(
+      "Beim Aktualisieren der Daten ist ein Fehler aufgetreten",
+      4000
+    );
+  }
+};
+
+const removeInvitation = async () => {
+  try {
+    await removeInvite({ workspaceId: props.invitation.workspaceId });
+    alertStore.success("Erfolgreich Angenommen", 2500);
+  } catch (err) {
+    alertStore.error("Aktion fehlgeschlagen", 4000);
+  }
+  try {
+    await userStore.getInvitations();
+  } catch (err) {
+    alertStore.error(
+      "Beim aktualisieren der Nachrichten ist ein Fehler aufgetreten",
+      5000
+    );
+  }
 };
 </script>
 
@@ -24,7 +55,7 @@ const removeInvitation = () => {
     {{ props.invitation.workspaceName }} eingeladen.
     <template v-slot:action>
       <q-btn flat @click="removeInvitation" color="negative" label="Löschen" />
-      <q-btn flat color="positive" label="Akzeptieren" />
+      <q-btn flat @click="accept" color="positive" label="Akzeptieren" />
     </template>
   </q-banner>
 </template>

@@ -18,7 +18,7 @@ const props = defineProps({
     <q-separator />
 
     <q-card-actions vertical>
-      <q-btn :href="`/workspace/${props.data.workspaceId}`" flat>Öffnen</q-btn>
+      <q-btn :to="`/workspace/${props.data.workspaceId}`" flat>Öffnen</q-btn>
     </q-card-actions>
   </q-card>
 </template>

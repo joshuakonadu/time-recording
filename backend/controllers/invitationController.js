@@ -5,26 +5,23 @@ import {
   inviteUserToWorkspace,
   removeWorkspaceInvitation,
   acceptWorkspaceInvitation,
+  getAllInvitations,
 } from "../utils/invitation.helper.js";
 
 export const inviteWorkspace = asyncHandler(async (req, res) => {
-  const {
-    workspaceId,
-    sendUserName,
-    sendUserId,
-    workspaceName,
-    isAdmin,
-    email,
-  } = req.body;
+  const { workspaceId, workspaceName, isAdmin, email } = req.body;
+  const sendUser = req.user;
+  if (sendUser.email === email)
+    throw new Error("Einladung an sich selber ist nicht erlaubt");
   const user = await userByEmail(email);
-  if (!user) throw new Error("No User with that Email");
+  if (!user) throw new Error("Kein Nutzer mit dieser Email");
 
   await inviteUserToWorkspace(user._id, {
     workspaceId,
     isAdmin,
     workspaceName,
-    sendUserName,
-    sendUserId,
+    sendUserName: `${sendUser.firstname} ${sendUser.lastname}`,
+    sendUserId: sendUser._id,
     type: "invitation",
   });
   res.status(200).send();
@@ -37,8 +34,15 @@ export const acceptInvitation = asyncHandler(async (req, res) => {
   res.status(200).send();
 });
 
-export const createUserInvitations = asyncHandler(async (req, res) => {
-  const { userId } = req.body;
-  await createUserInvitations(userId);
+export const removeInvitation = asyncHandler(async (req, res) => {
+  const { workspaceId } = req.body;
+  const user = req.user;
+  await removeWorkspaceInvitation(user._id, workspaceId);
   res.status(200).send();
+});
+
+export const getInvitations = asyncHandler(async (req, res) => {
+  const user = req.user;
+  const invitations = await getAllInvitations(user._id);
+  res.status(200).json(invitations);
 });

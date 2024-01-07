@@ -28,6 +28,7 @@
           >
             {{ userStore.invitations.length }}
           </q-badge>
+          <q-badge v-else color="grey" floating transparent> 0 </q-badge>
         </q-btn>
       </q-toolbar>
     </q-header>

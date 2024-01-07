@@ -46,7 +46,7 @@ onUnmounted(() => {
       <h1 class="container text-h2">{{ userStore.activeWorkspace?.name }}</h1>
       <div v-if="userStore.isActiveWorkspaceAdmin">
         <q-btn
-          :href="`/adminworkspace/${router.currentRoute.value.params?.id}`"
+          :to="`/adminworkspace/${router.currentRoute.value.params?.id}`"
           flat
           label="Zur Admin Ansicht"
           color="primary"

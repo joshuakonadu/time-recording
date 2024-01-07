@@ -13,19 +13,13 @@ import {
 } from "../utils/workspace.helper.js";
 import { deleteUserWorkspaceData } from "../utils/utils.js";
 
-export const createUserRegisterWorkspace = asyncHandler(async (req, res) => {
-  const { userId } = req.body;
-  const registerWorkspace = await registerWorkspaceByUserId(userId);
-  if (registerWorkspace) {
-    throw new Error("Register workspace already exist");
-  }
-  await createRegisterWorkspace(userId);
-  res.status(200).send();
-});
-
 export const getAllRegisterWorkspaces = asyncHandler(async (req, res) => {
   const user = req.user;
-  const registerWorkspace = await registerWorkspaceByUserId(user._id);
+  let registerWorkspace = null;
+  registerWorkspace = await registerWorkspaceByUserId(user._id);
+  if (!registerWorkspace) {
+    registerWorkspace = await createRegisterWorkspace(user._id);
+  }
   res.status(200).json({
     workspaces: registerWorkspace.register,
   });

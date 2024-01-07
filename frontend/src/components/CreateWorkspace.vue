@@ -42,10 +42,10 @@ const sendData = async () => {
     await userStore.getWorkspaces();
   } catch (err) {
     error.value = true;
-  } finally {
-    loading.value = false;
     const alertStore = useAlertStore();
     alertStore.error("Konnte nicht erstellt werden", 3000);
+  } finally {
+    loading.value = false;
   }
 };
 

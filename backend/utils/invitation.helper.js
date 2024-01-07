@@ -8,18 +8,35 @@ export const userInvitationsByUserId = (userId) =>
 export const createUserInvitations = (userId) =>
   UserInvitations.create({ userId });
 
+export const getAllInvitations = async (userId) => {
+  let userInvitations = null;
+  try {
+    userInvitations = await userInvitationsByUserId(userId);
+    if (!userInvitations) throw new Error("Existiert nicht");
+  } catch (err) {
+    userInvitations = await createUserInvitations(userId);
+  }
+  return userInvitations.invitations;
+};
+
 export const inviteUserToWorkspace = async (userId, data) => {
-  const userInvitations = await UserInvitations.findOne({ userId });
+  const userInvitations = await userInvitationsByUserId(userId);
+  const isAlreadyInvited = userInvitations.invitations.find(
+    (invitation) => invitation.workspaceId?.toString() === data.workspaceId
+  );
+  if (isAlreadyInvited) {
+    throw new Error("Es existiert bereits eine Einladung von diesem Workspace");
+  }
   //TODO CHECK IF Workspace invitation already exist before push
   userInvitations.invitations.push(data);
   return userInvitations.save();
 };
 
-export const removeWorkspaceInvitation = async (userId, sendUserId) => {
-  const userInvitations = await UserInvitations.findOne({ userId });
+export const removeWorkspaceInvitation = async (userId, workspaceId) => {
+  const userInvitations = await userInvitationsByUserId(userId);
   if (!userInvitations) throw new Error("User Invitations not found");
   userInvitations.invitations = userInvitations.invitations.filter(
-    (data) => data.sendUserId.toString() !== sendUserId.toString()
+    (data) => data.workspaceId.toString() !== workspaceId.toString()
   );
   return userInvitations.save();
 };
@@ -31,11 +48,10 @@ export const acceptWorkspaceInvitation = async (user, workspaceId) => {
   );
   if (!findInvitation) throw new Error("Invitation not found");
 
-  const workspace = workspaceById(workspaceId);
-  const registerWorkspace = registerWorkspaceByUserId(user._id);
-
-  await workspace;
-  await registerWorkspace;
+  const [workspace, registerWorkspace] = await Promise.all([
+    workspaceById(workspaceId),
+    registerWorkspaceByUserId(user._id),
+  ]);
 
   if (!workspace) throw new Error("Workspace not found");
   if (!registerWorkspace) throw new Error("Register Workspace not found");
@@ -62,7 +78,7 @@ export const acceptWorkspaceInvitation = async (user, workspaceId) => {
     type: "accept_invitation",
     sendUserName: `${user.firstname} ${user.lastname}`,
     workspaceName: findInvitation.workspaceName,
-    sendUserId: user._id,
+    workspaceId,
   });
   sendUserInvitations.save();
   userInvitations.invitations = userInvitations.invitations.filter(
