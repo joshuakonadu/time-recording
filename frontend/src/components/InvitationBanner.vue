@@ -30,7 +30,7 @@ const accept = async () => {
 
 const removeInvitation = async () => {
   try {
-    await removeInvite({ workspaceId: props.invitation.workspaceId });
+    await removeInvite({ messageId: props.invitation.messageId });
     alertStore.success("Erfolgreich Angenommen", 2500);
   } catch (err) {
     alertStore.error("Aktion fehlgeschlagen", 4000);

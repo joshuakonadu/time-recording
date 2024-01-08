@@ -1,6 +1,7 @@
 import UserInvitations from "../models/userInvitationsModel.js";
 import { workspaceById } from "./workspace.helper.js";
 import { registerWorkspaceByUserId } from "./registerWorkspace.helper.js";
+import { nanoid } from "nanoid";
 
 export const userInvitationsByUserId = (userId) =>
   UserInvitations.findOne({ userId });
@@ -21,6 +22,8 @@ export const getAllInvitations = async (userId) => {
 
 export const inviteUserToWorkspace = async (userId, data) => {
   const userInvitations = await userInvitationsByUserId(userId);
+  if (!userInvitations)
+    throw new Error("Nutzer muss sich mindestens einmal eingeloggt haben");
   const isAlreadyInvited = userInvitations.invitations.find(
     (invitation) => invitation.workspaceId?.toString() === data.workspaceId
   );
@@ -37,6 +40,18 @@ export const removeWorkspaceInvitation = async (userId, workspaceId) => {
   if (!userInvitations) throw new Error("User Invitations not found");
   userInvitations.invitations = userInvitations.invitations.filter(
     (data) => data.workspaceId.toString() !== workspaceId.toString()
+  );
+  return userInvitations.save();
+};
+
+export const removeWorkspaceInvitationByMessageId = async (
+  userId,
+  messageId
+) => {
+  const userInvitations = await userInvitationsByUserId(userId);
+  if (!userInvitations) throw new Error("User Invitations not found");
+  userInvitations.invitations = userInvitations.invitations.filter(
+    (data) => data.messageId.toString() !== messageId.toString()
   );
   return userInvitations.save();
 };
@@ -79,6 +94,7 @@ export const acceptWorkspaceInvitation = async (user, workspaceId) => {
     sendUserName: `${user.firstname} ${user.lastname}`,
     workspaceName: findInvitation.workspaceName,
     workspaceId,
+    messageId: nanoid(),
   });
   sendUserInvitations.save();
   userInvitations.invitations = userInvitations.invitations.filter(

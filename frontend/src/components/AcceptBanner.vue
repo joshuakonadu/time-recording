@@ -13,7 +13,7 @@ const userStore = useUserStore();
 
 const removeInvitation = async () => {
   try {
-    await removeInvite({ workspaceId: props.invitation.workspaceId });
+    await removeInvite({ messageId: props.invitation.messageId });
   } catch (err) {
     alertStore.error("Aktion fehlgeschlagen", 4000);
   }

@@ -6,7 +6,9 @@ import {
   removeWorkspaceInvitation,
   acceptWorkspaceInvitation,
   getAllInvitations,
+  removeWorkspaceInvitationByMessageId,
 } from "../utils/invitation.helper.js";
+import { nanoid } from "nanoid";
 
 export const inviteWorkspace = asyncHandler(async (req, res) => {
   const { workspaceId, workspaceName, isAdmin, email } = req.body;
@@ -23,6 +25,7 @@ export const inviteWorkspace = asyncHandler(async (req, res) => {
     sendUserName: `${sendUser.firstname} ${sendUser.lastname}`,
     sendUserId: sendUser._id,
     type: "invitation",
+    messageId: nanoid(),
   });
   res.status(200).send();
 });
@@ -35,9 +38,9 @@ export const acceptInvitation = asyncHandler(async (req, res) => {
 });
 
 export const removeInvitation = asyncHandler(async (req, res) => {
-  const { workspaceId } = req.body;
+  const { messageId } = req.body;
   const user = req.user;
-  await removeWorkspaceInvitation(user._id, workspaceId);
+  await removeWorkspaceInvitationByMessageId(user._id, messageId);
   res.status(200).send();
 });
 
