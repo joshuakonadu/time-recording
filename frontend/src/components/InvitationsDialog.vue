@@ -55,6 +55,7 @@ const lazyInvitationBannerComponent = defineAsyncComponent(() =>
               :invitation="invitation"
             />
           </template>
+          <q-separator />
         </div>
       </q-card-section>
 

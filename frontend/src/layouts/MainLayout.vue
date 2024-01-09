@@ -72,10 +72,10 @@
 </template>
 
 <script>
-import { defineComponent, ref, defineAsyncComponent } from "vue";
+import { defineComponent, ref, defineAsyncComponent, onMounted } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 import { useAuthentication } from "../composables/useAuthentication";
-import { useAuthStore, useUserStore } from "src/stores";
+import { useAuthStore, useUserStore, useAlertStore } from "src/stores";
 import router from "../router";
 
 export default defineComponent({
@@ -94,6 +94,15 @@ export default defineComponent({
     const lazyInvitationsDialogComponent = defineAsyncComponent(() =>
       import("../components/InvitationsDialog.vue")
     );
+
+    onMounted(async () => {
+      try {
+        await userStore.getInvitations();
+      } catch (err) {
+        const alertStore = useAlertStore();
+        alertStore.error("Nachrichten konnten nicht geladen werden", 4000);
+      }
+    });
 
     const showMessages = () => {
       if (!userStore.invitations.length) return;
