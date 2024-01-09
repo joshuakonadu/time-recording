@@ -46,6 +46,7 @@ export const sortDate = (data1, data2) => {
 
 export const loadTimeTables = async () => {
   const userStore = useUserStore();
+  await router.isReady();
   const routeId = router.currentRoute.value.params?.id;
   const sendData = {
     workspaceId: routeId,
@@ -84,6 +85,7 @@ export const adminAddNewTimeRecord = async (data) => {
 
 export const adminloadTimeTables = async (userId) => {
   const userStore = useUserStore();
+  await router.isReady();
   const routeId = router.currentRoute.value.params?.id;
   const sendData = {
     workspaceId: routeId,

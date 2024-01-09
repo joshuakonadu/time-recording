@@ -27,6 +27,7 @@ const lazyAddUserDialogComponent = defineAsyncComponent(() =>
 );
 
 const initializeData = async () => {
+  await router.isReady();
   const workspaceId = router.currentRoute.value.params?.id;
   try {
     const workspace = await getWorkspace(workspaceId);

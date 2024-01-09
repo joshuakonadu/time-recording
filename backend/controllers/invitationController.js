@@ -27,7 +27,7 @@ export const inviteWorkspace = asyncHandler(async (req, res) => {
     type: "invitation",
     messageId: nanoid(),
   });
-  res.status(200).send();
+  res.status(200).json({ recieverUserId: user._id });
 });
 
 export const acceptInvitation = asyncHandler(async (req, res) => {

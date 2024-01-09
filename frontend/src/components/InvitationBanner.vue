@@ -1,6 +1,7 @@
 <script setup>
 import { useUserStore, useAlertStore } from "src/stores";
 import { acceptInvitation, removeInvite } from "../service";
+import { recieverNotifyInvitationByUserId } from "../client.socket.js";
 const props = defineProps({
   invitation: {
     type: Object,
@@ -18,6 +19,7 @@ const accept = async () => {
     alertStore.error("Beim Annehmen ist ein Fehler aufgetreten", 4000);
   }
   try {
+    recieverNotifyInvitationByUserId(props.invitation.sendUserId);
     await userStore.getWorkspaces();
     await userStore.getInvitations();
   } catch (err) {
@@ -31,7 +33,6 @@ const accept = async () => {
 const removeInvitation = async () => {
   try {
     await removeInvite({ messageId: props.invitation.messageId });
-    alertStore.success("Erfolgreich Angenommen", 2500);
   } catch (err) {
     alertStore.error("Aktion fehlgeschlagen", 4000);
   }

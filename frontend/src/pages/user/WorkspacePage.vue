@@ -20,6 +20,7 @@ const lazyWorkspaceActionsComponent = defineAsyncComponent(() =>
 const tab = ref("times");
 
 const initializeData = async () => {
+  await router.isReady();
   const workspaceId = router.currentRoute.value.params?.id;
   try {
     const workspace = await getWorkspace(workspaceId);

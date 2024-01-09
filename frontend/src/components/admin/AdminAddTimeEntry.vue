@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, markRaw } from "vue";
+import { ref, computed, markRaw, onMounted } from "vue";
 import { DateTime, Interval } from "luxon";
 import { useUserStore, useAlertStore } from "../../stores";
 import { adminAddNewTimeRecord } from "../../helpers/timeHelpers.js";
@@ -16,7 +16,12 @@ const props = defineProps({
 const userStore = useUserStore();
 const alertStore = useAlertStore();
 
-const workspaceId = router.currentRoute.value.params?.id;
+let workspaceId = null;
+
+onMounted(async () => {
+  await router.isReady();
+  workspaceId = router.currentRoute.value.params?.id;
+});
 
 function getTimeNow() {
   return DateTime.now().toString();

@@ -38,7 +38,7 @@ export const checkWorkspaceAdminPermission = async (userId, workspaceId) => {
   }
 };
 
-export const checkWorkspacePermission = async (userId, members) => {
+export const checkWorkspacePermission = (userId, members) => {
   if (
     isWorkspaceMemberCheck(userId, members) ||
     isWorkspaceAdminCheck(userId, members)

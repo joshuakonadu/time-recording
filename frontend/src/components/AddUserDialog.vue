@@ -3,6 +3,7 @@ import { defineAsyncComponent, computed, ref } from "vue";
 import { useUserStore, useAuthStore, useAlertStore } from "../stores";
 import { inviteUserToWorkspace } from "../service";
 import router from "../router";
+import { recieverNotifyInvitationByUserId } from "../client.socket.js";
 
 const props = defineProps({
   show: {
@@ -61,8 +62,10 @@ const sendInvitation = async () => {
     email: email.value,
   };
   try {
-    await inviteUserToWorkspace(sendData);
+    const response = await inviteUserToWorkspace(sendData);
+    const { recieverUserId } = response.data;
     success.value = true;
+    recieverNotifyInvitationByUserId(recieverUserId);
   } catch (err) {
     alertStore.error(err.response.data.message, 5000);
   } finally {

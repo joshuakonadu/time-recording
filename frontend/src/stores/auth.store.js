@@ -27,6 +27,7 @@ export const useAuthStore = defineStore({
     },
     async checkAuthenticated() {
       if (this.user) {
+        import("../client.socket");
         return;
       }
       try {
@@ -35,6 +36,8 @@ export const useAuthStore = defineStore({
         if (!autherized) throw new Error("Not autherized");
 
         this.user = user;
+        import("../client.socket");
+        await router.isReady();
         if (isInUnauthorizedRoute(router.currentRoute.value.path)) {
           router.push("/auth");
         }

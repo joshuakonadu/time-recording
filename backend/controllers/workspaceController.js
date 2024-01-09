@@ -50,6 +50,7 @@ export const getWorkspace = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const workspace = await workspaceById(id);
   if (!workspace) throw new Error("No Workspace");
+
   checkWorkspacePermission(req.user._id, workspace.members);
   res.status(200).json(workspace);
 });

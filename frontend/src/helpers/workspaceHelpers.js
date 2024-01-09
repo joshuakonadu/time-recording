@@ -9,6 +9,7 @@ import {
 
 export const updateMembers = async () => {
   const userStore = useUserStore();
+  await router.isReady();
   const routeId = router.currentRoute.value.params?.id;
   let apiData = null;
   try {
@@ -25,6 +26,7 @@ export const updateMembers = async () => {
 
 export const deleteWorkspaceMember = async (id) => {
   const userStore = useUserStore();
+  await router.isReady();
   const routeId = router.currentRoute.value.params?.id;
   try {
     const { data } = await deleteMember(routeId, {
