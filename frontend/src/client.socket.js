@@ -10,18 +10,10 @@ socket.on("connect", () => {
   socket.emit("user", authStore.user?._id);
 });
 
-socket.on("new invitation", (serializedCmd) => {
+socket.on("new invitation", (msg) => {
   userStore.getInvitations();
-  if (serializedCmd) handleSerializedCmd(serializedCmd);
 });
 
-export function recieverNotifyInvitationByUserId(id, cmd) {
-  socket.emit("new invitation", id, cmd && cmd.toString());
+export function recieverNotifyInvitationByUserId(id, msg) {
+  socket.emit("new invitation", id, msg);
 }
-
-const handleSerializedCmd = (serializedCmd) => {
-  const func = Function("return " + serializedCmd);
-  try {
-    func()();
-  } catch (err) {}
-};
