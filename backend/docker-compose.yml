@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+  web:
+    depends_on:
+      - redis
+      - db
+    environment:
+      - MONGO_URI=mongodb://db:27017/time_recording?authSource=admin
+    restart: on-failure
+    build: .
+    ports:
+      - "5000:5000"

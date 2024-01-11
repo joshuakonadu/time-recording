@@ -37,6 +37,13 @@ app.use(errorHandler);
 
 const server = http.createServer(app);
 
+const client = await createClient({
+  url: "redis://redis:6379",
+  legacyMode: true,
+})
+  .on("error", (err) => console.log("Redis Client Error", err))
+  .connect();
+
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:9000",
@@ -62,7 +69,3 @@ io.on("connection", (socket) => {
 });
 
 server.listen(port, () => console.log(`Server started on port ${port}`));
-
-const client = await createClient()
-  .on("error", (err) => console.log("Redis Client Error", err))
-  .connect();
