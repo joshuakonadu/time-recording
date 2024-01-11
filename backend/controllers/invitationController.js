@@ -7,6 +7,7 @@ import {
   acceptWorkspaceInvitation,
   getAllInvitations,
   removeWorkspaceInvitationByMessageId,
+  addNewRemoveInvitationMessage,
 } from "../utils/invitation.helper.js";
 import { nanoid } from "nanoid";
 
@@ -48,4 +49,10 @@ export const getInvitations = asyncHandler(async (req, res) => {
   const user = req.user;
   const invitations = await getAllInvitations(user._id);
   res.status(200).json(invitations);
+});
+
+export const addRemoveInvitationMessage = asyncHandler(async (req, res) => {
+  const { sendUserId, workspaceName } = req.body;
+  await addNewRemoveInvitationMessage(sendUserId, workspaceName);
+  res.status(200).send();
 });

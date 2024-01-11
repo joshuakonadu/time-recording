@@ -1,10 +1,12 @@
 import { toRaw } from "vue";
 import { useUserStore } from "src/stores";
 import router from "../router";
+import { recieverNotifyInvitationByUserId } from "../client.socket.js";
 import {
   updateWorkspaceMembers,
   getWorkspaceMembers,
   deleteWorkspaceMember as deleteMember,
+  addNewRemoveInvitationMessage,
 } from "../service";
 
 export const updateMembers = async () => {
@@ -40,4 +42,9 @@ export const deleteWorkspaceMember = async (id) => {
   } catch (err) {
     throw new Error("Fehler");
   }
+};
+
+export const sendRemoveInvitationMessage = async (data) => {
+  await addNewRemoveInvitationMessage(data);
+  recieverNotifyInvitationByUserId(data.sendUserId);
 };

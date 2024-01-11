@@ -52,8 +52,9 @@ const removeInvitation = async () => {
     <template v-slot:avatar>
       <q-icon name="fa-regular fa-building" color="white" />
     </template>
-    Du wurdest von {{ props.invitation.sendUserName }} in den Workspace
-    {{ props.invitation.workspaceName }} eingeladen.
+    Du wurdest von {{ props.invitation.sendUserName }} in den Workspace '{{
+      props.invitation.workspaceName
+    }}' eingeladen.
     <template v-slot:action>
       <q-btn flat @click="removeInvitation" color="negative" label="Löschen" />
       <q-btn flat @click="accept" color="positive" label="Akzeptieren" />

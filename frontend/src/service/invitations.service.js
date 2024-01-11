@@ -19,3 +19,7 @@ export function acceptInvitation(data) {
 export function removeInvite(data) {
   return ApiClient.post(BackendConfig.removeInvitation, data);
 }
+
+export function addNewRemoveInvitationMessage(data) {
+  return ApiClient.post(BackendConfig.addNewRemoveInvitationMessage, data);
+}

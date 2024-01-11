@@ -5,6 +5,7 @@ import { DateTime } from "luxon";
 import {
   updateMembers,
   deleteWorkspaceMember,
+  sendRemoveInvitationMessage,
 } from "../../helpers/workspaceHelpers.js";
 import router from "../../router";
 
@@ -63,7 +64,7 @@ const showDeleteMemberDialog = (id) => {
   showConfirmDelete.value = true;
 };
 
-const closeDeleteDialog = () => {
+const closeDeleteDialogAndResetValues = () => {
   deleteMemberId = null;
   showConfirmDelete.value = false;
 };
@@ -105,7 +106,11 @@ const deleteMember = async () => {
     if (deleteMemberId === authStore.user._id) {
       router.push("/auth");
     }
-    closeDeleteDialog();
+    sendRemoveInvitationMessage({
+      sendUserId: deleteMemberId,
+      workspaceName: userStore.activeWorkspace.name,
+    });
+    closeDeleteDialogAndResetValues();
   } catch (err) {
     alertStore.error("Löschen Fehlgeschlagen", 3000);
   }
@@ -256,7 +261,7 @@ const deleteMember = async () => {
             flat
             label="Abbrechen"
             color="primary"
-            @click="closeDeleteDialog"
+            @click="closeDeleteDialogAndResetValues"
           />
         </q-card-actions>
       </q-card>

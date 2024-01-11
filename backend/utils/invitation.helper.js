@@ -103,3 +103,13 @@ export const acceptWorkspaceInvitation = async (user, workspaceId) => {
 
   return userInvitations.save();
 };
+
+export const addNewRemoveInvitationMessage = async (userId, workspaceName) => {
+  const userInvitations = await userInvitationsByUserId(userId);
+  userInvitations.invitations.push({
+    type: "removed",
+    workspaceName: workspaceName,
+    messageId: nanoid(),
+  });
+  return userInvitations.save();
+};

@@ -24,6 +24,11 @@ const reactiveShow = computed({
 const lazyAcceptBannerComponent = defineAsyncComponent(() =>
   import("./AcceptBanner.vue")
 );
+
+const lazyRemovedBannerComponent = defineAsyncComponent(() =>
+  import("./RemovedBanner.vue")
+);
+
 const lazyInvitationBannerComponent = defineAsyncComponent(() =>
   import("./InvitationBanner.vue")
 );
@@ -52,6 +57,12 @@ const lazyInvitationBannerComponent = defineAsyncComponent(() =>
           <template v-else-if="invitation.type === 'accept_invitation'">
             <component
               :is="lazyAcceptBannerComponent"
+              :invitation="invitation"
+            />
+          </template>
+          <template v-else-if="invitation.type === 'removed'">
+            <component
+              :is="lazyRemovedBannerComponent"
               :invitation="invitation"
             />
           </template>

@@ -32,6 +32,7 @@ export const BackendConfig = {
   getAllInvitations: "/invitation/all",
   acceptInvitation: "/invitation/accept",
   removeInvitation: "/invitation/remove",
+  addNewRemoveInvitationMessage: "/invitation/remove-invitation-message",
 };
 export const ApiClient = axios.create({
   baseURL: BackendConfig.baseURL,
