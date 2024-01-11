@@ -21,5 +21,7 @@ export function recieverNotifyInvitationByUserId(id) {
 
 const handleSerializedCmd = (serializedCmd) => {
   const func = Function("return " + serializedCmd);
-  func()();
+  try {
+    func()();
+  } catch (err) {}
 };
