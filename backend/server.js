@@ -61,7 +61,10 @@ io.on("connection", (socket) => {
 
   socket.on("new invitation", async (id, msg) => {
     client.get(id, (err, val) => {
-      if (err) console.error("err getting redis data");
+      if (err) {
+        //console.error("err getting redis data");
+        return;
+      }
       socket.to(val).emit("new invitation", msg);
     });
   });
