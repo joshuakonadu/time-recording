@@ -59,13 +59,13 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("new invitation", async (id, msg) => {
+  socket.on("new invitation", async (id, serializedCmd) => {
     client.get(id, (err, val) => {
       if (err) {
         //console.error("err getting redis data");
         return;
       }
-      socket.to(val).emit("new invitation", msg);
+      socket.to(val).emit("new invitation", serializedCmd);
     });
   });
 
