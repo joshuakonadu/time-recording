@@ -38,7 +38,7 @@ app.use(errorHandler);
 const server = http.createServer(app);
 
 const client = await createClient({
-  url: "redis://redis:6379",
+  url: process.env.REDIS_URI || "redis://127.0.0.1:6379",
   legacyMode: true,
 })
   .on("error", (err) => console.log("Redis Client Error", err))
@@ -54,13 +54,18 @@ io.on("connection", (socket) => {
   socket.on("user", async (id) => {
     if (id) {
       socket.userId = id;
-      await client.set(id, socket.id);
+      client.set(id, socket.id, (err) => {
+        if (err) console.error("err setting redis data");
+        //console.log(id + " connected");
+      });
     }
   });
 
   socket.on("new invitation", async (id, msg) => {
-    const recieverSocketId = await client.get(id);
-    socket.to(recieverSocketId).emit("new invitation", msg);
+    client.get(id, (err, val) => {
+      if (err) console.error("err getting redis data");
+      socket.to(val).emit("new invitation", msg);
+    });
   });
 
   socket.on("disconnect", async () => {
@@ -69,3 +74,13 @@ io.on("connection", (socket) => {
 });
 
 server.listen(port, () => console.log(`Server started on port ${port}`));
+
+process.on("exit", cleanUpRedis);
+
+process.on("SIGINT", cleanUpRedis);
+
+process.on("uncaughtException", cleanUpRedis);
+
+function cleanUpRedis() {
+  client.flushAll();
+}
