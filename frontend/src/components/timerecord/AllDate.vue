@@ -28,7 +28,7 @@ const changeTo = (data) => {
     <div class="time-from text-h5">Von</div>
     <TimeClockCalendar class="mr-sm" @change="changeFrom" :time="props.from" />
     <div class="time-to text-h5">Bis</div>
-    <TimeClockCalendar class="q-mr-lg" @change="changeTo" :time="props.to" />
+    <TimeClockCalendar @change="changeTo" :time="props.to" />
   </div>
 </template>
 

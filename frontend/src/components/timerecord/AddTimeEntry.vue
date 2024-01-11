@@ -8,13 +8,6 @@ import router from "../../router";
 const userStore = useUserStore();
 const alertStore = useAlertStore();
 
-let workspaceId = null;
-
-onMounted(async () => {
-  await router.isReady();
-  workspaceId = router.currentRoute.value.params?.id;
-});
-
 const dateModes = {
   "24h": defineAsyncComponent(() => import("./SameDate.vue")),
   all: defineAsyncComponent(() => import("./AllDate.vue")),
@@ -59,6 +52,7 @@ const saveNewTimeEntry = async () => {
     alertStore.info("Bitte Beschreibung hinzufügen");
     return;
   }
+  const workspaceId = router.currentRoute.value.params?.id;
   const newData = {
     from: from.value,
     to: to.value,
@@ -74,6 +68,7 @@ const saveNewTimeEntry = async () => {
     alertStore.error("Neuer Eintrag Fehlgeschlagen", 3000);
   } finally {
     clearValue();
+    from.value = to.value;
   }
 };
 
@@ -85,9 +80,9 @@ const clearValue = () => {
 </script>
 
 <template>
-  <div class="time-calculator q-mt-lg q-mb-xl container">
+  <div class="time-calculator align-end q-mt-lg q-mb-xl container">
     <div class="input-container">
-      <q-input v-model="description" label="Beschreibung" />
+      <q-input v-model="description" autogrow label="Beschreibung" />
     </div>
     <div
       v-if="userStore.activeWorkspace.projectOption?.length"
@@ -109,7 +104,7 @@ const clearValue = () => {
         label="Rolle"
       />
     </div>
-    <div class="flex-container flex-100 q-mt-xl q-mb-xl">
+    <div class="flex-container flex-center flex-100 q-mt-xl q-mb-xl">
       <component
         :is="activeDateMode"
         @changeFrom="changeFrom"
@@ -118,7 +113,7 @@ const clearValue = () => {
         :to="to"
       />
 
-      <div class="time-diff">
+      <div class="time-diff q-ml-lg">
         <q-btn
           class="custom-border"
           @click="saveNewTimeEntry"
@@ -137,7 +132,6 @@ const clearValue = () => {
 .time-calculator {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   border: 8px dashed $secondary;
   padding: 33px;
 }

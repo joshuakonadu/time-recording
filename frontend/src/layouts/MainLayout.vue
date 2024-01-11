@@ -12,6 +12,9 @@
         />
 
         <q-toolbar-title> Time App </q-toolbar-title>
+        <div class="q-mr-xl">
+          {{ authStore.user?.firstname }} {{ authStore.user?.lastname }}
+        </div>
         <q-btn
           @click="showMessages"
           class="q-mr-md"
@@ -138,6 +141,7 @@ export default defineComponent({
       leftDrawerOpen,
       toggleLeftDrawer,
       userStore,
+      authStore,
       openMessageDialog,
       showMessages,
       lazyInvitationsDialogComponent,

@@ -86,7 +86,7 @@ const sendInvitation = async () => {
           <div class="name">
             <q-input bottom-slots v-model="email" label="E-Mail"> </q-input>
           </div>
-          <div class="mode q-ml-lg">
+          <div class="mode">
             <q-select
               v-model="isAdmin"
               :options="adminOptions"
@@ -142,10 +142,17 @@ const sendInvitation = async () => {
 </template>
 <style scoped>
 .name {
-  width: 70%;
+  width: 100%;
 }
 
-.mode {
-  width: 20%;
+@media screen and (min-width: 750px) {
+  .name {
+    width: 70%;
+  }
+
+  .mode {
+    width: 20%;
+    margin-left: 24px;
+  }
 }
 </style>

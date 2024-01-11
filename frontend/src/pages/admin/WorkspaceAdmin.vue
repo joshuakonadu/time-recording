@@ -71,15 +71,17 @@ onUnmounted(() => {
   <section class="custom-full-height">
     <div class="container q-pt-xl">
       <h1 class="text-center text-h2">Admin Panel</h1>
-      <h2 class="text-h3">{{ userStore.activeWorkspace.name }}</h2>
-      <q-btn
-        @click="showAddUserDialog = true"
-        class="q-mr-md"
-        dense
-        round
-        flat
-        icon="fa-solid fa-user-plus"
-      />
+      <div class="flex-container flex-between align-center">
+        <h2 class="text-h3">{{ userStore.activeWorkspace.name }}</h2>
+        <q-btn
+          @click="showAddUserDialog = true"
+          class="q-mr-md btn--no-hover"
+          dense
+          round
+          flat
+          icon="fa-solid fa-user-plus"
+        />
+      </div>
       <q-tab-panels v-model="panel" animated class="shadow-2 rounded-borders">
         <q-tab-panel name="table">
           <div>
@@ -138,5 +140,12 @@ onUnmounted(() => {
 
 :deep(.q-tab-panel .time-calculator) {
   background: #ffffff;
+}
+:deep(.q-btn.btn--no-hover .q-focus-helper) {
+  display: none;
+}
+
+:deep(.q-btn.btn--no-hover) {
+  height: fit-content;
 }
 </style>

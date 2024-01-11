@@ -34,6 +34,14 @@
   align-items: center;
 }
 
+.align-end{
+  align-items: flex-end;
+}
+
+.flex-center{
+  justify-content: center;
+}
+
 .custom-border{
   border: 4px dashed;
 }

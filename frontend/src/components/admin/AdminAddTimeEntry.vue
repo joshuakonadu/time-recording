@@ -74,6 +74,7 @@ const saveNewTimeEntry = async () => {
     alertStore.error("Neuer Eintrag fehlgeschlagen", 3000);
   } finally {
     clearValue();
+    from.value = to.value;
   }
 };
 
@@ -85,9 +86,9 @@ const clearValue = () => {
 </script>
 
 <template>
-  <div class="time-calculator q-mt-lg q-mb-xl">
+  <div class="time-calculator align-end q-mt-lg q-mb-xl">
     <div class="input-container">
-      <q-input v-model="description" label="Beschreibung" />
+      <q-input v-model="description" autogrow label="Beschreibung" />
     </div>
     <div
       v-if="userStore.activeWorkspace.projectOption.length"
@@ -116,7 +117,7 @@ const clearValue = () => {
         :from="from"
         :to="to"
       />
-      <div class="time-diff">
+      <div class="time-diff q-ml-lg">
         <q-btn
           class="custom-border"
           @click="saveNewTimeEntry"
@@ -135,7 +136,6 @@ const clearValue = () => {
 .time-calculator {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   border: 8px dashed $secondary;
   padding: 33px;
 }

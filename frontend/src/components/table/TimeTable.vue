@@ -191,6 +191,7 @@ watch(
               <q-input
                 type="text"
                 v-model="scope.value"
+                autogrow
                 dense
                 autofocus
                 @keyup.enter="scope.set"

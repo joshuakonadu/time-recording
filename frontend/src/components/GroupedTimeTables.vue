@@ -96,15 +96,22 @@ const updateChangedObject = async (data) => {
 <template>
   <div>
     <TimeRange :sumTime="calculateAllTime" />
-    <div v-for="(data, index) in groupedTimeTablesData" :key="data">
-      <TimeTable
-        :data="data"
-        :day="index"
-        :columns="columns"
-        @changeIndex="indexOfChangedIndex"
-        @changedList="changedList"
-      />
-    </div>
+    <template v-if="Object.keys(groupedTimeTablesData).length">
+      <div v-for="(data, index) in groupedTimeTablesData" :key="data">
+        <TimeTable
+          :data="data"
+          :day="index"
+          :columns="columns"
+          @changeIndex="indexOfChangedIndex"
+          @changedList="changedList"
+        />
+      </div>
+    </template>
+    <template v-else>
+      <h2 class="text-center text-h4">
+        Keine Zeiteinträge für diesen Zeitraum
+      </h2>
+    </template>
   </div>
 </template>
 

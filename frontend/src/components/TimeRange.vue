@@ -33,7 +33,7 @@ const formatTo = computed(
 
 <template>
   <div class="flex-container custom-flex q-py-lg">
-    <div class="flex-container">
+    <div class="flex-container custom-gap">
       <q-input
         standout
         style="max-width: 180px"
@@ -93,5 +93,9 @@ const formatTo = computed(
   gap: 20px;
   justify-content: space-between;
   align-items: center;
+}
+
+.custom-gap {
+  gap: 12px;
 }
 </style>
