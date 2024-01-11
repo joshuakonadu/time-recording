@@ -15,8 +15,8 @@ socket.on("new invitation", (serializedCmd) => {
   if (serializedCmd) handleSerializedCmd(serializedCmd);
 });
 
-export function recieverNotifyInvitationByUserId(id) {
-  socket.emit("new invitation", id);
+export function recieverNotifyInvitationByUserId(id, cmd) {
+  socket.emit("new invitation", id, cmd && cmd.toString());
 }
 
 const handleSerializedCmd = (serializedCmd) => {
