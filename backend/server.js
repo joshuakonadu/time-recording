@@ -7,7 +7,6 @@ import timerecordsRoutes from "./routes/timerecordsRoutes.js";
 import invitationRoutes from "./routes/invitationRoutes.js";
 import cors from "cors";
 import { Server } from "socket.io";
-import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { createClient } from "redis";
 import "./config/env.js";
@@ -26,7 +25,6 @@ app.use(
     credentials: true,
   })
 );
-//app.use(morgan("combined"));
 
 app.use("/api/auth", userRouter);
 app.use("/api/workspace", workspaceRoutes);
