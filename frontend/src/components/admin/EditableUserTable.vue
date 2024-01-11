@@ -105,11 +105,12 @@ const deleteMember = async () => {
     alertStore.success("Erfolgreich gelöscht", 2500);
     if (deleteMemberId === authStore.user._id) {
       router.push("/auth");
+    } else {
+      sendRemoveInvitationMessage({
+        sendUserId: deleteMemberId,
+        workspaceName: userStore.activeWorkspace.name,
+      });
     }
-    sendRemoveInvitationMessage({
-      sendUserId: deleteMemberId,
-      workspaceName: userStore.activeWorkspace.name,
-    });
     closeDeleteDialogAndResetValues();
   } catch (err) {
     alertStore.error("Löschen Fehlgeschlagen", 3000);
