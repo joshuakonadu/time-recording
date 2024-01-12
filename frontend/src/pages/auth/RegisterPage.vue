@@ -1,10 +1,10 @@
 <script setup>
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
-import { register } from "../service";
+import { register } from "../../service";
 
-import { useAlertStore } from "../stores";
-import router from "../router";
+import { useAlertStore } from "../../stores";
+import router from "../../router";
 
 const schema = Yup.object().shape({
   firstname: Yup.string()

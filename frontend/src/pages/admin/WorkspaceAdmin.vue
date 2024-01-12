@@ -23,7 +23,7 @@ const lazyAdminAddTimeEntryComponent = defineAsyncComponent(() =>
 );
 
 const lazyAddUserDialogComponent = defineAsyncComponent(() =>
-  import("../../components/AddUserDialog.vue")
+  import("../../components/admin/AddUserDialog.vue")
 );
 
 const initializeData = async () => {

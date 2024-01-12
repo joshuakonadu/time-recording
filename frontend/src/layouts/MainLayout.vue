@@ -95,7 +95,7 @@ export default defineComponent({
 
     const openMessageDialog = ref(false);
     const lazyInvitationsDialogComponent = defineAsyncComponent(() =>
-      import("../components/InvitationsDialog.vue")
+      import("../components/messages/InvitationsDialog.vue")
     );
 
     onMounted(async () => {

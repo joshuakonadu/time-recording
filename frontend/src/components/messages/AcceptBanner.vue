@@ -1,5 +1,5 @@
 <script setup>
-import { removeInvite } from "../service";
+import { removeInvite } from "../../service";
 import { useUserStore, useAlertStore } from "src/stores";
 const props = defineProps({
   invitation: {

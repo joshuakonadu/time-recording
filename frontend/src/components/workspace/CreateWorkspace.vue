@@ -1,8 +1,8 @@
 <script setup>
 import { ref, toRaw } from "vue";
-import { createWorkspace } from "../service";
-import { useUserStore, useAlertStore } from "../stores";
-import router from "../router";
+import { createWorkspace } from "../../service";
+import { useUserStore, useAlertStore } from "../../stores";
+import router from "../../router";
 
 const userStore = useUserStore();
 

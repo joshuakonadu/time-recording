@@ -1,5 +1,5 @@
 <script setup>
-import CreateWorkspace from "../../components/CreateWorkspace.vue";
+import CreateWorkspace from "../../components/workspace/CreateWorkspace.vue";
 import WorkSpaces from "../../components/workspace/WorkSpaces.vue";
 import { useUserStore, useAlertStore } from "../../stores";
 

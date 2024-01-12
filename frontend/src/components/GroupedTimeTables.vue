@@ -5,7 +5,7 @@ import { DateTime } from "luxon";
 import { useTimeTablesData } from "../composables/useTimeTablesData.js";
 import { useUserStore, useAlertStore } from "../stores";
 import { updateTimeRecord, getTimesByWorkspaceUser } from "../service";
-import TimeRange from "./TimeRange.vue";
+import TimeRange from "./workspace/TimeRange.vue";
 import router from "../router";
 
 const userStore = useUserStore();

@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref } from "vue";
 import { DateTime } from "luxon";
-import { timeMask } from "../helpers/timeHelpers";
-import { useUserStore } from "../stores";
+import { timeMask } from "../../helpers/timeHelpers";
+import { useUserStore } from "../../stores";
 
 const props = defineProps({
   sumTime: {

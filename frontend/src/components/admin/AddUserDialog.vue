@@ -1,9 +1,9 @@
 <script setup>
 import { defineAsyncComponent, computed, ref } from "vue";
-import { useUserStore, useAuthStore, useAlertStore } from "../stores";
-import { inviteUserToWorkspace } from "../service";
-import router from "../router";
-import { recieverNotifyInvitationByUserId } from "../client.socket.js";
+import { useUserStore, useAuthStore, useAlertStore } from "../../stores";
+import { inviteUserToWorkspace } from "../../service";
+import router from "../../router";
+import { recieverNotifyInvitationByUserId } from "../../client.socket.js";
 
 const props = defineProps({
   show: {
@@ -39,10 +39,10 @@ const reactiveShow = computed({
 });
 
 const lazyAcceptBannerComponent = defineAsyncComponent(() =>
-  import("./AcceptBanner.vue")
+  import("../AcceptBanner.vue")
 );
 const lazyInvitationBannerComponent = defineAsyncComponent(() =>
-  import("./InvitationBanner.vue")
+  import("../InvitationBanner.vue")
 );
 
 const cleanUp = () => {
