@@ -5,10 +5,11 @@ import GroupedTimeTables from "../../components/GroupedTimeTables.vue";
 import { getWorkspace } from "../../service";
 import { useUserStore, useAlertStore } from "src/stores";
 import { loadTimeTables } from "../../helpers/timeHelpers.js";
-import router from "../../router";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
+const router = useRouter();
 
 const lazyUserTableComponent = defineAsyncComponent(() =>
   import("../../components/table/UserTable.vue")

@@ -6,10 +6,12 @@ import { useTimeTablesData } from "../composables/useTimeTablesData.js";
 import { useUserStore, useAlertStore } from "../stores";
 import { updateTimeRecord, getTimesByWorkspaceUser } from "../service";
 import TimeRange from "./workspace/TimeRange.vue";
-import router from "../router";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
+const router = useRouter();
+
 const { groupedTimeTablesData, calculateAllTime } = useTimeTablesData();
 
 const changedDataState = {

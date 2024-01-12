@@ -4,7 +4,7 @@ import { DateTime, Interval } from "luxon";
 import { useUserStore, useAlertStore } from "../../stores";
 import { adminAddNewTimeRecord } from "../../helpers/timeHelpers.js";
 import AllDate from "../timerecord/AllDate.vue";
-import router from "../../router";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   memberId: {
@@ -15,13 +15,7 @@ const props = defineProps({
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
-
-let workspaceId = null;
-
-onMounted(async () => {
-  await router.isReady();
-  workspaceId = router.currentRoute.value.params?.id;
-});
+const router = useRouter();
 
 function getTimeNow() {
   return DateTime.now().toString();
@@ -58,6 +52,7 @@ const saveNewTimeEntry = async () => {
     alertStore.info("Bitte Beschreibung hinzufügen");
     return;
   }
+  const workspaceId = router.currentRoute.value.params?.id;
   const newData = {
     from: from.value,
     to: to.value,

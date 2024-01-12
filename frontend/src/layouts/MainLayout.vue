@@ -79,7 +79,7 @@ import { defineComponent, ref, defineAsyncComponent, onMounted } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 import { useAuthentication } from "../composables/useAuthentication";
 import { useAuthStore, useUserStore, useAlertStore } from "src/stores";
-import router from "../router";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "MainLayout",
@@ -92,6 +92,7 @@ export default defineComponent({
     useAuthentication();
     const authStore = useAuthStore();
     const userStore = useUserStore();
+    const router = useRouter();
 
     const openMessageDialog = ref(false);
     const lazyInvitationsDialogComponent = defineAsyncComponent(() =>

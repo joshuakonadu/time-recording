@@ -2,9 +2,10 @@
 import { ref, toRaw } from "vue";
 import { createWorkspace } from "../../service";
 import { useUserStore, useAlertStore } from "../../stores";
-import router from "../../router";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
+const router = useRouter();
 
 const showDialog = ref(false);
 const loading = ref(false);

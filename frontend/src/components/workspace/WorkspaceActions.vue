@@ -2,8 +2,8 @@
 import { ref, computed } from "vue";
 import { DateTime } from "luxon";
 import { deleteWorkspaceUser } from "../../service";
-import router from "../../router";
 import { useAlertStore } from "../../stores";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   time: {
@@ -11,6 +11,7 @@ const props = defineProps({
   },
 });
 const verifyLeave = ref(false);
+const router = useRouter();
 
 //const emit = defineEmits(["change"]);
 const leaveWorkspace = async () => {

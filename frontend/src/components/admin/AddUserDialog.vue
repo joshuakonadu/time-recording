@@ -2,8 +2,8 @@
 import { defineAsyncComponent, computed, ref } from "vue";
 import { useUserStore, useAuthStore, useAlertStore } from "../../stores";
 import { inviteUserToWorkspace } from "../../service";
-import router from "../../router";
 import { recieverNotifyInvitationByUserId } from "../../client.socket.js";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   show: {
@@ -16,6 +16,7 @@ const emit = defineEmits(["hide"]);
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
+const router = useRouter();
 
 const loading = ref(false);
 const success = ref(false);

@@ -1,10 +1,16 @@
 <script setup>
-import { onUnmounted, nextTick, ref, defineAsyncComponent } from "vue";
+import {
+  onUnmounted,
+  onMounted,
+  nextTick,
+  ref,
+  defineAsyncComponent,
+} from "vue";
+import { useRouter } from "vue-router";
 import { adminloadTimeTables } from "../../helpers/timeHelpers.js";
 import EditableUserTable from "../../components/admin/EditableUserTable.vue";
 import { useUserStore, useAlertStore } from "src/stores";
 import { getWorkspace } from "../../service";
-import router from "../../router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
@@ -27,7 +33,7 @@ const lazyAddUserDialogComponent = defineAsyncComponent(() =>
 );
 
 const initializeData = async () => {
-  await router.isReady();
+  const router = useRouter();
   const workspaceId = router.currentRoute.value.params?.id;
   try {
     const workspace = await getWorkspace(workspaceId);
@@ -38,10 +44,13 @@ const initializeData = async () => {
     }
   } catch (err) {
     alertStore.error("Laden fehlgeschlagen", 4000);
+    router.push("/auth");
   }
 };
 
-initializeData();
+onMounted(() => {
+  initializeData();
+});
 
 const setSelectedMember = async (data) => {
   selectedMember.value = data;

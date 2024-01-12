@@ -1,5 +1,5 @@
 <script setup>
-import router from "../../router";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   data: {
@@ -7,6 +7,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const router = useRouter();
 </script>
 
 <template>

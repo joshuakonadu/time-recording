@@ -11,11 +11,12 @@ import {
   notifyUsersInWorkspaceToUpdateMembers,
   sendRemoveInvitationMessage,
 } from "../../helpers/socketHelpers.js";
-import router from "../../router";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
 const authStore = useAuthStore();
+const router = useRouter();
 
 const showConfirmDelete = ref(false);
 let deleteMemberId = null;

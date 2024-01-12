@@ -3,10 +3,11 @@ import { ref, computed, defineAsyncComponent, onMounted } from "vue";
 import { DateTime, Interval } from "luxon";
 import { useUserStore, useAlertStore } from "../../stores";
 import { addNewTimeRecord } from "../../helpers/timeHelpers.js";
-import router from "../../router";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
+const router = useRouter();
 
 const dateModes = {
   "24h": defineAsyncComponent(() => import("./SameDate.vue")),
