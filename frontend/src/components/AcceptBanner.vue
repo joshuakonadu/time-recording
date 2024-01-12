@@ -33,7 +33,7 @@ const removeInvitation = async () => {
     <template v-slot:avatar>
       <q-icon name="fa-regular fa-square-check" color="white" />
     </template>
-    {{ props.invitation.sendUserName }} hat deine Einladung in den Workspace '{{
+    {{ props.invitation.sendUserName }} hat die Einladung in den Workspace '{{
       props.invitation.workspaceName
     }}' angenommen.
     <template v-slot:action>

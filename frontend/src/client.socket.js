@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
 import { useAuthStore, useUserStore } from "src/stores";
+import { handleMsg } from "./helpers/socketHelpers.js";
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
@@ -12,6 +13,7 @@ socket.on("connect", () => {
 
 socket.on("new invitation", (msg) => {
   userStore.getInvitations();
+  if (msg) handleMsg(msg);
 });
 
 export function recieverNotifyInvitationByUserId(id, msg) {

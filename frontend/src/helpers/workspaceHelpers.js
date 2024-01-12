@@ -1,12 +1,10 @@
 import { toRaw } from "vue";
 import { useUserStore } from "src/stores";
 import router from "../router";
-import { recieverNotifyInvitationByUserId } from "../client.socket.js";
 import {
   updateWorkspaceMembers,
   getWorkspaceMembers,
   deleteWorkspaceMember as deleteMember,
-  addNewRemoveInvitationMessage,
 } from "../service";
 
 export const updateMembers = async () => {
@@ -44,7 +42,22 @@ export const deleteWorkspaceMember = async (id) => {
   }
 };
 
-export const sendRemoveInvitationMessage = async (data) => {
-  await addNewRemoveInvitationMessage(data);
-  recieverNotifyInvitationByUserId(data.sendUserId);
+export const updateWorkspaceAction = async (workspaceId) => {
+  await router.isReady();
+  const routeId = router.currentRoute.value.params?.id;
+  if (routeId === workspaceId) {
+    const userStore = useUserStore();
+    const apiData = await getWorkspaceMembers(workspaceId);
+    userStore.updateWorkspaceMembers(apiData.data);
+  }
+};
+
+export const removedWorkspaceAction = async (workspaceId) => {
+  await router.isReady();
+  if (router.currentRoute.value.path === "/auth") {
+    const userStore = useUserStore();
+    userStore.getWorkspaces();
+  } else if (router.currentRoute.value.params?.id === workspaceId) {
+    router.push("/auth");
+  }
 };

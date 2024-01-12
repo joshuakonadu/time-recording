@@ -71,6 +71,8 @@ export const acceptWorkspaceInvitation = async (user, workspaceId) => {
   if (!workspace) throw new Error("Workspace not found");
   if (!registerWorkspace) throw new Error("Register Workspace not found");
 
+  const workspaceAdmins = workspace.members.filter((member) => member.isAdmin);
+
   workspace.members.push({
     userId: user._id,
     firstname: user.firstname,
@@ -86,17 +88,19 @@ export const acceptWorkspaceInvitation = async (user, workspaceId) => {
 
   await Promise.all([workspace.save(), registerWorkspace.save()]);
 
-  const sendUserInvitations = await userInvitationsByUserId(
-    findInvitation.sendUserId
-  );
-  sendUserInvitations.invitations.push({
-    type: "accept_invitation",
-    sendUserName: `${user.firstname} ${user.lastname}`,
-    workspaceName: findInvitation.workspaceName,
-    workspaceId,
-    messageId: nanoid(),
-  });
-  sendUserInvitations.save();
+  for (const adminMember of workspaceAdmins) {
+    const sendUserInvitations = await userInvitationsByUserId(
+      adminMember.userId
+    );
+    sendUserInvitations.invitations.push({
+      type: "accept_invitation",
+      sendUserName: `${user.firstname} ${user.lastname}`,
+      workspaceName: findInvitation.workspaceName,
+      workspaceId,
+      messageId: nanoid(),
+    });
+    sendUserInvitations.save();
+  }
   userInvitations.invitations = userInvitations.invitations.filter(
     (data) => data.workspaceId.toString() !== workspaceId.toString()
   );

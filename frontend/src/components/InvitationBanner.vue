@@ -1,7 +1,12 @@
 <script setup>
 import { useUserStore, useAlertStore } from "src/stores";
-import { acceptInvitation, removeInvite } from "../service";
-import { recieverNotifyInvitationByUserId } from "../client.socket.js";
+import {
+  acceptInvitation,
+  removeInvite,
+  getWorkspaceMembers,
+} from "../service";
+import { notifyUsersInWorkspaceToUpdateMembers } from "../helpers/socketHelpers.js";
+
 const props = defineProps({
   invitation: {
     type: Object,
@@ -19,7 +24,6 @@ const accept = async () => {
     alertStore.error("Beim Annehmen ist ein Fehler aufgetreten", 4000);
   }
   try {
-    recieverNotifyInvitationByUserId(props.invitation.sendUserId);
     await userStore.getWorkspaces();
     await userStore.getInvitations();
   } catch (err) {
@@ -27,6 +31,15 @@ const accept = async () => {
       "Beim Aktualisieren der Daten ist ein Fehler aufgetreten",
       4000
     );
+  } finally {
+    getWorkspaceMembers(props.invitation.workspaceId)
+      .then(({ data }) => {
+        notifyUsersInWorkspaceToUpdateMembers(
+          data,
+          props.invitation.workspaceId
+        );
+      })
+      .catch((err) => {});
   }
 };
 

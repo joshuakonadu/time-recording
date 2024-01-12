@@ -5,8 +5,12 @@ import { DateTime } from "luxon";
 import {
   updateMembers,
   deleteWorkspaceMember,
-  sendRemoveInvitationMessage,
 } from "../../helpers/workspaceHelpers.js";
+import { getWorkspaceMembers } from "../../service";
+import {
+  notifyUsersInWorkspaceToUpdateMembers,
+  sendRemoveInvitationMessage,
+} from "../../helpers/socketHelpers.js";
 import router from "../../router";
 
 const userStore = useUserStore();
@@ -86,6 +90,8 @@ const update = async () => {
     }
   } catch (err) {
     alertStore.error("Änderung Fehlgeschlagen", 3000);
+  } finally {
+    notifyWorkspaceUsers();
   }
 };
 
@@ -106,15 +112,33 @@ const deleteMember = async () => {
     if (deleteMemberId === authStore.user._id) {
       router.push("/auth");
     } else {
-      sendRemoveInvitationMessage({
-        sendUserId: deleteMemberId,
-        workspaceName: userStore.activeWorkspace.name,
-      });
+      const workspaceId = router.currentRoute.value.params?.id;
+      sendRemoveInvitationMessage(
+        {
+          sendUserId: deleteMemberId,
+          workspaceName: userStore.activeWorkspace.name,
+        },
+        workspaceId
+      );
     }
     closeDeleteDialogAndResetValues();
   } catch (err) {
     alertStore.error("Löschen Fehlgeschlagen", 3000);
+  } finally {
+    notifyWorkspaceUsers();
   }
+};
+
+const notifyWorkspaceUsers = () => {
+  const workspaceId = router.currentRoute.value.params?.id;
+  getWorkspaceMembers(workspaceId)
+    .then(({ data }) => {
+      const excludeThisMember = data.filter(
+        (member) => member.userId !== authStore.user._id
+      );
+      notifyUsersInWorkspaceToUpdateMembers(excludeThisMember, workspaceId);
+    })
+    .catch((err) => {});
 };
 </script>
 
