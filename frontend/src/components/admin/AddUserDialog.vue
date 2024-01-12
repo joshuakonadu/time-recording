@@ -38,13 +38,6 @@ const reactiveShow = computed({
   },
 });
 
-const lazyAcceptBannerComponent = defineAsyncComponent(() =>
-  import("../AcceptBanner.vue")
-);
-const lazyInvitationBannerComponent = defineAsyncComponent(() =>
-  import("../InvitationBanner.vue")
-);
-
 const cleanUp = () => {
   loading.value = false;
   success.value = false;
