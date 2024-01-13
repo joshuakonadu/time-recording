@@ -56,8 +56,13 @@ export const getWorkspace = asyncHandler(async (req, res) => {
 export const deleteWorkspaceUser = asyncHandler(async (req, res) => {
   const { id: workspaceId } = req.params;
   const userId = req.user._id;
-  await deleteUserWorkspaceData({ workspaceId, userId });
-  res.status(200).send();
+  const [registerWorkspace, workspace, deletedTimes] =
+    await deleteUserWorkspaceData({ workspaceId, userId });
+
+  res.status(200).json({
+    workspaceDeleted:
+      workspace.deletedCount && workspace.deletedCount > 0 ? true : false,
+  });
 });
 
 export const updateWorkspaceMember = asyncHandler(async (req, res) => {
@@ -98,6 +103,5 @@ export const getWorkspaceMembers = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const workspace = await workspaceById(id);
   if (!workspace) throw new Error("No Workspace");
-  checkWorkspacePermission(req.user._id, workspace.members);
   res.status(200).json(workspace.members);
 });

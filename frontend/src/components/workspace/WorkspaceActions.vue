@@ -1,9 +1,10 @@
 <script setup>
 import { ref, computed } from "vue";
 import { DateTime } from "luxon";
-import { deleteWorkspaceUser } from "../../service";
-import { useAlertStore } from "../../stores";
+import { deleteWorkspaceUser, getWorkspaceMembers } from "../../service";
+import { useAlertStore, useAuthStore } from "../../stores";
 import { useRouter } from "vue-router";
+import { notifyUsersInWorkspaceToUpdateMembers } from "../../helpers";
 
 const props = defineProps({
   time: {
@@ -12,6 +13,7 @@ const props = defineProps({
 });
 const verifyLeave = ref(false);
 const router = useRouter();
+const authStore = useAuthStore();
 
 //const emit = defineEmits(["change"]);
 const leaveWorkspace = async () => {
@@ -19,8 +21,11 @@ const leaveWorkspace = async () => {
   verifyLeave.value = false;
   const alertStore = useAlertStore();
   try {
-    await deleteWorkspaceUser(workspaceId);
+    const { data } = await deleteWorkspaceUser(workspaceId);
     alertStore.success("Löschen Erfolgreich");
+    if (!data.workspaceDeleted) {
+      notifyWorkspaceUsers();
+    }
     navigateHome();
   } catch (err) {
     alertStore.error("Löschen Fehlgeschlagen", 3000);
@@ -28,6 +33,17 @@ const leaveWorkspace = async () => {
 };
 const navigateHome = () => {
   router.push("/auth");
+};
+
+const notifyWorkspaceUsers = async () => {
+  const workspaceId = router.currentRoute.value.params?.id;
+  const { data } = await getWorkspaceMembers(workspaceId);
+  try {
+    const excludeThisMember = data.filter(
+      (member) => member.userId !== authStore.user._id
+    );
+    notifyUsersInWorkspaceToUpdateMembers(excludeThisMember, workspaceId);
+  } catch (err) {}
 };
 </script>
 

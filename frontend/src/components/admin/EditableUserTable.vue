@@ -119,12 +119,11 @@ const deleteMember = async () => {
         },
         workspaceId
       );
+      closeDeleteDialogAndResetValues();
     }
-    closeDeleteDialogAndResetValues();
+    notifyWorkspaceUsers();
   } catch (err) {
     alertStore.error("Löschen Fehlgeschlagen", 3000);
-  } finally {
-    notifyWorkspaceUsers();
   }
 };
 

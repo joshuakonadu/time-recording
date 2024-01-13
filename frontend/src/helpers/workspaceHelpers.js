@@ -1,5 +1,5 @@
 import { toRaw } from "vue";
-import { useUserStore } from "src/stores";
+import { useAuthStore, useUserStore } from "src/stores";
 import router from "../router";
 import {
   updateWorkspaceMembers,
@@ -26,6 +26,7 @@ export const updateMembers = async () => {
 
 export const deleteWorkspaceMember = async (id) => {
   const userStore = useUserStore();
+  const authStore = useAuthStore();
   await router.isReady();
   const routeId = router.currentRoute.value.params?.id;
   try {
@@ -33,7 +34,7 @@ export const deleteWorkspaceMember = async (id) => {
       deleteUserId: id,
     });
 
-    if (!data.workspaceDeleted) {
+    if (!data.workspaceDeleted && id !== authStore.user._id) {
       const apiData = await getWorkspaceMembers(routeId);
       userStore.updateWorkspaceMembers(apiData.data);
     }
