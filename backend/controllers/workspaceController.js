@@ -3,15 +3,13 @@ import {
   createRegisterWorkspace,
   registerAddWorkspace,
   registerWorkspaceByUserId,
-} from "../utils/registerWorkspace.helper.js";
-import {
   createWorkspace,
   workspaceById,
   workspaceUpdateMember,
   checkWorkspaceAdminPermission,
   checkWorkspacePermission,
-} from "../utils/workspace.helper.js";
-import { deleteUserWorkspaceData } from "../utils/utils.js";
+  deleteUserWorkspaceData,
+} from "../utils";
 
 export const getAllRegisterWorkspaces = asyncHandler(async (req, res) => {
   const user = req.user;

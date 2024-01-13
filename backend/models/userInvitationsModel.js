@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-//Note: get inviation -> {workspaceId, }
+
 const userInvitationsSchema = mongoose.Schema(
   {
     userId: {

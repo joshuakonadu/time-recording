@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
-import { userByEmail } from "../utils/user.helper.js";
 import {
+  userByEmail,
   createUserInvitations,
   inviteUserToWorkspace,
   removeWorkspaceInvitation,
@@ -8,7 +8,7 @@ import {
   getAllInvitations,
   removeWorkspaceInvitationByMessageId,
   addNewRemoveInvitationMessage,
-} from "../utils/invitation.helper.js";
+} from "../utils";
 import { nanoid } from "nanoid";
 
 export const inviteWorkspace = asyncHandler(async (req, res) => {

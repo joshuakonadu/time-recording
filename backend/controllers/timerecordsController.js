@@ -8,9 +8,8 @@ import {
   deleteTimeRecordById,
   findTimeRecordById,
   checkTimeRecordPermission,
-} from "../utils/timerecord.helper.js";
-
-import { checkWorkspaceAdminPermission } from "../utils/workspace.helper.js";
+  checkWorkspaceAdminPermission,
+} from "../utils";
 
 export const addTime = asyncHandler(async (req, res) => {
   const data = req.body;
