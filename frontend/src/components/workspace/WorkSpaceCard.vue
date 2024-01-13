@@ -14,7 +14,7 @@ const router = useRouter();
 <template>
   <q-card class="my-card">
     <q-card-section>
-      <div class="text-h6">{{ props.data.name }}</div>
+      <div class="text-h6 custom-title">{{ props.data.name }}</div>
     </q-card-section>
 
     <q-separator />
@@ -27,10 +27,20 @@ const router = useRouter();
 
 <style scoped>
 .my-card {
-  width: 160px;
+  width: 200px;
 }
 
 .text-h6 {
-  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+:deep(.q-card__section) {
+  display: flex;
+  flex-wrap: wrap;
+  height: 90px;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 </style>
