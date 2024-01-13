@@ -1,4 +1,5 @@
 <script setup>
+import { useQuasar } from "quasar";
 import { ref, computed } from "vue";
 import { DateTime } from "luxon";
 import { timeMask } from "../../helpers";
@@ -15,7 +16,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["change"]);
+const platform = useQuasar().platform.is;
 
+const isFirefox = platform.name.includes("firefox");
 const computedTime = computed({
   get() {
     return props.time;
@@ -34,7 +37,8 @@ const clockTime = computed(() => {
   <q-btn :color="props.btnColor" stack flat size="lg" icon="calendar_month">
     {{ clockTime }}
     <q-popup-proxy
-      class="flex-container flex-custom q-mt-md"
+      class="flex-custom"
+      :class="{ 'flex-container': !isFirefox }"
       cover
       transition-show="scale"
       transition-hide="scale"
@@ -48,5 +52,3 @@ const clockTime = computed(() => {
     </q-popup-proxy>
   </q-btn>
 </template>
-
-<style scoped></style>
