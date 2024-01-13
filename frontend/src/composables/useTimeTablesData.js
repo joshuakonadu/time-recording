@@ -1,10 +1,17 @@
 import { watch, ref } from "vue";
-import { groupDatesByDay, calculateTime, loadTimeTables } from "../helpers";
+import {
+  groupDatesByDay,
+  calculateTime,
+  loadTimeTables,
+  adminloadTimeTables,
+} from "../helpers";
 import { useUserStore, useAlertStore } from "src/stores";
+import { useRouter } from "vue-router";
 
 export function useTimeTablesData() {
   const userStore = useUserStore();
   const alertStore = useAlertStore();
+  const router = useRouter();
   const groupedTimeTablesData = ref(groupDatesByDay(userStore.timeTablesData));
   const calculateAllTime = ref(calculateTime(userStore.timeTablesData));
   watch(
@@ -28,7 +35,12 @@ export function useTimeTablesData() {
     () => userStore.selectedTimeRange,
     async () => {
       try {
-        await loadTimeTables();
+        const path = router.currentRoute.value.path;
+        if (path.includes("adminworkspace")) {
+          await adminloadTimeTables(userStore.selectedWorkspaceMember);
+        } else {
+          await loadTimeTables();
+        }
         alertStore.success("Erfolgreich geladen", 2500);
       } catch (err) {
         alertStore.error("Laden Fehlgeschlagen", 3000);

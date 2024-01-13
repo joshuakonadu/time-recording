@@ -54,6 +54,7 @@ onMounted(() => {
 
 const setSelectedMember = async (data) => {
   selectedMember.value = data;
+  userStore.selectedWorkspaceMember = data.id;
   panel.value = "user";
   try {
     await adminloadTimeTables(data.id);
@@ -65,6 +66,7 @@ const setSelectedMember = async (data) => {
 const showTable = () => {
   panel.value = "table";
   selectedMember.value = {};
+  userStore.selectedWorkspaceMember = null;
 };
 
 const setOpenTimeEntry = () => {
