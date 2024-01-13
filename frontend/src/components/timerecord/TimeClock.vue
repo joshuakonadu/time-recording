@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { DateTime } from "luxon";
-import { timeMask } from "../../helpers/timeHelpers.js";
+import { timeMask } from "../../helpers";
 
 const props = defineProps({
   time: {

@@ -1,9 +1,8 @@
 <script setup>
 import { computed, watch, ref } from "vue";
 import { useUserStore, useAlertStore } from "../../stores";
-import { calculateTime, timeMask } from "../../helpers/timeHelpers";
+import { calculateTime, timeMask, loadTimeTables } from "../../helpers";
 import { DateTime } from "luxon";
-import { loadTimeTables } from "../../helpers/timeHelpers.js";
 import { deleteTimeRecordById } from "../../service";
 
 const userStore = useUserStore();

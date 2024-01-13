@@ -5,12 +5,10 @@ import { DateTime } from "luxon";
 import {
   updateMembers,
   deleteWorkspaceMember,
-} from "../../helpers/workspaceHelpers.js";
-import { getWorkspaceMembers } from "../../service";
-import {
   notifyUsersInWorkspaceToUpdateMembers,
   sendRemoveInvitationMessage,
-} from "../../helpers/socketHelpers.js";
+} from "../../helpers";
+import { getWorkspaceMembers } from "../../service";
 import { useRouter } from "vue-router";
 
 const userStore = useUserStore();

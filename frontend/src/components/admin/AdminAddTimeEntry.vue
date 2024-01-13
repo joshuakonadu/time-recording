@@ -2,7 +2,7 @@
 import { ref, computed, markRaw, onMounted } from "vue";
 import { DateTime, Interval } from "luxon";
 import { useUserStore, useAlertStore } from "../../stores";
-import { adminAddNewTimeRecord } from "../../helpers/timeHelpers.js";
+import { adminAddNewTimeRecord } from "../../helpers";
 import AllDate from "../timerecord/AllDate.vue";
 import { useRouter } from "vue-router";
 

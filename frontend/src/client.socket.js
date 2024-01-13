@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 import { useAuthStore, useUserStore } from "src/stores";
-import { handleMsg } from "./helpers/socketHelpers.js";
+import { handleMsg } from "./helpers";
 
 const authStore = useAuthStore();
 const userStore = useUserStore();

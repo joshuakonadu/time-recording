@@ -7,7 +7,7 @@ import {
   defineAsyncComponent,
 } from "vue";
 import { useRouter } from "vue-router";
-import { adminloadTimeTables } from "../../helpers/timeHelpers.js";
+import { adminloadTimeTables } from "../../helpers";
 import EditableUserTable from "../../components/admin/EditableUserTable.vue";
 import { useUserStore, useAlertStore } from "src/stores";
 import { getWorkspace } from "../../service";

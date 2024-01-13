@@ -5,7 +5,7 @@ import {
   getDateNow,
   getFirstOfMonth,
   modifyToSelect,
-} from "../helpers/timeHelpers.js";
+} from "../helpers";
 import { useAuthStore } from "./auth.store";
 
 export const useUserStore = defineStore({

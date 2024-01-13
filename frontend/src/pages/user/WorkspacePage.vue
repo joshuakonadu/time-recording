@@ -4,7 +4,7 @@ import AddTimeEntry from "../../components/timerecord/AddTimeEntry.vue";
 import GroupedTimeTables from "../../components/GroupedTimeTables.vue";
 import { getWorkspace } from "../../service";
 import { useUserStore, useAlertStore } from "src/stores";
-import { loadTimeTables } from "../../helpers/timeHelpers.js";
+import { loadTimeTables } from "../../helpers";
 import { useRouter } from "vue-router";
 
 const userStore = useUserStore();

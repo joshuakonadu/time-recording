@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { whoami, login, logout } from "../service";
 import router from "../router";
 import { useAlertStore } from "./index";
-import { isInUnauthorizedRoute } from "src/helpers/routesHelpers";
+import { isInUnauthorizedRoute } from "src/helpers";
 
 export const useAuthStore = defineStore({
   id: "auth",

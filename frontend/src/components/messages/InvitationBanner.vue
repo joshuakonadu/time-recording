@@ -5,7 +5,7 @@ import {
   removeInvite,
   getWorkspaceMembers,
 } from "../../service";
-import { notifyUsersInWorkspaceToUpdateMembers } from "../../helpers/socketHelpers.js";
+import { notifyUsersInWorkspaceToUpdateMembers } from "../../helpers";
 
 const props = defineProps({
   invitation: {

@@ -1,9 +1,5 @@
 import { watch, ref } from "vue";
-import {
-  groupDatesByDay,
-  calculateTime,
-  loadTimeTables,
-} from "../helpers/timeHelpers.js";
+import { groupDatesByDay, calculateTime, loadTimeTables } from "../helpers";
 import { useUserStore, useAlertStore } from "src/stores";
 
 export function useTimeTablesData() {

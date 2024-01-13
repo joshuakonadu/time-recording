@@ -2,7 +2,7 @@
 import { ref, computed, defineAsyncComponent, onMounted } from "vue";
 import { DateTime, Interval } from "luxon";
 import { useUserStore, useAlertStore } from "../../stores";
-import { addNewTimeRecord } from "../../helpers/timeHelpers.js";
+import { addNewTimeRecord } from "../../helpers";
 import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
