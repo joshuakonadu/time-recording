@@ -13,12 +13,12 @@ import {
 import { protect } from "../middleware/authMiddleware.js";
 
 router.post("/add", protect, addTime);
-router.get("/byworkspace/:id", protect, getTimeByWorkspace);
-router.get("/byuser", protect, getTimeByUser);
-router.post("/userworkspace", protect, getTimeByWorkspaceUser);
+router.get("/workspace/:id", protect, getTimeByWorkspace);
+router.get("/user", protect, getTimeByUser);
+router.post("/user-workspace", protect, getTimeByWorkspaceUser);
 router.put("/update", protect, updateTimeRecord);
 router.delete("/delete/:id", protect, deleteTimeRecord);
-router.post("/adminadd", protect, addAdminTime);
-router.post("/adminworkspace", protect, getTimeByWorkspaceAdmin);
+router.post("/admin-add", protect, addAdminTime);
+router.post("/admin-workspace", protect, getTimeByWorkspaceAdmin);
 
 export default router;
