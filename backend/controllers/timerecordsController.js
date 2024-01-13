@@ -9,7 +9,7 @@ import {
   findTimeRecordById,
   checkTimeRecordPermission,
   checkWorkspaceAdminPermission,
-} from "../utils";
+} from "../utils/index.js";
 
 export const addTime = asyncHandler(async (req, res) => {
   const data = req.body;

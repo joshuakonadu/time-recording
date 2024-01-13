@@ -9,7 +9,7 @@ import {
   checkWorkspaceAdminPermission,
   checkWorkspacePermission,
   deleteUserWorkspaceData,
-} from "../utils";
+} from "../utils/index.js";
 
 export const getAllRegisterWorkspaces = asyncHandler(async (req, res) => {
   const user = req.user;

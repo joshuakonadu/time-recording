@@ -8,7 +8,7 @@ import {
   getAllInvitations,
   removeWorkspaceInvitationByMessageId,
   addNewRemoveInvitationMessage,
-} from "../utils";
+} from "../utils/index.js";
 import { nanoid } from "nanoid";
 
 export const inviteWorkspace = asyncHandler(async (req, res) => {
