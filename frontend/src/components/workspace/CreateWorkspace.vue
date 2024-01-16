@@ -122,7 +122,12 @@ const openWorkspace = async () => {
           </div>
           <div class="q-mt-md project-role">
             <div class="input">
-              <q-input bottom-slots v-model="projectText" label="Project">
+              <q-input
+                @keydown.enter="addProject"
+                bottom-slots
+                v-model="projectText"
+                label="Project"
+              >
                 <template v-slot:append>
                   <q-btn @click="addProject" round dense flat icon="add" />
                 </template>
@@ -130,7 +135,12 @@ const openWorkspace = async () => {
               </q-input>
             </div>
             <div class="input">
-              <q-input bottom-slots v-model="roleText" label="Rolle">
+              <q-input
+                @keydown.enter="addRole"
+                bottom-slots
+                v-model="roleText"
+                label="Rolle"
+              >
                 <template v-slot:append>
                   <q-btn @click="addRole" round dense flat icon="add" />
                 </template>
