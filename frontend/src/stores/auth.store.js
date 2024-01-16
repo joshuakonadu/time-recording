@@ -22,8 +22,11 @@ export const useAuthStore = defineStore({
         // redirect to previous url or default to home page
         router.push("/auth");
       } catch (error) {
+        const message = error.message.includes("400")
+          ? "Fehlerhafte Anmeldung. Prüfen Sie Ihren Benutzernamen und Ihr Passwort."
+          : "Der Sever ist zurzeit nicht verfügbar";
         const alertStore = useAlertStore();
-        alertStore.error(error.message, 5000);
+        alertStore.error(message, 5000);
       }
     },
     async checkAuthenticated() {
