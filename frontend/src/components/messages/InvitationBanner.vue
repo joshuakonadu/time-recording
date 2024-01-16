@@ -5,6 +5,7 @@ import {
   removeInvite,
   getWorkspaceMembers,
 } from "../../service";
+import { recieverNotifyUpdateByUserId } from "../../client.socket.js";
 import { notifyUsersInWorkspaceToUpdateMembers } from "../../helpers";
 
 const props = defineProps({
@@ -32,14 +33,20 @@ const accept = async () => {
       4000
     );
   } finally {
-    getWorkspaceMembers(props.invitation.workspaceId)
-      .then(({ data }) => {
-        notifyUsersInWorkspaceToUpdateMembers(
-          data,
-          props.invitation.workspaceId
-        );
-      })
-      .catch((err) => {});
+    socketActions();
+  }
+
+  async function socketActions() {
+    try {
+      const workspaceId = props.invitation.workspaceId;
+      const apiResponse = await getWorkspaceMembers(workspaceId);
+      const members = apiResponse.data;
+      notifyUsersInWorkspaceToUpdateMembers(members, workspaceId);
+      const adminMembers = members.filter((user) => user.isAdmin);
+      adminMembers.forEach((admin) => {
+        recieverNotifyUpdateByUserId(admin.userId);
+      });
+    } catch (err) {}
   }
 };
 

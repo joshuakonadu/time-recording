@@ -8,6 +8,7 @@ import {
   notifyUsersInWorkspaceToUpdateMembers,
   sendRemoveInvitationMessage,
 } from "../../helpers";
+import { recieverNotifyUpdateByUserId } from "../../client.socket.js";
 import { getWorkspaceMembers } from "../../service";
 import { useRouter } from "vue-router";
 
@@ -118,8 +119,9 @@ const deleteMember = async () => {
           workspaceName: userStore.activeWorkspace.name,
         },
         workspaceId
-      );
-      closeDeleteDialogAndResetValues();
+      )
+        .then(() => updateMessages(deleteMemberId))
+        .then(() => closeDeleteDialogAndResetValues());
     }
     notifyWorkspaceUsers();
   } catch (err) {
@@ -138,6 +140,10 @@ const notifyWorkspaceUsers = () => {
     })
     .catch((err) => {});
 };
+
+function updateMessages(deleteMemberId) {
+  recieverNotifyUpdateByUserId(deleteMemberId);
+}
 </script>
 
 <template>
