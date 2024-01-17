@@ -129,11 +129,18 @@ function getTimeZoneTransform(timeData) {
 }
 
 export const updateAdminTime = (time) => {
-  const userStore = useUserStore();
   if (
     adminIsInUserView(time.workspaceId, time.userId) &&
     isInSelectedTimeRange(time.from)
   ) {
+    const userStore = useUserStore();
+    userStore.addNewTimeData(time);
+  }
+};
+
+export const updateUserTime = (time) => {
+  if (userIsInWorkspace(time.workspaceId) && isInSelectedTimeRange(time.from)) {
+    const userStore = useUserStore();
     userStore.addNewTimeData(time);
   }
 };
@@ -143,6 +150,19 @@ const adminIsInUserView = (workspaceId, userId) => {
   const routeId = router.currentRoute.value.params?.id;
 
   return workspaceId === routeId && userStore.selectedWorkspaceMember === userId
+    ? true
+    : false;
+};
+
+const userIsInWorkspace = (workspaceId) => {
+  const userStore = useUserStore();
+  const routeId = router.currentRoute.value.params?.id;
+  const path = router.currentRoute.value.path;
+  const isInWorkspace = path.split("/")[1] === "workspace";
+
+  return isInWorkspace &&
+    workspaceId === routeId &&
+    userStore.selectedWorkspaceMember === null
     ? true
     : false;
 };

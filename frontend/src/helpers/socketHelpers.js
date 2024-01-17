@@ -4,6 +4,7 @@ import {
   removedWorkspaceAction,
   updateInvitations,
   updateAdminTime,
+  updateUserTime,
 } from "./index.js";
 import { addNewRemoveInvitationMessage } from "../service";
 import { useUserStore } from "src/stores";
@@ -38,6 +39,13 @@ export const notifyNewTimeToAdmins = async (timeData) => {
   });
 };
 
+export const NotifyNewTimeToUser = async (timeData) => {
+  recieverNotifyUpdateByUserId(
+    timeData.userId,
+    JSON.stringify({ action: "update_user_time", time: timeData })
+  );
+};
+
 export const handleMsg = (serializedObj) => {
   const obj = JSON.parse(serializedObj);
   const processMessages = {
@@ -45,6 +53,7 @@ export const handleMsg = (serializedObj) => {
     removed_workspace: () => removedWorkspaceAction(obj.workspace),
     update_messages: () => updateInvitations(),
     update_admin_time: () => updateAdminTime(obj.time),
+    update_user_time: () => updateUserTime(obj.time),
   };
 
   processMessages[obj.action] && processMessages[obj.action]();

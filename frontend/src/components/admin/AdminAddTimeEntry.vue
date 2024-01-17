@@ -2,7 +2,11 @@
 import { ref, computed, markRaw, onMounted } from "vue";
 import { DateTime, Interval } from "luxon";
 import { useUserStore, useAlertStore } from "../../stores";
-import { adminAddNewTimeRecord } from "../../helpers";
+import {
+  adminAddNewTimeRecord,
+  notifyNewTimeToAdmins,
+  NotifyNewTimeToUser,
+} from "../../helpers";
 import AllDate from "../timerecord/AllDate.vue";
 import { useRouter } from "vue-router";
 
@@ -63,8 +67,10 @@ const saveNewTimeEntry = async () => {
     userId: props.memberId,
   };
   try {
-    await adminAddNewTimeRecord(newData);
+    const newTime = await adminAddNewTimeRecord(newData);
     alertStore.success("Neuer Eintrag erfolgreich");
+    notifyNewTimeToAdmins(newTime);
+    NotifyNewTimeToUser(newTime);
   } catch (err) {
     alertStore.error("Neuer Eintrag fehlgeschlagen", 3000);
   } finally {
