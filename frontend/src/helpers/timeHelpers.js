@@ -64,6 +64,7 @@ export const addNewTimeRecord = async (data) => {
   const apiData = await addTimeRecord(data);
   const timeZoneTransform = getTimeZoneTransform(apiData.data);
   userStore.addNewTimeData(timeZoneTransform);
+  return timeZoneTransform;
 };
 
 export const getFirstOfMonth = () => {
@@ -81,6 +82,7 @@ export const adminAddNewTimeRecord = async (data) => {
   const apiData = await adminAddTimeRecord(data);
   const timeZoneTransform = getTimeZoneTransform(apiData.data);
   userStore.addNewTimeData(timeZoneTransform);
+  return timeZoneTransform;
 };
 
 export const adminloadTimeTables = async (userId) => {
@@ -125,3 +127,27 @@ function getTimeZoneTransform(timeData) {
     to: DateTime.fromISO(timeData.to).toString(),
   };
 }
+
+export const updateAdminTime = (time) => {
+  const userStore = useUserStore();
+  if (
+    adminIsInUserView(time.workspaceId, time.userId) &&
+    isInSelectedTimeRange(time.from)
+  ) {
+    userStore.addNewTimeData(time);
+  }
+};
+
+const adminIsInUserView = (workspaceId, userId) => {
+  const userStore = useUserStore();
+  const routeId = router.currentRoute.value.params?.id;
+
+  return workspaceId === routeId && userStore.selectedWorkspaceMember === userId
+    ? true
+    : false;
+};
+
+const isInSelectedTimeRange = (timeFrom) => {
+  const userStore = useUserStore();
+  return timeFrom <= userStore.selectedTimeRange.to ? true : false;
+};
