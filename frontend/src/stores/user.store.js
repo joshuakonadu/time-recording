@@ -62,6 +62,13 @@ export const useUserStore = defineStore({
     addNewTimeData(data) {
       this.timeTablesData = [data, ...this.timeTablesData].sort(sortDate);
     },
+    editTimeData(data) {
+      this.timeTablesData = this.timeTablesData
+        .map((timeData) => {
+          return timeData._id === data._id ? data : timeData;
+        })
+        .sort(sortDate);
+    },
     setActiveWorkspace(data) {
       this.activeWorkspace = data;
     },

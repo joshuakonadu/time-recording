@@ -119,7 +119,7 @@ function getProcessedTimeData(timeData) {
   return processedData;
 }
 
-function getTimeZoneTransform(timeData) {
+export function getTimeZoneTransform(timeData) {
   if (!timeData) return;
   return {
     ...timeData,
@@ -142,6 +142,23 @@ export const updateUserTime = (time) => {
   if (userIsInWorkspace(time.workspaceId) && isInSelectedTimeRange(time.from)) {
     const userStore = useUserStore();
     userStore.addNewTimeData(time);
+  }
+};
+
+export const updateAdminChangeTime = (time) => {
+  if (
+    adminIsInUserView(time.workspaceId, time.userId) &&
+    isInSelectedTimeRange(time.from)
+  ) {
+    const userStore = useUserStore();
+    userStore.editTimeData(time);
+  }
+};
+
+export const updateUserChangeTime = (time) => {
+  if (userIsInWorkspace(time.workspaceId) && isInSelectedTimeRange(time.from)) {
+    const userStore = useUserStore();
+    userStore.editTimeData(time);
   }
 };
 

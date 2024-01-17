@@ -5,6 +5,9 @@ import {
   updateInvitations,
   updateAdminTime,
   updateUserTime,
+  getTimeZoneTransform,
+  updateAdminChangeTime,
+  updateUserChangeTime,
 } from "./index.js";
 import { addNewRemoveInvitationMessage } from "../service";
 import { useUserStore } from "src/stores";
@@ -46,6 +49,28 @@ export const NotifyNewTimeToUser = async (timeData) => {
   );
 };
 
+export const notifyUserAndAdminsUpdatedTimeRecord = async (timeData) => {
+  const localTimeZone = getTimeZoneTransform(timeData);
+  const userStore = useUserStore();
+  const admins = userStore.activeWorkspace.members.filter(
+    (user) => user.isAdmin
+  );
+  admins.forEach((admin) => {
+    recieverNotifyUpdateByUserId(
+      admin.userId,
+      JSON.stringify({
+        action: "update_admin_time_change",
+        time: localTimeZone,
+      })
+    );
+  });
+
+  recieverNotifyUpdateByUserId(
+    localTimeZone.userId,
+    JSON.stringify({ action: "update_user_time_change", time: localTimeZone })
+  );
+};
+
 export const handleMsg = (serializedObj) => {
   const obj = JSON.parse(serializedObj);
   const processMessages = {
@@ -54,6 +79,8 @@ export const handleMsg = (serializedObj) => {
     update_messages: () => updateInvitations(),
     update_admin_time: () => updateAdminTime(obj.time),
     update_user_time: () => updateUserTime(obj.time),
+    update_admin_time_change: () => updateAdminChangeTime(obj.time),
+    update_user_time_change: () => updateUserChangeTime(obj.time),
   };
 
   processMessages[obj.action] && processMessages[obj.action]();
