@@ -109,7 +109,7 @@ const openWorkspace = async () => {
                 <template v-slot:hint> Pflichtfeld </template>
               </q-input>
             </div>
-            <div class="mode q-ml-lg">
+            <div class="mode">
               <q-select
                 v-model="timeMode"
                 :options="timeModeOptions"
@@ -125,6 +125,7 @@ const openWorkspace = async () => {
               <q-input
                 @keydown.enter="addProject"
                 bottom-slots
+                autogrow
                 v-model="projectText"
                 label="Project"
               >
@@ -138,6 +139,7 @@ const openWorkspace = async () => {
               <q-input
                 @keydown.enter="addRole"
                 bottom-slots
+                autogrow
                 v-model="roleText"
                 label="Rolle"
               >
@@ -218,14 +220,27 @@ const openWorkspace = async () => {
   height: 30px;
 }
 .name {
-  width: 50%;
+  width: 100%;
+  margin-bottom: 1em;
 }
 .mode {
-  width: 20%;
+  width: 50%;
 }
+@media screen and (min-width: 800px) {
+  .name {
+    width: 50%;
+    margin-bottom: 0;
+  }
+  .mode {
+    margin-left: 24px;
+    width: 20%;
+  }
+}
+
 .project-role {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
 }
 .project-role .input,
 .project-role .chips {
