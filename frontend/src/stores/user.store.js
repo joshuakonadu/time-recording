@@ -69,6 +69,11 @@ export const useUserStore = defineStore({
         })
         .sort(sortDate);
     },
+    deleteTimeData(data) {
+      this.timeTablesData = this.timeTablesData.filter(
+        (timeData) => timeData._id !== data._id
+      );
+    },
     setActiveWorkspace(data) {
       this.activeWorkspace = data;
     },

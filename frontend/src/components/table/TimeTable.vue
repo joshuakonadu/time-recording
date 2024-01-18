@@ -1,7 +1,13 @@
 <script setup>
 import { computed, watch, ref } from "vue";
 import { useUserStore, useAlertStore } from "../../stores";
-import { calculateTime, timeMask, loadTimeTables } from "../../helpers";
+import {
+  calculateTime,
+  timeMask,
+  loadTimeTables,
+  adminloadTimeTables,
+  notifyUserAndAdminsDeletedTimeRecord,
+} from "../../helpers";
 import { DateTime } from "luxon";
 import { deleteTimeRecordById } from "../../service";
 
@@ -10,6 +16,7 @@ const alertStore = useAlertStore();
 
 const showConfirmDelete = ref(false);
 let deleteTimeRecordId = null;
+let deletedTimeRecordObj = null;
 
 const props = defineProps({
   data: {
@@ -40,8 +47,13 @@ const deleteTimeRecord = async () => {
   try {
     //TODO: Delete Time Record Api
     await deleteTimeRecordById(deleteTimeRecordId);
-    await loadTimeTables();
+    if (userStore.selectedWorkspaceMember) {
+      await adminloadTimeTables(userStore.selectedWorkspaceMember);
+    } else {
+      await loadTimeTables();
+    }
     alertStore.success("Löschen Erfolgreich");
+    notifyUserAndAdminsDeletedTimeRecord(deletedTimeRecordObj);
   } catch (err) {
     alertStore.error("Löschen Fehlgeschlagen", 3000);
   } finally {
@@ -49,14 +61,16 @@ const deleteTimeRecord = async () => {
   }
 };
 
-const showDeleteTimeRecordDialog = (id) => {
-  deleteTimeRecordId = id;
+const showDeleteTimeRecordDialog = (timeId, timeObj) => {
+  deleteTimeRecordId = timeId;
+  deletedTimeRecordObj = timeObj;
   showConfirmDelete.value = true;
 };
 
 const closeDeleteDialog = () => {
   deleteTimeRecordId = null;
   showConfirmDelete.value = false;
+  deletedTimeRecordObj = null;
 };
 
 watch(
@@ -210,7 +224,7 @@ watch(
                 <q-item
                   clickable
                   v-close-popup
-                  @click="showDeleteTimeRecordDialog(props.row._id)"
+                  @click="showDeleteTimeRecordDialog(props.row._id, props.row)"
                 >
                   <q-item-section>
                     <q-item-label>Löschen</q-item-label>

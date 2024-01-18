@@ -162,6 +162,23 @@ export const updateUserChangeTime = (time) => {
   }
 };
 
+export const updateAdminDeletedTime = (time) => {
+  if (
+    adminIsInUserView(time.workspaceId, time.userId) &&
+    isInSelectedTimeRange(time.from)
+  ) {
+    const userStore = useUserStore();
+    userStore.deleteTimeData(time);
+  }
+};
+
+export const updateUserDeletedTime = (time) => {
+  if (userIsInWorkspace(time.workspaceId) && isInSelectedTimeRange(time.from)) {
+    const userStore = useUserStore();
+    userStore.deleteTimeData(time);
+  }
+};
+
 const adminIsInUserView = (workspaceId, userId) => {
   const userStore = useUserStore();
   const routeId = router.currentRoute.value.params?.id;
