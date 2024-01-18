@@ -43,6 +43,7 @@ const client = await createClient({
   .connect();
 
 const io = new Server(server, {
+  transports: ["websocket"],
   cors: {
     origin: "http://localhost:9000",
   },
