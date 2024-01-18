@@ -43,7 +43,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <q-page>
+  <q-page class="workspace-page">
     <div class="container flex-container flex-between align-center">
       <h1 class="container text-h2">{{ userStore.activeWorkspace?.name }}</h1>
       <div v-if="userStore.isActiveWorkspaceAdmin">

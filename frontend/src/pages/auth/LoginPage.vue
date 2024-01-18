@@ -30,6 +30,7 @@ async function onSubmit(values) {
             name="email"
             type="text"
             class="form-control"
+            placeholder="Email..."
             :class="{ 'is-invalid': errors.email }"
           />
           <div class="invalid-feedback">{{ errors.email }}</div>
@@ -40,19 +41,21 @@ async function onSubmit(values) {
             name="password"
             type="password"
             class="form-control"
+            placeholder="Password..."
             :class="{ 'is-invalid': errors.password }"
           />
           <div class="invalid-feedback">{{ errors.password }}</div>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary" :disabled="isSubmitting">
-            <span
-              v-show="isSubmitting"
-              class="spinner-border spinner-border-sm mr-1"
-            ></span>
+          <q-btn
+            color="primary"
+            class="q-mr-xl"
+            type="submit"
+            :loading="isSubmitting"
+          >
             Login
-          </button>
-          <router-link to="register" class="btn btn-link">Register</router-link>
+          </q-btn>
+          <q-btn color="secondary" to="/register"> Registrieren </q-btn>
         </div>
       </Form>
     </div>

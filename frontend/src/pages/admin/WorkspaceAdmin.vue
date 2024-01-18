@@ -20,6 +20,8 @@ const panel = ref("table");
 const openTimeEntry = ref(false);
 const showAddUserDialog = ref(false);
 
+const router = useRouter();
+
 const lazyGroupedTimeTablesComponent = defineAsyncComponent(() =>
   import("../../components/GroupedTimeTables.vue")
 );
@@ -33,7 +35,6 @@ const lazyAddUserDialogComponent = defineAsyncComponent(() =>
 );
 
 const initializeData = async () => {
-  const router = useRouter();
   const workspaceId = router.currentRoute.value.params?.id;
   try {
     const workspace = await getWorkspace(workspaceId);
@@ -63,10 +64,15 @@ const setSelectedMember = async (data) => {
   }
 };
 
-const showTable = () => {
-  panel.value = "table";
-  selectedMember.value = {};
-  userStore.selectedWorkspaceMember = null;
+const goBack = async () => {
+  if (panel.value !== "table") {
+    panel.value = "table";
+    selectedMember.value = {};
+    userStore.selectedWorkspaceMember = null;
+  } else {
+    const workspaceId = router.currentRoute.value.params?.id;
+    router.push(`/workspace/${workspaceId}`);
+  }
 };
 
 const setOpenTimeEntry = () => {
@@ -81,9 +87,11 @@ onUnmounted(() => {
 <template>
   <section class="custom-full-height">
     <div class="container q-pt-xl">
-      <h1 class="text-center text-h2">Admin Panel</h1>
-      <div class="flex-container flex-between align-center">
-        <h2 class="text-h3">{{ userStore.activeWorkspace.name }}</h2>
+      <h1 class="text-center text-h2">{{ userStore.activeWorkspace.name }}</h1>
+      <div class="flex-container flex-between align-center q-mb-lg">
+        <div>
+          <q-btn @click="goBack" color="accent" flat label="Zurück"></q-btn>
+        </div>
         <q-btn
           @click="showAddUserDialog = true"
           class="q-mr-md btn--no-hover"
@@ -100,7 +108,6 @@ onUnmounted(() => {
           </div>
         </q-tab-panel>
         <q-tab-panel name="user">
-          <q-btn @click="showTable" color="primary" flat label="Zurück"></q-btn>
           <div>
             <h3>
               {{ selectedMember.firstname }} {{ selectedMember.lastname }}
@@ -142,10 +149,15 @@ onUnmounted(() => {
 .custom-full-height {
   min-height: 100vh;
   background: #ebdbfd;
+  background-image: radial-gradient(
+    circle farthest-corner at 22.4% 21.7%,
+    rgba(4, 189, 228, 1) 0%,
+    rgba(2, 83, 185, 1) 100.2%
+  );
 }
 
 :deep(.q-tab-panel) {
-  background: #ebdbfd;
+  background: none;
   padding-inline: 0;
 }
 

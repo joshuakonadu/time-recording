@@ -38,7 +38,7 @@ async function onSubmit(values) {
 
 <template>
   <div class="card m-3">
-    <h4 class="card-header">Register</h4>
+    <h4 class="card-header">Registrieren</h4>
     <div class="card-body">
       <Form
         @submit="onSubmit"
@@ -46,21 +46,23 @@ async function onSubmit(values) {
         v-slot="{ errors, isSubmitting }"
       >
         <div class="form-group">
-          <label>First Name</label>
+          <label>Vorname</label>
           <Field
             name="firstname"
             type="text"
             class="form-control"
+            placeholder="Vorname..."
             :class="{ 'is-invalid': errors.firstname }"
           />
           <div class="invalid-feedback">{{ errors.firstname }}</div>
         </div>
         <div class="form-group">
-          <label>Last Name</label>
+          <label>Nachname</label>
           <Field
             name="lastname"
             type="text"
             class="form-control"
+            placeholder="Nachname..."
             :class="{ 'is-invalid': errors.lastname }"
           />
           <div class="invalid-feedback">{{ errors.lastname }}</div>
@@ -71,6 +73,7 @@ async function onSubmit(values) {
             name="email"
             type="text"
             class="form-control"
+            placeholder="Email..."
             :class="{ 'is-invalid': errors.email }"
           />
           <div class="invalid-feedback">{{ errors.email }}</div>
@@ -81,6 +84,7 @@ async function onSubmit(values) {
             name="password"
             type="password"
             class="form-control"
+            placeholder="Password..."
             :class="{ 'is-invalid': errors.password }"
           />
           <div class="invalid-feedback">{{ errors.password }}</div>
@@ -91,19 +95,21 @@ async function onSubmit(values) {
             name="passwordConfirmation"
             type="password"
             class="form-control"
+            placeholder="Password wiederholen..."
             :class="{ 'is-invalid': errors.passwordConfirmation }"
           />
           <div class="invalid-feedback">{{ errors.passwordConfirmation }}</div>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary" :disabled="isSubmitting">
-            <span
-              v-show="isSubmitting"
-              class="spinner-border spinner-border-sm mr-1"
-            ></span>
-            Register
-          </button>
-          <router-link to="login" class="btn btn-link">Cancel</router-link>
+          <q-btn
+            class="q-mr-xl"
+            color="primary"
+            type="submit"
+            :loading="isSubmitting"
+          >
+            Login
+          </q-btn>
+          <q-btn color="negative" to="/login"> Abbrechen </q-btn>
         </div>
       </Form>
     </div>
