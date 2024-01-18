@@ -12,7 +12,7 @@ export function recieverNotifyUpdateByUserId(
 }
 
 export const socketConnection = () => {
-  data.socket = io("http://localhost:5000");
+  data.socket = io("http://localhost:5000", { transports: ["websocket"] });
 
   data.socket?.on("connect", () => {
     const authStore = useAuthStore();
