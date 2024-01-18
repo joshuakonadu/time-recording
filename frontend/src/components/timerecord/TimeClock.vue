@@ -42,5 +42,3 @@ const clockTime = computed(() => {
     </q-popup-proxy>
   </q-btn>
 </template>
-
-<style scoped></style>

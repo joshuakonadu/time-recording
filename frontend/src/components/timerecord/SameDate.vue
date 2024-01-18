@@ -24,17 +24,10 @@ const changeTo = (data) => {
 </script>
 
 <template>
-  <div class="flex-container custom-flex">
+  <div class="flex-container same-date custom-flex">
     <div class="time-from text-h5">Von</div>
     <TimeClock class="mr-sm" @change="changeFrom" :time="props.from" />
     <div class="time-to text-h5">Bis</div>
     <TimeClock @change="changeTo" :time="props.to" />
   </div>
 </template>
-
-<style scoped>
-.custom-flex {
-  align-items: center;
-  gap: 40px;
-}
-</style>

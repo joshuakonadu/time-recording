@@ -80,9 +80,3 @@ const notifyWorkspaceUsers = async () => {
     </q-dialog>
   </div>
 </template>
-
-<style scoped>
-button {
-  margin-right: 16px;
-}
-</style>

@@ -32,7 +32,7 @@ const formatTo = computed(
 </script>
 
 <template>
-  <div class="flex-container custom-flex q-py-lg">
+  <div class="flex-container time-range custom-flex q-py-lg">
     <div class="flex-container custom-gap">
       <q-input
         standout
@@ -87,15 +87,3 @@ const formatTo = computed(
     <div class="text-h6">Insgesamt: {{ reactiveSumTime }}h</div>
   </div>
 </template>
-
-<style scoped>
-.custom-flex {
-  gap: 20px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.custom-gap {
-  gap: 12px;
-}
-</style>
