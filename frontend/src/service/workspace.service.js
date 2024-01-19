@@ -12,6 +12,14 @@ export function getWorkspace(id) {
   return ApiClient.get(BackendConfig.getWorkspace + id);
 }
 
+export function updateWorkspace(id, data) {
+  return ApiClient.put(BackendConfig.updateWorkspace + id, data);
+}
+
+export function updateRegisterWorkspace(id, data) {
+  return ApiClient.put(BackendConfig.updateRegisterWorkspace + id, data);
+}
+
 export function getAllWorkspaces() {
   return ApiClient.get(BackendConfig.getAllWorkspaces);
 }

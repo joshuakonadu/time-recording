@@ -10,6 +10,7 @@ import {
   updateUserChangeTime,
   updateAdminDeletedTime,
   updateUserDeletedTime,
+  updateChangedWorkspace,
 } from "./index.js";
 import { addNewRemoveInvitationMessage } from "../service";
 import { useUserStore } from "src/stores";
@@ -18,7 +19,10 @@ export const notifyUsersInWorkspaceToUpdateMembers = (members, workspaceId) => {
   members.forEach((member) => {
     recieverNotifyUpdateByUserId(
       member.userId,
-      JSON.stringify({ action: "update_workspace", workspace: workspaceId })
+      JSON.stringify({
+        action: "update_workspace_members",
+        workspace: workspaceId,
+      })
     );
   });
 };
@@ -95,10 +99,22 @@ export const notifyUserAndAdminsDeletedTimeRecord = async (timeData) => {
   );
 };
 
+export const notifyAllToUpdateWorkspace = (workspaceId, members) => {
+  members.forEach((member) => {
+    recieverNotifyUpdateByUserId(
+      member.userId,
+      JSON.stringify({
+        action: "update_workspace",
+        workspaceId,
+      })
+    );
+  });
+};
+
 export const handleMsg = (serializedObj) => {
   const obj = JSON.parse(serializedObj);
   const processMessages = {
-    update_workspace: () => updateWorkspaceAction(obj.workspace),
+    update_workspace_members: () => updateWorkspaceAction(obj.workspace),
     removed_workspace: () => removedWorkspaceAction(obj.workspace),
     update_messages: () => updateInvitations(),
     update_admin_time: () => updateAdminTime(obj.time),
@@ -107,6 +123,7 @@ export const handleMsg = (serializedObj) => {
     update_user_time_change: () => updateUserChangeTime(obj.time),
     update_admin_time_deleted: () => updateAdminDeletedTime(obj.time),
     update_user_time_deleted: () => updateUserDeletedTime(obj.time),
+    update_workspace: () => updateChangedWorkspace(obj.workspaceId),
   };
 
   processMessages[obj.action] && processMessages[obj.action]();

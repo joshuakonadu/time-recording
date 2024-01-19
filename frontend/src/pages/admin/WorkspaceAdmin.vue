@@ -19,6 +19,7 @@ const selectedMember = ref(null);
 const panel = ref("table");
 const openTimeEntry = ref(false);
 const showAddUserDialog = ref(false);
+const showEditWorkspaceDialog = ref(false);
 
 const router = useRouter();
 
@@ -32,6 +33,10 @@ const lazyAdminAddTimeEntryComponent = defineAsyncComponent(() =>
 
 const lazyAddUserDialogComponent = defineAsyncComponent(() =>
   import("../../components/admin/AddUserDialog.vue")
+);
+
+const lazyEditWorkspaceDialogComponent = defineAsyncComponent(() =>
+  import("../../components/admin/EditWorkspaceDialog.vue")
 );
 
 const initializeData = async () => {
@@ -64,7 +69,7 @@ const setSelectedMember = async (data) => {
   }
 };
 
-const goBack = async () => {
+const goBack = () => {
   if (panel.value !== "table") {
     panel.value = "table";
     selectedMember.value = {};
@@ -78,10 +83,6 @@ const goBack = async () => {
 const setOpenTimeEntry = () => {
   openTimeEntry.value = true;
 };
-
-onUnmounted(() => {
-  userStore.resetTimeData();
-});
 </script>
 
 <template>
@@ -92,14 +93,25 @@ onUnmounted(() => {
         <div>
           <q-btn @click="goBack" color="accent" flat label="Zurück"></q-btn>
         </div>
-        <q-btn
-          @click="showAddUserDialog = true"
-          class="q-mr-md btn--no-hover"
-          dense
-          round
-          flat
-          icon="fa-solid fa-user-plus"
-        />
+        <div>
+          <q-btn
+            @click="showEditWorkspaceDialog = true"
+            class="q-mr-xl btn--no-hover"
+            dense
+            round
+            flat
+            icon="fa-solid fa-gear"
+          />
+
+          <q-btn
+            @click="showAddUserDialog = true"
+            class="btn--no-hover"
+            dense
+            round
+            flat
+            icon="fa-solid fa-user-plus"
+          />
+        </div>
       </div>
       <q-tab-panels v-model="panel" animated class="shadow-2 rounded-borders">
         <q-tab-panel name="table">
@@ -137,6 +149,13 @@ onUnmounted(() => {
         :is="lazyAddUserDialogComponent"
         :show="showAddUserDialog"
         @hide="showAddUserDialog = false"
+      />
+    </template>
+    <template v-else-if="showEditWorkspaceDialog">
+      <component
+        :is="lazyEditWorkspaceDialogComponent"
+        :show="showEditWorkspaceDialog"
+        @hide="showEditWorkspaceDialog = false"
       />
     </template>
   </section>

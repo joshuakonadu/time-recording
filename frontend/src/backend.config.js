@@ -15,6 +15,8 @@ export const BackendConfig = {
   createRegisterWorkspace: "/workspace/newregister",
   addWorkspace: "/workspace/add",
   getWorkspace: "/workspace/data/",
+  updateWorkspace: "/workspace/update-workspace/",
+  updateRegisterWorkspace: "/workspace/update-register-workspace/",
   getAllWorkspaces: "/workspace/register-workspaces",
   deleteWorkspaceUser: "/workspace/remove/",
   addTimeRecord: "/timerecords/add",

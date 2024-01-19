@@ -4,6 +4,7 @@ import router from "../router";
 import {
   updateWorkspaceMembers,
   getWorkspaceMembers,
+  getWorkspace,
   deleteWorkspaceMember as deleteMember,
 } from "../service";
 
@@ -60,5 +61,18 @@ export const removedWorkspaceAction = async (workspaceId) => {
     userStore.getWorkspaces();
   } else if (router.currentRoute.value.params?.id === workspaceId) {
     router.push("/auth");
+  }
+};
+
+export const updateChangedWorkspace = async (workspaceId) => {
+  await router.isReady();
+  const routeId = router.currentRoute.value.params?.id;
+  const routePath = router.currentRoute.value.path;
+  const userStore = useUserStore();
+  if (routeId === workspaceId) {
+    const workspace = await getWorkspace(workspaceId);
+    userStore.setActiveWorkspace(workspace.data);
+  } else if (routePath.includes("auth")) {
+    userStore.getWorkspaces();
   }
 };

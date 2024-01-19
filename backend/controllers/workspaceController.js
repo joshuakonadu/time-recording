@@ -105,3 +105,46 @@ export const getWorkspaceMembers = asyncHandler(async (req, res) => {
   if (!workspace) throw new Error("No Workspace");
   res.status(200).json(workspace.members);
 });
+
+export const updateWorkspace = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+  if (!id || !data) {
+    throw new Error("Required data not fulfilled");
+  }
+  const workspace = await workspaceById(id);
+  if (!workspace) throw new Error("No Workspace");
+  const updateProps = ["name", "projectOption", "roleOption", "mode"];
+
+  updateProps.forEach((prop) => {
+    workspace[prop] = data[prop];
+  });
+
+  const savedWorkspace = await workspace.save();
+  res.status(200).json(savedWorkspace);
+});
+
+export const updateRegisterWorkspace = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+  if (!id || !data) {
+    throw new Error("Required data not fulfilled");
+  }
+  const userId = req.user._id;
+  await checkWorkspaceAdminPermission(userId, data.workspaceId);
+
+  const registerWorkspace = await registerWorkspaceByUserId(id);
+
+  if (!registerWorkspace) throw new Error("No Register Workspace");
+
+  registerWorkspace.register = registerWorkspace.register.map((workspace) => {
+    if (workspace.workspaceId === data.workspaceId) {
+      return data;
+    } else {
+      return workspace;
+    }
+  });
+
+  const savedRegisterWorkspace = await registerWorkspace.save();
+  res.status(200).json(savedRegisterWorkspace);
+});
