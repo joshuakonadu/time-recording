@@ -1,6 +1,6 @@
 <script setup>
 import {
-  onUnmounted,
+  onBeforeUnmount,
   onMounted,
   nextTick,
   ref,
@@ -83,6 +83,10 @@ const goBack = () => {
 const setOpenTimeEntry = () => {
   openTimeEntry.value = true;
 };
+
+onBeforeUnmount(() => {
+  userStore.resetTimeData();
+});
 </script>
 
 <template>

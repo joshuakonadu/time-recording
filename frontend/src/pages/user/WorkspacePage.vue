@@ -1,5 +1,11 @@
 <script setup>
-import { onUnmounted, ref, watch, nextTick, defineAsyncComponent } from "vue";
+import {
+  onBeforeUnmount,
+  ref,
+  watch,
+  nextTick,
+  defineAsyncComponent,
+} from "vue";
 import AddTimeEntry from "../../components/timerecord/AddTimeEntry.vue";
 import GroupedTimeTables from "../../components/GroupedTimeTables.vue";
 import { getWorkspace } from "../../service";
@@ -37,7 +43,7 @@ const initializeData = async () => {
 };
 initializeData();
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   userStore.resetTimeData();
 });
 </script>
