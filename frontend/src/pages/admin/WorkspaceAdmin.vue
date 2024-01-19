@@ -90,7 +90,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="custom-full-height">
+  <section class="workspace-admin custom-full-height">
     <div class="container q-pt-xl">
       <h1 class="text-center text-h2">{{ userStore.activeWorkspace.name }}</h1>
       <div class="flex-container flex-between align-center q-mb-lg">
@@ -164,34 +164,3 @@ onBeforeUnmount(() => {
     </template>
   </section>
 </template>
-
-<style scoped>
-:deep(.q-tab-panels) {
-  box-shadow: none;
-}
-.custom-full-height {
-  min-height: 100vh;
-  background: #ebdbfd;
-  background-image: radial-gradient(
-    circle farthest-corner at 22.4% 21.7%,
-    rgba(4, 189, 228, 1) 0%,
-    rgba(2, 83, 185, 1) 100.2%
-  );
-}
-
-:deep(.q-tab-panel) {
-  background: none;
-  padding-inline: 0;
-}
-
-:deep(.q-tab-panel .time-calculator) {
-  background: #ffffff;
-}
-:deep(.q-btn.btn--no-hover .q-focus-helper) {
-  display: none;
-}
-
-:deep(.q-btn.btn--no-hover) {
-  height: fit-content;
-}
-</style>

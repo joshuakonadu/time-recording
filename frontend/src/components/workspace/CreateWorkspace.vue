@@ -95,7 +95,7 @@ const openWorkspace = async () => {
         label="Workspace erstellen"
       />
     </div>
-    <q-dialog @hide="resetValues" v-model="showDialog">
+    <q-dialog class="create-workspace" @hide="resetValues" v-model="showDialog">
       <q-card style="width: 800px; max-width: 80vw; min-height: 180px">
         <q-card-section>
           <div v-if="!success" class="text-h6">Erstelle Workspace</div>
@@ -214,36 +214,3 @@ const openWorkspace = async () => {
     </q-dialog>
   </div>
 </template>
-
-<style scoped>
-.custom-height {
-  height: 30px;
-}
-.name {
-  width: 100%;
-  margin-bottom: 1em;
-}
-.mode {
-  width: 50%;
-}
-@media screen and (min-width: 800px) {
-  .name {
-    width: 50%;
-    margin-bottom: 0;
-  }
-  .mode {
-    margin-left: 24px;
-    width: 20%;
-  }
-}
-
-.project-role {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-.project-role .input,
-.project-role .chips {
-  flex: 0 0 45%;
-}
-</style>

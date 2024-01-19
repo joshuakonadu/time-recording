@@ -94,11 +94,11 @@
 }
 
 .q-field__control-container {
-  overflow: hidden !important;
+  overflow: hidden;
 }
 
 .on-right{
-  margin-left: 10px !important;
+  margin-left: 10px;
 }
 
 .flex-100 {
@@ -124,9 +124,116 @@
 
 .workspace-page{
   background-image: linear-gradient(to right, #ffefba, #ffffff);
+
+  .q-panel.scroll{
+    overflow: hidden;
+  }
 }
 
 .q-tab-panels {
   background: none;
 }
 
+.workspace-admin{
+  .q-tab-panels{
+    box-shadow: none;
+  }
+  .q-panel.scroll{
+    overflow: hidden;
+  }
+  &.custom-full-height {
+    min-height: 100vh;
+    background: #ebdbfd;
+    background-image: radial-gradient(
+      circle farthest-corner at 22.4% 21.7%,
+      rgba(4, 189, 228, 1) 0%,
+      rgba(2, 83, 185, 1) 100.2%
+    );
+  }
+  
+  .q-tab-panel{
+    background: none;
+    padding-inline: 0;
+  }
+  
+  .q-tab-panel .time-calculator{
+    background: #ffffff;
+  }
+  .q-btn.btn--no-hover .q-focus-helper{
+    display: none ;
+  }
+  
+  .q-btn.btn--no-hover{
+    height: fit-content;
+  }
+}
+
+.create-workspace{
+  .custom-height {
+    height: 30px;
+  }
+  .name {
+    width: 100%;
+    margin-bottom: 1em;
+  }
+  .mode {
+    width: 50%;
+  }
+  @media screen and (min-width: 800px) {
+    .name {
+      width: 50%;
+      margin-bottom: 0;
+    }
+    .mode {
+      margin-left: 24px;
+      width: 20%;
+    }
+  }
+  
+  .project-role {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .project-role .input,
+  .project-role .chips {
+    flex: 0 0 45%;
+  }
+}
+
+.workspace-card{
+  &.my-card {
+    width: 200px;
+  }
+  
+  .text-h6 {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  
+  .q-card__section{
+    display: flex;
+    flex-wrap: wrap;
+    height: 90px;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+  }
+}
+
+.workspaces.flex-custom{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.landingpage{
+  .button-section {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .button-section a {
+    margin-left: 1em;
+    font-size: 1rem;
+  }
+}

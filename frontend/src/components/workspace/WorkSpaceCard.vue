@@ -12,7 +12,7 @@ const router = useRouter();
 </script>
 
 <template>
-  <q-card class="my-card">
+  <q-card class="workspace-card my-card">
     <q-card-section>
       <div class="text-h6 custom-title">{{ props.data.name }}</div>
     </q-card-section>
@@ -24,23 +24,3 @@ const router = useRouter();
     </q-card-actions>
   </q-card>
 </template>
-
-<style scoped>
-.my-card {
-  width: 200px;
-}
-
-.text-h6 {
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-:deep(.q-card__section) {
-  display: flex;
-  flex-wrap: wrap;
-  height: 90px;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-}
-</style>

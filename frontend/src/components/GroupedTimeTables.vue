@@ -120,5 +120,3 @@ const updateChangedObject = async (data) => {
     </template>
   </div>
 </template>
-
-<style></style>

@@ -22,5 +22,3 @@ fetchAllWorkspaces();
     <WorkSpaces />
   </div>
 </template>
-
-<style></style>
