@@ -25,7 +25,7 @@ export const inviteUserToWorkspace = async (userId, data) => {
   if (!workspace) throw new Error("Workspace existiert nicht");
 
   const isAlreadyInWorkspace = workspace.members.find((member) => {
-    return member.userId === userId;
+    return member.userId.toString() === userId.toString();
   });
 
   if (isAlreadyInWorkspace) {
@@ -37,7 +37,8 @@ export const inviteUserToWorkspace = async (userId, data) => {
     throw new Error("Nutzer muss sich mindestens einmal eingeloggt haben");
 
   const isAlreadyInvited = userInvitations.invitations.find(
-    (invitation) => invitation.workspaceId?.toString() === data.workspaceId
+    (invitation) =>
+      invitation.workspaceId?.toString() === data.workspaceId.toString()
   );
 
   if (isAlreadyInvited) {
