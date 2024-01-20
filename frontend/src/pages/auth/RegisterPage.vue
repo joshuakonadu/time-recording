@@ -103,7 +103,7 @@ async function onSubmit(values) {
         <div class="form-group">
           <q-btn
             class="q-mr-xl"
-            color="accent"
+            color="primary"
             type="submit"
             :loading="isSubmitting"
           >
