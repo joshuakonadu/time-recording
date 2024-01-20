@@ -24,9 +24,10 @@ if (cluster.isMaster) {
   setupPrimary();
 
   // Node.js > 16.0.0
-  // cluster.setupPrimary({
-  //   serialization: "advanced",
-  // });
+
+  cluster.setupPrimary({
+    serialization: "advanced",
+  });
 
   availableCpus.forEach(() => cluster.fork());
 
