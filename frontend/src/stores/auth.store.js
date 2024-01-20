@@ -3,7 +3,7 @@ import { whoami, login, logout } from "../service";
 import router from "../router";
 import { useAlertStore } from "./index";
 import { isInUnauthorizedRoute } from "src/helpers";
-import { socketConnection } from "../client.socket.js";
+import { socketConnection, socketConnectionClose } from "../client.socket.js";
 
 export const useAuthStore = defineStore({
   id: "auth",
@@ -49,6 +49,7 @@ export const useAuthStore = defineStore({
         if (isInUnauthorizedRoute(router.currentRoute.value.path) === false) {
           router.push("/login");
         }
+        socketConnectionClose();
       }
     },
     async logout() {

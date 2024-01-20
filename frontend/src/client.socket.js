@@ -12,6 +12,8 @@ export function recieverNotifyUpdateByUserId(
 }
 
 export const socketConnection = () => {
+  if (data.socket) return;
+
   data.socket = io("http://localhost:5000", { transports: ["websocket"] });
 
   data.socket?.on("connect", () => {
@@ -22,4 +24,9 @@ export const socketConnection = () => {
   data.socket?.on("update", (msg) => {
     if (msg) handleMsg(msg);
   });
+};
+
+export const socketConnectionClose = () => {
+  data.socket?.emit("close-connection");
+  if (data.socket) delete data.socket;
 };
