@@ -45,7 +45,6 @@ const emitIndex = (index) => {
 
 const deleteTimeRecord = async () => {
   try {
-    //TODO: Delete Time Record Api
     await deleteTimeRecordById(deleteTimeRecordId);
     if (userStore.selectedWorkspaceMember) {
       await adminloadTimeTables(userStore.selectedWorkspaceMember);

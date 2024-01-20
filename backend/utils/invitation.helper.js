@@ -21,16 +21,29 @@ export const getAllInvitations = async (userId) => {
 };
 
 export const inviteUserToWorkspace = async (userId, data) => {
+  const workspace = await workspaceById(data.workspaceId);
+  if (!workspace) throw new Error("Workspace existiert nicht");
+
+  const isAlreadyInWorkspace = workspace.members.find((member) => {
+    return member.userId === userId;
+  });
+
+  if (isAlreadyInWorkspace) {
+    throw new Error("User ist bereits Mitglied");
+  }
+
   const userInvitations = await userInvitationsByUserId(userId);
   if (!userInvitations)
     throw new Error("Nutzer muss sich mindestens einmal eingeloggt haben");
+
   const isAlreadyInvited = userInvitations.invitations.find(
     (invitation) => invitation.workspaceId?.toString() === data.workspaceId
   );
+
   if (isAlreadyInvited) {
     throw new Error("Es existiert bereits eine Einladung von diesem Workspace");
   }
-  //TODO CHECK IF Workspace invitation already exist before push
+
   userInvitations.invitations.push(data);
   return userInvitations.save();
 };
