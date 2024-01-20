@@ -14,6 +14,9 @@
         <q-toolbar-title> Time App </q-toolbar-title>
         <div class="q-mr-xl">
           {{ authStore.user?.firstname }} {{ authStore.user?.lastname }}
+          <q-icon class="q-ml-xs" name="fa-solid fa-at">
+            <q-tooltip> {{ authStore.user?.email }} </q-tooltip>
+          </q-icon>
         </div>
         <q-btn
           @click="showMessages"
