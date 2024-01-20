@@ -124,7 +124,34 @@
 
 .workspace-page{
   background-image: linear-gradient(to right, #ffefba, #ffffff);
-
+  .title{
+    flex: 0 0 100%
+  }
+  .title h1{
+    font-size: 2.8rem;
+  }
+  .admin-button{
+    flex: 0 0 100%;
+  }
+  @media screen and (min-width: 700px) {
+    .title{
+      flex: 0 0 70%
+    }
+    .admin-button{
+      flex: 0 0 30%;
+    }
+  }
+  @media screen and (min-width: 900px) {
+    .title h1{
+      font-size: 3.5rem;
+    }
+    .title{
+      flex: 0 0 80%
+    }
+    .admin-button{
+      flex: 0 0 20%;
+    }
+  }
   .q-panel.scroll{
     overflow: hidden;
   }
@@ -135,6 +162,14 @@
 }
 
 .workspace-admin{
+  h1{
+    font-size: 2.8rem;
+  }
+  @media screen and (min-width: 900px) {
+    h1{
+      font-size: 3.5rem;
+    }
+  }
   .q-tab-panels{
     box-shadow: none;
   }

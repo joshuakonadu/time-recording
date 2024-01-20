@@ -55,8 +55,10 @@ onBeforeUnmount(() => {
 <template>
   <q-page class="workspace-page">
     <div class="container flex-container flex-between align-center">
-      <h1 class="container text-h2">{{ userStore.activeWorkspace?.name }}</h1>
-      <div v-if="userStore.isActiveWorkspaceAdmin">
+      <div class="title">
+        <h1 class="container text-h2">{{ userStore.activeWorkspace?.name }}</h1>
+      </div>
+      <div class="admin-button" v-if="userStore.isActiveWorkspaceAdmin">
         <q-btn
           :to="`/adminworkspace/${router.currentRoute.value.params?.id}`"
           flat
