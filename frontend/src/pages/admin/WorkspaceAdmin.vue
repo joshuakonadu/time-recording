@@ -95,7 +95,9 @@ onBeforeUnmount(() => {
 <template>
   <section class="workspace-admin custom-full-height">
     <div class="container q-pt-xl">
-      <h1 class="text-center text-h2">{{ userStore.activeWorkspace.name }}</h1>
+      <h1 class="text-center q-mt-none text-h2">
+        {{ userStore.activeWorkspace.name }}
+      </h1>
       <div class="flex-container flex-between align-center q-mb-lg">
         <div>
           <q-btn @click="goBack" color="accent" flat label="Zurück"></q-btn>

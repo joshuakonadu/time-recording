@@ -48,14 +48,14 @@ async function onSubmit(values) {
         </div>
         <div class="form-group">
           <q-btn
-            color="primary"
+            color="accent"
             class="q-mr-xl"
             type="submit"
             :loading="isSubmitting"
           >
             Login
           </q-btn>
-          <q-btn color="secondary" to="/register"> Registrieren </q-btn>
+          <q-btn color="primary" to="/register"> Registrieren </q-btn>
         </div>
       </Form>
     </div>
