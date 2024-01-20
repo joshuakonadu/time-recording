@@ -9,11 +9,12 @@ import {
 import { useRouter } from "vue-router";
 import { adminloadTimeTables } from "../../helpers";
 import EditableUserTable from "../../components/admin/EditableUserTable.vue";
-import { useUserStore, useAlertStore } from "src/stores";
+import { useUserStore, useAlertStore, useAuthStore } from "src/stores";
 import { getWorkspace } from "../../service";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
+const authStore = useAuthStore();
 
 const selectedMember = ref(null);
 const panel = ref("table");
@@ -46,10 +47,12 @@ const initializeData = async () => {
     userStore.setActiveWorkspace(workspace.data);
     await nextTick();
     if (!userStore.isActiveWorkspaceAdmin) {
-      router.push("/auth");
+      if (!authStore.user) return router.push("/login");
+      return router.push("/auth");
     }
   } catch (err) {
     alertStore.error("Laden fehlgeschlagen", 4000);
+    if (!authStore.user) return router.push("/login");
     router.push("/auth");
   }
 };

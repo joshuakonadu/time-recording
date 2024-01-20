@@ -9,12 +9,13 @@ import {
 import AddTimeEntry from "../../components/timerecord/AddTimeEntry.vue";
 import GroupedTimeTables from "../../components/GroupedTimeTables.vue";
 import { getWorkspace } from "../../service";
-import { useUserStore, useAlertStore } from "src/stores";
+import { useUserStore, useAlertStore, useAuthStore } from "src/stores";
 import { loadTimeTables } from "../../helpers";
 import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
+const authStore = useAuthStore();
 const router = useRouter();
 
 const lazyUserTableComponent = defineAsyncComponent(() =>
@@ -34,11 +35,14 @@ const initializeData = async () => {
     userStore.setActiveWorkspace(workspace.data);
     await nextTick();
     if (!userStore.isActiveWorkspaceMember) {
+      if (!authStore.user) return router.push("/login");
+
       return router.push("/auth");
     }
     await loadTimeTables();
   } catch (err) {
     alertStore.error("Fehler beim Laden", 4000);
+    if (!authStore.user) return router.push("/login");
   }
 };
 initializeData();
