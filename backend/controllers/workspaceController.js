@@ -144,7 +144,7 @@ export const updateRegisterWorkspace = asyncHandler(async (req, res) => {
       return workspace;
     }
   });
-  console.log(registerWorkspace.register);
+
   const savedRegisterWorkspace = await registerWorkspace.save();
   res.status(200).json(savedRegisterWorkspace);
 });
