@@ -107,7 +107,7 @@ async function onSubmit(values) {
             type="submit"
             :loading="isSubmitting"
           >
-            Login
+            Registrieren
           </q-btn>
           <q-btn color="negative" to="/login"> Abbrechen </q-btn>
         </div>
