@@ -138,13 +138,13 @@ export const updateRegisterWorkspace = asyncHandler(async (req, res) => {
   if (!registerWorkspace) throw new Error("No Register Workspace");
 
   registerWorkspace.register = registerWorkspace.register.map((workspace) => {
-    if (workspace.workspaceId === data.workspaceId) {
+    if (workspace.workspaceId.toString() === data.workspaceId.toString()) {
       return data;
     } else {
       return workspace;
     }
   });
-
+  console.log(registerWorkspace.register);
   const savedRegisterWorkspace = await registerWorkspace.save();
   res.status(200).json(savedRegisterWorkspace);
 });
