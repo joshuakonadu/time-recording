@@ -10,6 +10,14 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  workspaceId: {
+    type: String,
+    default: null,
+  },
+  workspaceName: {
+    type: String,
+    default: null,
+  },
 });
 const emit = defineEmits(["hide"]);
 
@@ -50,8 +58,8 @@ const sendInvitation = async () => {
   if (!email.value) return;
   loading.value = true;
   const sendData = {
-    workspaceId: router.currentRoute.value.params?.id,
-    workspaceName: userStore.activeWorkspace.name,
+    workspaceId: props.workspaceId || router.currentRoute.value.params?.id,
+    workspaceName: props.workspaceName || userStore.activeWorkspace.name,
     isAdmin: isAdmin.value,
     email: email.value,
   };

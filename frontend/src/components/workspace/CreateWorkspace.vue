@@ -1,5 +1,5 @@
 <script setup>
-import { ref, toRaw } from "vue";
+import { ref, toRaw, defineAsyncComponent } from "vue";
 import { createWorkspace } from "../../service";
 import { useUserStore, useAlertStore } from "../../stores";
 import { useRouter } from "vue-router";
@@ -16,7 +16,10 @@ const roleText = ref("");
 const projectText = ref("");
 const roles = ref(new Set([]));
 const projects = ref(new Set([]));
-let createdWorkspaceId = null;
+const showAddUserDialog = ref(false);
+
+const createdWorkspaceId = ref(null);
+const createdWorkspaceName = ref(null);
 
 const success = ref(false);
 const error = ref(false);
@@ -25,6 +28,10 @@ const timeModeOptions = [
   { label: "Alle Zeiten", value: "all" },
   { label: "Nur Selben Tag", value: "24h" },
 ];
+
+const lazyAddUserDialogComponent = defineAsyncComponent(() =>
+  import("..//admin/AddUserDialog.vue")
+);
 
 const sendData = async () => {
   if (!name.value) return;
@@ -38,7 +45,8 @@ const sendData = async () => {
   };
   try {
     const apiData = await createWorkspace(data);
-    createdWorkspaceId = apiData.data.workspaceId;
+    createdWorkspaceId.value = apiData.data.workspaceId;
+    createdWorkspaceName.value = apiData.data.name;
     success.value = true;
     await userStore.getWorkspaces();
   } catch (err) {
@@ -75,13 +83,16 @@ const resetValues = () => {
   roles.value = new Set([]);
   projects.value = new Set([]);
   timeMode.value = "all";
-  createdWorkspaceId = null;
 
   success.value = false;
   error.value = false;
 };
+const openAddUserDialog = () => {
+  showDialog.value = false;
+  showAddUserDialog.value = true;
+};
 const openWorkspace = async () => {
-  await router.push(`/workspace/${createdWorkspaceId}`);
+  await router.push(`/workspace/${createdWorkspaceId.value}`);
 };
 </script>
 
@@ -195,7 +206,7 @@ const openWorkspace = async () => {
         </q-inner-loading>
 
         <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn v-if="!loading" flat label="Abbrechen" v-close-popup />
+          <q-btn v-if="!loading" flat label="Schließen" v-close-popup />
           <q-btn
             v-if="!loading && !success"
             flat
@@ -208,9 +219,31 @@ const openWorkspace = async () => {
             label="Weiteren erstellen"
             @click="resetValues"
           />
-          <q-btn v-if="success" flat label="Öffnen" @click="openWorkspace" />
+          <q-btn
+            v-if="success"
+            color="accent"
+            flat
+            label="Mitglieder hinzufügen"
+            @click="openAddUserDialog"
+          />
+          <q-btn
+            v-if="success"
+            color="primary"
+            flat
+            label="Öffnen"
+            @click="openWorkspace"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <template v-if="showAddUserDialog">
+      <component
+        :is="lazyAddUserDialogComponent"
+        :show="showAddUserDialog"
+        :workspaceId="createdWorkspaceId"
+        :workspaceName="createdWorkspaceName"
+        @hide="showAddUserDialog = false"
+      />
+    </template>
   </div>
 </template>

@@ -41,6 +41,7 @@ export const addWorkspace = asyncHandler(async (req, res) => {
   });
   res.status(201).json({
     workspaceId: workspace._id,
+    name: workspace.name,
   });
 });
 
