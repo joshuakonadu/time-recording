@@ -206,16 +206,24 @@ const openWorkspace = async () => {
         </q-inner-loading>
 
         <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn v-if="!loading" flat label="Schließen" v-close-popup />
+          <q-btn
+            v-if="!loading"
+            color="negative"
+            flat
+            label="Schließen"
+            v-close-popup
+          />
           <q-btn
             v-if="!loading && !success"
             flat
+            color="primary"
             label="Erstellen"
             @click="sendData"
           />
           <q-btn
             v-if="success"
             flat
+            color="primary"
             label="Weiteren erstellen"
             @click="resetValues"
           />
@@ -228,7 +236,7 @@ const openWorkspace = async () => {
           />
           <q-btn
             v-if="success"
-            color="primary"
+            color="positive"
             flat
             label="Öffnen"
             @click="openWorkspace"

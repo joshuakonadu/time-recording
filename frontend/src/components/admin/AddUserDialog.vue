@@ -126,8 +126,8 @@ const sendInvitation = async () => {
           v-if="!success"
           class="q-mt-xl"
           flat
-          label="Senden"
-          color="positive"
+          label="senden"
+          color="primary"
           @click="sendInvitation"
         />
         <q-btn
