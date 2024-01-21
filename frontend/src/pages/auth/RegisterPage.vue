@@ -29,7 +29,7 @@ async function onSubmit(values) {
   try {
     await register(values);
     await router.push("/login");
-    alertStore.success("Registration successful", 5000);
+    alertStore.success("Registrierung erfolgreich", 5000);
   } catch (error) {
     alertStore.error(error.message, 5000);
   }
