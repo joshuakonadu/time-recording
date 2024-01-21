@@ -118,7 +118,7 @@ const sendInvitation = async () => {
           class="q-mt-xl"
           flat
           label="Schliessen"
-          color="primary"
+          color="negative"
           v-close-popup
           @click="cleanUp"
         />
@@ -135,7 +135,7 @@ const sendInvitation = async () => {
           class="q-mt-xl"
           flat
           label="Weitere einladen"
-          color="info"
+          color="primary"
           @click="cleanUp"
         />
       </q-card-actions>
