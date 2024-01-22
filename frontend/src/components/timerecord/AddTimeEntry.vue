@@ -115,16 +115,10 @@ const clearValue = () => {
         :to="to"
       />
 
-      <div class="time-diff q-ml-lg">
-        <q-btn
-          class="custom-border"
-          @click="saveNewTimeEntry"
-          color="primary"
-          icon-right="fa-solid fa-stamp"
-          flat
-          size="lg"
-          :label="`${timeDiff}h buchen`"
-        />
+      <div class="time-diff">
+        <button @click="saveNewTimeEntry" type="button" class="add-time-btn">
+          <span>{{ timeDiff }}H</span>
+        </button>
       </div>
     </div>
   </div>

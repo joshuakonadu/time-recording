@@ -25,9 +25,13 @@ const changeTo = (data) => {
 
 <template>
   <div class="flex-container same-date custom-flex">
-    <div class="time-from text-h5">Von</div>
-    <TimeClock class="mr-sm" @change="changeFrom" :time="props.from" />
-    <div class="time-to text-h5">Bis</div>
-    <TimeClock @change="changeTo" :time="props.to" />
+    <div class="time-wrapper same-date">
+      <div class="time-from text-h5">Von</div>
+      <TimeClock class="mr-sm" @change="changeFrom" :time="props.from" />
+    </div>
+    <div class="time-wrapper same-date">
+      <div class="time-to text-h5">Bis</div>
+      <TimeClock @change="changeTo" :time="props.to" />
+    </div>
   </div>
 </template>

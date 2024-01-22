@@ -68,6 +68,7 @@
   flex-wrap: wrap;
   border: 8px dashed $secondary;
   padding: 33px;
+  background: #fff;
 }
 
 .time-from {
@@ -82,8 +83,12 @@
 .mr-sm {
   margin-right: 0.5em;
 }
+
 .time-diff {
   font-size: 1rem;
+  @media screen and (min-width: 590px) {
+    margin-left: 24px;
+  }
 }
 .input-container {
   flex: auto;
@@ -282,4 +287,87 @@
     margin-left: 1em;
     font-size: 1rem;
   }
+}
+
+.time-wrapper{
+  display: flex;
+  flex-direction: column;
+  &.all-date{
+    flex-basis: 100%;
+  }
+  .time-from{
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .time-to{
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  @media screen and (max-width: 404px) {
+    &.same-date{
+      flex-basis: 100%;
+    }
+  }
+  @media screen and (min-width: 900px) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    &.all-date{
+      flex-basis: auto;
+    }
+    .time-from{
+      text-align: left;
+    }
+    .time-to{
+      text-align: left;
+    }
+  }
+
+}
+
+.add-time-btn{
+  align-items: center;
+  background-image: linear-gradient(144deg,#9C27B0, #5B42F3 50%,#26A69A);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
+  line-height: 1em;
+  max-width: 100%;
+  min-width: 140px;
+  padding: 3px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+
+&:active,
+&:hover {
+  outline: 0;
+}
+
+span {
+  background-color: rgb(5, 6, 45);
+  padding: 16px 24px;
+  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+  transition: 300ms;
+}
+
+&:hover span {
+  background: none;
+}
+
+@media (min-width: 768px) {
+    font-size: 24px;
+    min-width: 196px;
+}
+
 }
