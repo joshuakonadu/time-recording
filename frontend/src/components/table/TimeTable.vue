@@ -117,7 +117,7 @@ watch(
               v-model="props.row.from"
               max-height="500px"
               @save="emitIndex(props.rowIndex)"
-              title="Edit the Name"
+              title="Bearbeiten"
               buttons
               v-slot="scope"
               label-set="Speichern"
@@ -138,7 +138,7 @@ watch(
               v-model="props.row.to"
               max-height="500px"
               @save="emitIndex(props.rowIndex)"
-              title="Edit the Name"
+              title="EBearbeiten"
               buttons
               v-slot="scope"
               label-set="Speichern"

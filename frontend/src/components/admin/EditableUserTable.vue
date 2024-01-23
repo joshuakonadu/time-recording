@@ -189,7 +189,7 @@ function updateMessages(deleteMemberId) {
               v-model="props.row.firstname"
               max-height="500px"
               @save="update"
-              title="Edit the Name"
+              title="Bearbeiten"
               buttons
               v-slot="scope"
               label-set="Speichern"
@@ -211,7 +211,7 @@ function updateMessages(deleteMemberId) {
               v-model="props.row.lastname"
               max-height="500px"
               @save="update"
-              title="Edit the Name"
+              title="Bearbeiten"
               buttons
               v-slot="scope"
               label-set="Speichern"
