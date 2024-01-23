@@ -49,12 +49,13 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // Check for user email
   const user = await userByEmail(email);
-
+  const oneWeek = 7 * 24 * 3600 * 1000;
   if (user && (await bcrypt.compare(password, user.password))) {
     res
       .cookie("access_token", generateToken(user._id), {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
+        expires: new Date(Date.now() + oneWeek),
       })
       .json({
         _id: user.id,
