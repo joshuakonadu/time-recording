@@ -21,6 +21,8 @@ const userStore = useUserStore();
 const alertStore = useAlertStore();
 const router = useRouter();
 
+const reactiveMemberId = computed(() => props.memberId);
+
 function getTimeNow() {
   return DateTime.now().toString();
 }
@@ -64,7 +66,7 @@ const saveNewTimeEntry = async () => {
     role: selectedRole.value,
     description: description.value,
     workspaceId,
-    userId: props.memberId,
+    userId: reactiveMemberId.value,
   };
   try {
     const newTime = await adminAddNewTimeRecord(newData);

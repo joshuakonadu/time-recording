@@ -99,7 +99,7 @@ const emitSelectedMember = (data) => {
   const newData = {
     firstname: data.firstname,
     lastname: data.lastname,
-    id: data.userId,
+    userId: data.userId,
   };
   emit("selectMember", newData);
 };

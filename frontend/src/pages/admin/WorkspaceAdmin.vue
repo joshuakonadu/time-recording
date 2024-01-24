@@ -15,14 +15,13 @@ import { getWorkspace } from "../../service";
 const userStore = useUserStore();
 const alertStore = useAlertStore();
 const authStore = useAuthStore();
+const router = useRouter();
 
 const selectedMember = ref(null);
-const panel = ref("table");
+const panel = ref(router.currentRoute.value.query.tab || "table");
 const openTimeEntry = ref(false);
 const showAddUserDialog = ref(false);
 const showEditWorkspaceDialog = ref(false);
-
-const router = useRouter();
 
 const lazyGroupedTimeTablesComponent = defineAsyncComponent(() =>
   import("../../components/GroupedTimeTables.vue")
@@ -50,6 +49,15 @@ const initializeData = async () => {
       if (!authStore.user) return router.push("/login");
       return router.push("/auth");
     }
+    if (router.currentRoute.value.query.id) {
+      const routeUserId = router.currentRoute.value.query.id;
+      const member = userStore.activeWorkspace.members.find(
+        (member) => member.userId === routeUserId
+      );
+      selectedMember.value = member;
+      userStore.selectedWorkspaceMember = member.userId;
+      adminloadTimeTables(member.userId);
+    }
   } catch (err) {
     alertStore.error("Laden fehlgeschlagen", 4000);
     if (!authStore.user) return router.push("/login");
@@ -63,10 +71,11 @@ onMounted(() => {
 
 const setSelectedMember = async (data) => {
   selectedMember.value = data;
-  userStore.selectedWorkspaceMember = data.id;
+  userStore.selectedWorkspaceMember = data.userId;
   panel.value = "user";
+  setQuery("user", data.userId);
   try {
-    await adminloadTimeTables(data.id);
+    await adminloadTimeTables(data.userId);
   } catch (err) {
     alertStore.error("Zeiteinträge Laden fehlgeschlagen", 4000);
   }
@@ -77,10 +86,16 @@ const goBack = () => {
     panel.value = "table";
     selectedMember.value = {};
     userStore.selectedWorkspaceMember = null;
+    setQuery("table");
   } else {
     const workspaceId = router.currentRoute.value.params?.id;
     router.push(`/workspace/${workspaceId}`);
   }
+};
+
+const setQuery = (val, id) => {
+  const newQuery = val === "table" ? {} : { tab: val, id };
+  router.replace({ query: newQuery });
 };
 
 const setOpenTimeEntry = () => {
@@ -131,7 +146,7 @@ onBeforeUnmount(() => {
         <q-tab-panel name="user">
           <div>
             <h3>
-              {{ selectedMember.firstname }} {{ selectedMember.lastname }}
+              {{ selectedMember?.firstname }} {{ selectedMember?.lastname }}
             </h3>
           </div>
           <q-expansion-item
@@ -145,7 +160,7 @@ onBeforeUnmount(() => {
             <template v-if="openTimeEntry">
               <component
                 :is="lazyAdminAddTimeEntryComponent"
-                :memberId="selectedMember.id"
+                :memberId="selectedMember.userId"
               />
             </template>
           </q-expansion-item>

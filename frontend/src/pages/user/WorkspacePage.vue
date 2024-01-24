@@ -25,7 +25,7 @@ const lazyWorkspaceActionsComponent = defineAsyncComponent(() =>
   import("../../components/workspace/WorkspaceActions.vue")
 );
 
-const tab = ref("times");
+const tab = ref(router.currentRoute.value.query.tab || "times");
 
 const initializeData = async () => {
   await router.isReady();
@@ -46,6 +46,11 @@ const initializeData = async () => {
   }
 };
 initializeData();
+
+const setQuery = (val) => {
+  const newQuery = val === "times" ? {} : { tab: val };
+  router.replace({ query: newQuery });
+};
 
 onBeforeUnmount(() => {
   userStore.resetTimeData();
@@ -68,10 +73,23 @@ onBeforeUnmount(() => {
       </div>
     </div>
     <q-tabs narrow-indicator v-model="tab" class="text-teal q-mb-xl">
-      <q-tab :ripple="false" name="times" icon="alarm" label="Zeiten" />
-      <q-tab :ripple="false" name="info" icon="info" label="Info" />
       <q-tab
         :ripple="false"
+        @click="setQuery('times')"
+        name="times"
+        icon="alarm"
+        label="Zeiten"
+      />
+      <q-tab
+        :ripple="false"
+        @click="setQuery('info')"
+        name="info"
+        icon="info"
+        label="Info"
+      />
+      <q-tab
+        :ripple="false"
+        @click="setQuery('settings')"
         name="settings"
         icon="settings"
         label="Einstellung"

@@ -138,7 +138,7 @@ watch(
               v-model="props.row.to"
               max-height="500px"
               @save="emitIndex(props.rowIndex)"
-              title="EBearbeiten"
+              title="Bearbeiten"
               buttons
               v-slot="scope"
               label-set="Speichern"
