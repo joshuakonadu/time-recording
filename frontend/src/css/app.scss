@@ -365,9 +365,13 @@ span {
   background: none;
 }
 
-@media (min-width: 768px) {
+  @media (min-width: 768px) {
     font-size: 24px;
     min-width: 196px;
+  }
 }
 
+
+.select-wrapper{
+  width: 160px;
 }

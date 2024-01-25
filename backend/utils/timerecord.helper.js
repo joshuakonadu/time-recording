@@ -15,16 +15,29 @@ export const findTimeRecordsByUserAndWorkspaceId = (
   userId,
   workspaceId,
   from,
-  to
+  to,
+  project,
+  role
 ) => {
-  return TimeRecord.find({
+  const prepareFindObject = {
     workspaceId,
     userId,
     from: {
       $gte: from,
       $lte: to,
     },
-  });
+    project,
+    role,
+  };
+  for (let key in prepareFindObject) {
+    if (
+      prepareFindObject[key] === null ||
+      prepareFindObject[key] === undefined
+    ) {
+      delete prepareFindObject[key];
+    }
+  }
+  return TimeRecord.find(prepareFindObject);
 };
 
 export const updateTimeRecordById = async (id, data) => {

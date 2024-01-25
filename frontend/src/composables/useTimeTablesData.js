@@ -51,6 +51,40 @@ export function useTimeTablesData() {
     }
   );
 
+  watch(
+    () => userStore.selectedProjectFilter,
+    async () => {
+      try {
+        const path = router.currentRoute.value.path;
+        if (path.includes("adminworkspace")) {
+          await adminloadTimeTables(userStore.selectedWorkspaceMember);
+        } else {
+          await loadTimeTables();
+        }
+        alertStore.success("Erfolgreich geladen", 2500);
+      } catch (err) {
+        alertStore.error("Laden Fehlgeschlagen", 3000);
+      }
+    }
+  );
+
+  watch(
+    () => userStore.selectedRoleFilter,
+    async () => {
+      try {
+        const path = router.currentRoute.value.path;
+        if (path.includes("adminworkspace")) {
+          await adminloadTimeTables(userStore.selectedWorkspaceMember);
+        } else {
+          await loadTimeTables();
+        }
+        alertStore.success("Erfolgreich geladen", 2500);
+      } catch (err) {
+        alertStore.error("Laden Fehlgeschlagen", 3000);
+      }
+    }
+  );
+
   return {
     groupedTimeTablesData,
     calculateAllTime,

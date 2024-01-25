@@ -20,6 +20,8 @@ export const useUserStore = defineStore({
       mode: null,
     },
     selectedWorkspaceMember: null,
+    selectedProjectFilter: null,
+    selectedRoleFilter: null,
     timeTablesData: [],
     timeTablesDate: {
       from: getFirstOfMonth(),
@@ -95,6 +97,8 @@ export const useUserStore = defineStore({
         to: getDateNow(),
       };
       this.selectedWorkspaceMember = null;
+      this.selectedProjectFilter = null;
+      this.selectedRoleFilter = null;
     },
   },
 });

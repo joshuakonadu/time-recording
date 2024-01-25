@@ -52,6 +52,8 @@ export const loadTimeTables = async () => {
     workspaceId: routeId,
     from: userStore.selectedTimeRange?.from,
     to: userStore.selectedTimeRange?.to,
+    project: userStore.selectedProjectFilter,
+    role: userStore.selectedRoleFilter,
   };
   const { data } = await getTimesByWorkspaceUser(sendData);
 
@@ -93,6 +95,8 @@ export const adminloadTimeTables = async (userId) => {
     workspaceId: routeId,
     from: userStore.selectedTimeRange?.from,
     to: userStore.selectedTimeRange?.to,
+    project: userStore.selectedProjectFilter,
+    role: userStore.selectedRoleFilter,
     userId: userId,
   };
   const { data } = await getTimesByWorkspaceAdmin(sendData);
@@ -131,7 +135,8 @@ export function getTimeZoneTransform(timeData) {
 export const updateAdminTime = (time) => {
   if (
     adminIsInUserView(time.workspaceId, time.userId) &&
-    isInSelectedTimeRange(time.from)
+    isInSelectedTimeRange(time.from) &&
+    fulfillsCurrentFilter(time)
   ) {
     const userStore = useUserStore();
     userStore.addNewTimeData(time);
@@ -139,7 +144,11 @@ export const updateAdminTime = (time) => {
 };
 
 export const updateUserTime = (time) => {
-  if (userIsInWorkspace(time.workspaceId) && isInSelectedTimeRange(time.from)) {
+  if (
+    userIsInWorkspace(time.workspaceId) &&
+    isInSelectedTimeRange(time.from) &&
+    fulfillsCurrentFilter(time)
+  ) {
     const userStore = useUserStore();
     userStore.addNewTimeData(time);
   }
@@ -148,7 +157,8 @@ export const updateUserTime = (time) => {
 export const updateAdminChangeTime = (time) => {
   if (
     adminIsInUserView(time.workspaceId, time.userId) &&
-    isInSelectedTimeRange(time.from)
+    isInSelectedTimeRange(time.from) &&
+    fulfillsCurrentFilter(time)
   ) {
     const userStore = useUserStore();
     userStore.editTimeData(time);
@@ -156,7 +166,11 @@ export const updateAdminChangeTime = (time) => {
 };
 
 export const updateUserChangeTime = (time) => {
-  if (userIsInWorkspace(time.workspaceId) && isInSelectedTimeRange(time.from)) {
+  if (
+    userIsInWorkspace(time.workspaceId) &&
+    isInSelectedTimeRange(time.from) &&
+    fulfillsCurrentFilter(time)
+  ) {
     const userStore = useUserStore();
     userStore.editTimeData(time);
   }
@@ -165,7 +179,8 @@ export const updateUserChangeTime = (time) => {
 export const updateAdminDeletedTime = (time) => {
   if (
     adminIsInUserView(time.workspaceId, time.userId) &&
-    isInSelectedTimeRange(time.from)
+    isInSelectedTimeRange(time.from) &&
+    fulfillsCurrentFilter(time)
   ) {
     const userStore = useUserStore();
     userStore.deleteTimeData(time);
@@ -173,7 +188,11 @@ export const updateAdminDeletedTime = (time) => {
 };
 
 export const updateUserDeletedTime = (time) => {
-  if (userIsInWorkspace(time.workspaceId) && isInSelectedTimeRange(time.from)) {
+  if (
+    userIsInWorkspace(time.workspaceId) &&
+    isInSelectedTimeRange(time.from) &&
+    fulfillsCurrentFilter(time)
+  ) {
     const userStore = useUserStore();
     userStore.deleteTimeData(time);
   }
@@ -204,4 +223,14 @@ const userIsInWorkspace = (workspaceId) => {
 const isInSelectedTimeRange = (timeFrom) => {
   const userStore = useUserStore();
   return timeFrom <= userStore.selectedTimeRange.to ? true : false;
+};
+
+const fulfillsCurrentFilter = (time) => {
+  const userStore = useUserStore();
+  return (
+    (userStore.selectedProjectFilter === null ||
+      useUserStore.selectedProjectFilter === time.project) &&
+    (userStore.selectedRoleFilter === null ||
+      userStore.selectedRoleFilter === time.role)
+  );
 };

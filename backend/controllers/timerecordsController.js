@@ -31,14 +31,16 @@ export const getTimeByUser = asyncHandler(async (req, res) => {
 });
 
 export const getTimeByWorkspaceUser = asyncHandler(async (req, res) => {
-  const { from, to, workspaceId } = req.body;
+  const { from, to, workspaceId, project, role } = req.body;
   const user = req.user;
 
   const timeRecords = await findTimeRecordsByUserAndWorkspaceId(
     user._id,
     workspaceId,
     from,
-    to
+    to,
+    project,
+    role
   );
   res.status(200).json(timeRecords);
 });
@@ -73,14 +75,16 @@ export const addAdminTime = asyncHandler(async (req, res) => {
 });
 
 export const getTimeByWorkspaceAdmin = asyncHandler(async (req, res) => {
-  const { from, to, workspaceId, userId } = req.body;
+  const { from, to, workspaceId, userId, project, role } = req.body;
   const user = req.user;
   await checkWorkspaceAdminPermission(user._id, workspaceId);
   const timeRecords = await findTimeRecordsByUserAndWorkspaceId(
     userId,
     workspaceId,
     from,
-    to
+    to,
+    project,
+    role
   );
   res.status(200).json(timeRecords);
 });

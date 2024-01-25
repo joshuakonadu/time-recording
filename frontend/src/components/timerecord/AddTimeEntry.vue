@@ -94,6 +94,7 @@ const clearValue = () => {
         v-model="selectedProject"
         :options="userStore.activeWorkspace.projectOption"
         label="Projekt"
+        clearable
       />
     </div>
     <div
@@ -104,6 +105,7 @@ const clearValue = () => {
         v-model="selectedRole"
         :options="userStore.activeWorkspace.roleOption"
         label="Rolle"
+        clearable
       />
     </div>
     <div class="flex-container flex-center flex-100 q-mt-xl q-mb-xl">

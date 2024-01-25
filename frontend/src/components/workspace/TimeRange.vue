@@ -34,13 +34,7 @@ const formatTo = computed(
 <template>
   <div class="flex-container time-range custom-flex q-py-lg">
     <div class="flex-container custom-gap">
-      <q-input
-        standout
-        style="max-width: 180px"
-        class="q-mr-xl"
-        v-model="formatFrom"
-        readonly
-      >
+      <q-input standout style="max-width: 180px" v-model="formatFrom" readonly>
         <template v-slot:append>
           <q-icon name="event" color="accent" class="cursor-pointer">
             <q-popup-proxy
@@ -62,7 +56,13 @@ const formatTo = computed(
         </template>
       </q-input>
 
-      <q-input standout style="max-width: 160px" v-model="formatTo" readonly>
+      <q-input
+        standout
+        class="q-mr-xl"
+        style="max-width: 160px"
+        v-model="formatTo"
+        readonly
+      >
         <template v-slot:append>
           <q-icon name="event" color="accent" class="cursor-pointer">
             <q-popup-proxy
@@ -83,6 +83,24 @@ const formatTo = computed(
           </q-icon>
         </template>
       </q-input>
+      <div class="select-wrapper">
+        <q-select
+          v-model="userStore.selectedProjectFilter"
+          :options="userStore.activeWorkspace.projectOption"
+          label="Projekt"
+          clearable
+          filled
+        />
+      </div>
+      <div class="select-wrapper">
+        <q-select
+          v-model="userStore.selectedRoleFilter"
+          :options="userStore.activeWorkspace.roleOption"
+          label="Rolle"
+          filled
+          clearable
+        />
+      </div>
     </div>
     <div class="text-h6">Insgesamt: {{ reactiveSumTime }}h</div>
   </div>
