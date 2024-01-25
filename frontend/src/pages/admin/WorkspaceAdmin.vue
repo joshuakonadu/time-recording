@@ -54,6 +54,7 @@ const initializeData = async () => {
       const member = userStore.activeWorkspace.members.find(
         (member) => member.userId === routeUserId
       );
+      if (!member) throw new Error("err");
       selectedMember.value = member;
       userStore.selectedWorkspaceMember = member.userId;
       adminloadTimeTables(member.userId);
