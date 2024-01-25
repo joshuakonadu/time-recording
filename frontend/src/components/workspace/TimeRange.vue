@@ -83,7 +83,10 @@ const formatTo = computed(
           </q-icon>
         </template>
       </q-input>
-      <div class="select-wrapper">
+      <div
+        v-if="userStore.activeWorkspace.projectOption?.length"
+        class="select-wrapper"
+      >
         <q-select
           v-model="userStore.selectedProjectFilter"
           :options="userStore.activeWorkspace.projectOption"
@@ -92,7 +95,10 @@ const formatTo = computed(
           filled
         />
       </div>
-      <div class="select-wrapper">
+      <div
+        v-if="userStore.activeWorkspace.roleOption?.length"
+        class="select-wrapper"
+      >
         <q-select
           v-model="userStore.selectedRoleFilter"
           :options="userStore.activeWorkspace.roleOption"

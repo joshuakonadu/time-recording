@@ -229,7 +229,7 @@ const fulfillsCurrentFilter = (time) => {
   const userStore = useUserStore();
   return (
     (userStore.selectedProjectFilter === null ||
-      useUserStore.selectedProjectFilter === time.project) &&
+      userStore.selectedProjectFilter === time.project) &&
     (userStore.selectedRoleFilter === null ||
       userStore.selectedRoleFilter === time.role)
   );
