@@ -373,5 +373,8 @@ span {
 
 
 .select-wrapper{
-  width: 160px;
+  width: 180px;
+  .q-field__control{
+    height: 56px;
+  }
 }

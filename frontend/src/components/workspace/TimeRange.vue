@@ -58,7 +58,7 @@ const formatTo = computed(
 
       <q-input
         standout
-        class="q-mr-xl"
+        class="q-mr-lg"
         style="max-width: 160px"
         v-model="formatTo"
         readonly

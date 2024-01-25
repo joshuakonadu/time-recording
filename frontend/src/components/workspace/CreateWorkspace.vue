@@ -138,7 +138,7 @@ const openWorkspace = async () => {
                 bottom-slots
                 autogrow
                 v-model="projectText"
-                label="Project"
+                label="Projekt"
               >
                 <template v-slot:append>
                   <q-btn @click="addProject" round dense flat icon="add" />
