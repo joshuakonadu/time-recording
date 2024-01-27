@@ -392,3 +392,7 @@ span {
     height: 90px;
   }
 }
+
+.custom-cursor .q-field__native{
+  cursor: pointer !important;
+}

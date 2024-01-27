@@ -9,6 +9,7 @@ import {
   findTimeRecordById,
   checkTimeRecordPermission,
   checkWorkspaceAdminPermission,
+  checkIsStillWorkspaceMember,
 } from "../utils/index.js";
 
 export const addTime = asyncHandler(async (req, res) => {
@@ -70,6 +71,8 @@ export const addAdminTime = asyncHandler(async (req, res) => {
   const data = req.body;
   const user = req.user;
   await checkWorkspaceAdminPermission(user._id, data.workspaceId);
+  //for rare case when user recently left workspace
+  await checkIsStillWorkspaceMember(data.userId, data.workspaceId);
   const timeRecord = await createTimeRecord(data);
   res.status(201).json(timeRecord);
 });

@@ -34,54 +34,50 @@ const formatTo = computed(
 <template>
   <div class="flex-container time-range custom-flex q-py-lg">
     <div class="flex-container custom-gap">
-      <q-input standout style="max-width: 180px" v-model="formatFrom" readonly>
+      <q-input
+        standout
+        class="custom-cursor"
+        style="max-width: 180px"
+        v-model="formatFrom"
+        readonly
+      >
         <template v-slot:append>
-          <q-icon name="event" color="accent" class="cursor-pointer">
-            <q-popup-proxy
-              cover
-              transition-show="scale"
-              transition-hide="scale"
-            >
-              <q-date
-                today-btn
-                :mask="timeMask"
-                v-model="userStore.timeTablesDate.from"
-              >
-                <div class="row items-center justify-end">
-                  <q-btn v-close-popup label="Close" color="primary" flat />
-                </div>
-              </q-date>
-            </q-popup-proxy>
-          </q-icon>
+          <q-icon name="event" color="accent" class="cursor-pointer"> </q-icon>
         </template>
+        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+          <q-date
+            today-btn
+            :mask="timeMask"
+            v-model="userStore.timeTablesDate.from"
+          >
+            <div class="row items-center justify-end">
+              <q-btn v-close-popup label="Close" color="primary" flat />
+            </div>
+          </q-date>
+        </q-popup-proxy>
       </q-input>
 
       <q-input
         standout
-        class="q-mr-lg"
-        style="max-width: 160px"
+        class="q-mr-lg custom-cursor"
+        style="max-width: 180px"
         v-model="formatTo"
         readonly
       >
         <template v-slot:append>
-          <q-icon name="event" color="accent" class="cursor-pointer">
-            <q-popup-proxy
-              cover
-              transition-show="scale"
-              transition-hide="scale"
-            >
-              <q-date
-                today-btn
-                :mask="timeMask"
-                v-model="userStore.timeTablesDate.to"
-              >
-                <div class="row items-center justify-end">
-                  <q-btn v-close-popup label="Close" color="primary" flat />
-                </div>
-              </q-date>
-            </q-popup-proxy>
-          </q-icon>
+          <q-icon name="event" color="accent" class="cursor-pointer"> </q-icon>
         </template>
+        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+          <q-date
+            today-btn
+            :mask="timeMask"
+            v-model="userStore.timeTablesDate.to"
+          >
+            <div class="row items-center justify-end">
+              <q-btn v-close-popup label="Close" color="primary" flat />
+            </div>
+          </q-date>
+        </q-popup-proxy>
       </q-input>
       <div
         v-if="userStore.activeWorkspace.projectOption?.length"

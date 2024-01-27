@@ -56,3 +56,10 @@ export const isWorkspaceAdminCheck = (userId, members) => {
 export const isWorkspaceMemberCheck = (userId, members) => {
   return members.some((user) => user.userId.toString() === userId.toString());
 };
+
+export const checkIsStillWorkspaceMember = async (userId, workspaceById) => {
+  const workspace = await Workspace.findById(workspaceById);
+  if (!isWorkspaceMemberCheck(userId, workspace.members)) {
+    throw new Error("Member not found");
+  }
+};
