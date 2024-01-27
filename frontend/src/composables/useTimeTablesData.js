@@ -37,11 +37,14 @@ export function useTimeTablesData() {
       try {
         const path = router.currentRoute.value.path;
         if (path.includes("adminworkspace")) {
-          await adminloadTimeTables(userStore.selectedWorkspaceMember);
+          if (!userStore.selectedWorkspaceMember?.userId) {
+            throw new Error("no member selected");
+          }
+          await adminloadTimeTables(userStore.selectedWorkspaceMember.userId);
         } else {
           await loadTimeTables();
         }
-        alertStore.success("Erfolgreich geladen", 2500);
+        alertStore.success("Erfolgreich geladen");
       } catch (err) {
         alertStore.error("Laden Fehlgeschlagen", 3000);
       }
@@ -57,11 +60,14 @@ export function useTimeTablesData() {
       try {
         const path = router.currentRoute.value.path;
         if (path.includes("adminworkspace")) {
-          await adminloadTimeTables(userStore.selectedWorkspaceMember);
+          if (!userStore.selectedWorkspaceMember?.userId) {
+            throw new Error("no member selected");
+          }
+          await adminloadTimeTables(userStore.selectedWorkspaceMember.userId);
         } else {
           await loadTimeTables();
         }
-        alertStore.success("Erfolgreich geladen", 2500);
+        alertStore.success("Erfolgreich geladen");
       } catch (err) {
         alertStore.error("Laden Fehlgeschlagen", 3000);
       }
@@ -74,11 +80,14 @@ export function useTimeTablesData() {
       try {
         const path = router.currentRoute.value.path;
         if (path.includes("adminworkspace")) {
-          await adminloadTimeTables(userStore.selectedWorkspaceMember);
+          if (!userStore.selectedWorkspaceMember?.userId) {
+            throw new Error("no member selected");
+          }
+          await adminloadTimeTables(userStore.selectedWorkspaceMember.userId);
         } else {
           await loadTimeTables();
         }
-        alertStore.success("Erfolgreich geladen", 2500);
+        alertStore.success("Erfolgreich geladen");
       } catch (err) {
         alertStore.error("Laden Fehlgeschlagen", 3000);
       }

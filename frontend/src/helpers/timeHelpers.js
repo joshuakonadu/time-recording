@@ -202,7 +202,8 @@ const adminIsInUserView = (workspaceId, userId) => {
   const userStore = useUserStore();
   const routeId = router.currentRoute.value.params?.id;
 
-  return workspaceId === routeId && userStore.selectedWorkspaceMember === userId
+  return workspaceId === routeId &&
+    userStore.selectedWorkspaceMember?.userId === userId
     ? true
     : false;
 };

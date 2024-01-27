@@ -5,6 +5,7 @@ import {
   nextTick,
   ref,
   defineAsyncComponent,
+  computed,
 } from "vue";
 import { useRouter } from "vue-router";
 import { adminloadTimeTables } from "../../helpers";
@@ -17,7 +18,6 @@ const alertStore = useAlertStore();
 const authStore = useAuthStore();
 const router = useRouter();
 
-const selectedMember = ref(null);
 const panel = ref(router.currentRoute.value.query.tab || "table");
 const openTimeEntry = ref(false);
 const showAddUserDialog = ref(false);
@@ -55,8 +55,7 @@ const initializeData = async () => {
         (member) => member.userId === routeUserId
       );
       if (!member) throw new Error("err");
-      selectedMember.value = member;
-      userStore.selectedWorkspaceMember = member.userId;
+      userStore.selectedWorkspaceMember = member;
       adminloadTimeTables(member.userId);
     }
   } catch (err) {
@@ -71,8 +70,7 @@ onMounted(() => {
 });
 
 const setSelectedMember = async (data) => {
-  selectedMember.value = data;
-  userStore.selectedWorkspaceMember = data.userId;
+  userStore.selectedWorkspaceMember = data;
   panel.value = "user";
   setQuery("user", data.userId);
   try {
@@ -85,8 +83,8 @@ const setSelectedMember = async (data) => {
 const goBack = () => {
   if (panel.value !== "table") {
     panel.value = "table";
-    selectedMember.value = {};
     userStore.selectedWorkspaceMember = null;
+    userStore.resetTimeRange();
     setQuery("table");
   } else {
     const workspaceId = router.currentRoute.value.params?.id;
@@ -102,6 +100,46 @@ const setQuery = (val, id) => {
 const setOpenTimeEntry = () => {
   openTimeEntry.value = true;
 };
+
+const memberSelected = computed({
+  get() {
+    return {
+      label: `${userStore.selectedWorkspaceMember?.firstname} ${userStore.selectedWorkspaceMember?.lastname}`,
+      value: userStore.selectedWorkspaceMember?.userId,
+    };
+  },
+  set(obj) {
+    processData(obj.value);
+  },
+});
+
+const processData = async (userId) => {
+  try {
+    setUserSelectedMember(userId);
+    setQuery("user", userId);
+    await adminloadTimeTables(userId);
+    alertStore.success("Aktion erfolgreich");
+  } catch (err) {
+    alertStore.error("Zeiteinträge Laden fehlgeschlagen", 4000);
+  }
+};
+
+const setUserSelectedMember = (userId) => {
+  const findMember = userStore.activeWorkspace.members.find(
+    (member) => member.userId === userId
+  );
+  if (!findMember) throw new Error("Member nicht gefunden");
+  userStore.selectedWorkspaceMember = findMember;
+};
+
+const workspaceMemberOptions = computed(() => {
+  return userStore.activeWorkspace.members.map((member) => {
+    return {
+      label: `${member.firstname} ${member.lastname}`,
+      value: member.userId,
+    };
+  });
+});
 
 onBeforeUnmount(() => {
   userStore.resetTimeData();
@@ -145,10 +183,12 @@ onBeforeUnmount(() => {
           </div>
         </q-tab-panel>
         <q-tab-panel name="user">
-          <div>
-            <h3>
-              {{ selectedMember?.firstname }} {{ selectedMember?.lastname }}
-            </h3>
+          <div class="custom-select-lg q-mb-xl">
+            <q-select
+              v-model="memberSelected"
+              :options="workspaceMemberOptions"
+              label="Ausgewähltes Mitglied"
+            />
           </div>
           <q-expansion-item
             class="q-mb-xl"
@@ -161,7 +201,7 @@ onBeforeUnmount(() => {
             <template v-if="openTimeEntry">
               <component
                 :is="lazyAdminAddTimeEntryComponent"
-                :memberId="selectedMember.userId"
+                :memberId="userStore.selectedWorkspaceMember?.userId"
               />
             </template>
           </q-expansion-item>

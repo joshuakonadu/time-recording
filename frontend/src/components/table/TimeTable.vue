@@ -47,7 +47,7 @@ const deleteTimeRecord = async () => {
   try {
     await deleteTimeRecordById(deleteTimeRecordId);
     if (userStore.selectedWorkspaceMember) {
-      await adminloadTimeTables(userStore.selectedWorkspaceMember);
+      await adminloadTimeTables(userStore.selectedWorkspaceMember.userId);
     } else {
       await loadTimeTables();
     }

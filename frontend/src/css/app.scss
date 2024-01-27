@@ -378,3 +378,17 @@ span {
     height: 56px;
   }
 }
+
+.custom-select-lg{
+  max-width: 400px;
+  margin-left: 1rem;
+  .q-field__inner{
+    font-size: 2rem;
+  }
+  .q-field__control{
+    min-height: 90px;
+  }
+  .q-field__marginal{
+    height: 90px;
+  }
+}

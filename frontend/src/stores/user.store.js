@@ -82,6 +82,12 @@ export const useUserStore = defineStore({
     updateWorkspaceMembers(data) {
       this.activeWorkspace.members = data;
     },
+    resetTimeRange() {
+      this.timeTablesDate = {
+        from: getFirstOfMonth(),
+        to: getDateNow(),
+      };
+    },
     resetTimeData() {
       this.activeWorkspace = {
         name: "",
