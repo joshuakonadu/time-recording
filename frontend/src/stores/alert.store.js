@@ -6,7 +6,7 @@ export const useAlertStore = defineStore({
     alert: null,
   }),
   actions: {
-    success(message, ms = 2000) {
+    success(message, ms = 1200) {
       this.alert = { message, type: "success", ms };
     },
     info(message, ms = 2000) {

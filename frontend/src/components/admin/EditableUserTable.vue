@@ -82,7 +82,7 @@ const update = async () => {
     //nextTick important
     await nextTick();
     await updateMembers();
-    alertStore.success("Erfolgreich geändert", 2500);
+    alertStore.success("Erfolgreich geändert");
     await nextTick();
     if (!userStore.isActiveWorkspaceAdmin) {
       const workspaceId = router.currentRoute.value.params?.id;
@@ -108,7 +108,7 @@ const deleteMember = async () => {
   try {
     if (!deleteMemberId) throw new Error("Fehler");
     await deleteWorkspaceMember(deleteMemberId);
-    alertStore.success("Erfolgreich gelöscht", 2500);
+    alertStore.success("Erfolgreich gelöscht");
     if (deleteMemberId === authStore.user._id) {
       router.push("/auth");
     } else {

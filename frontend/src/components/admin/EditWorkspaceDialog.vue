@@ -49,7 +49,7 @@ const saveData = async () => {
     const apiResponse = await updateWorkspace(workspaceId, data);
     userStore.setActiveWorkspace(apiResponse.data);
     reactiveShow.value = false;
-    alertStore.success("Erfolgreich geändert", 2000);
+    alertStore.success("Erfolgreich geändert");
     updateRegisterWorkspaceAndNotifyUsers(apiResponse.data);
   } catch (err) {
     alertStore.error("Änderung fehlgeschlagen", 3000);

@@ -20,7 +20,7 @@ const alertStore = useAlertStore();
 const accept = async () => {
   try {
     await acceptInvitation({ workspaceId: props.invitation.workspaceId });
-    alertStore.success("Aktion Erfolgreich", 2500);
+    alertStore.success("Aktion Erfolgreich");
   } catch (err) {
     alertStore.error("Beim Annehmen ist ein Fehler aufgetreten", 4000);
   }
