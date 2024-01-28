@@ -113,7 +113,7 @@ const clearValue = () => {
         label="Rolle"
       />
     </div>
-    <div class="flex-container flex-100 q-mt-xl q-mb-xl">
+    <div class="flex-container flex-100 q-mt-xl">
       <AllDate
         @changeFrom="changeFrom"
         @changeTo="changeTo"
