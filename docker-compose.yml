@@ -15,6 +15,7 @@ services:
     environment:
       - MONGO_URI=mongodb://db:27017/time_recording?authSource=admin
       - REDIS_URI=redis://redis:6379
+      - JWT_SECRET=example12345
     restart: on-failure
     build: ./backend
     ports:

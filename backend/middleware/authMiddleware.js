@@ -11,7 +11,7 @@ export const protect = asyncHandler(async (req, res, next) => {
 
   try {
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "example12345");
 
     // Get user from the token
     req.user = await User.findById(decoded.id).select("-password");
@@ -32,7 +32,7 @@ export const check = asyncHandler(async (req, res, next) => {
 
   try {
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "example12345");
 
     // Get user from the token
     req.user = await User.findById(decoded.id).select("-password");

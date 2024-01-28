@@ -97,7 +97,7 @@ const identifyUser = asyncHandler(async (req, res) => {
 
 // Generate JWT
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+  return jwt.sign({ id }, process.env.JWT_SECRET || "example12345", {
     expiresIn: "30d",
   });
 };
