@@ -89,7 +89,7 @@ const clearValue = () => {
 </script>
 
 <template>
-  <div class="time-calculator align-end q-mt-lg q-mb-xl">
+  <div class="time-calculator admin align-end q-mt-lg q-mb-xl">
     <div class="input-container">
       <q-input v-model="description" autogrow label="Beschreibung" />
     </div>

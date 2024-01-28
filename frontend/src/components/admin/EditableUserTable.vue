@@ -181,7 +181,9 @@ function updateMessages(deleteMemberId) {
               flat
               icon="fa-regular fa-clock"
               @click="emitSelectedMember(props.row)"
-            ></q-btn>
+            >
+              <q-tooltip> Zeiten einsehen/bearbeiten </q-tooltip>
+            </q-btn>
           </q-td>
           <q-td key="firstname" :props="props">
             {{ props.row.firstname }}

@@ -21,6 +21,7 @@ const router = useRouter();
 const panel = ref(router.currentRoute.value.query.tab || "table");
 const openTimeEntry = ref(false);
 const showAddUserDialog = ref(false);
+const showAddNewTime = ref(false);
 const showEditWorkspaceDialog = ref(false);
 
 const lazyGroupedTimeTablesComponent = defineAsyncComponent(() =>
@@ -164,7 +165,9 @@ onBeforeUnmount(() => {
             round
             flat
             icon="fa-solid fa-gear"
-          />
+          >
+            <q-tooltip> Workspace bearbeiten </q-tooltip>
+          </q-btn>
 
           <q-btn
             @click="showAddUserDialog = true"
@@ -173,7 +176,9 @@ onBeforeUnmount(() => {
             round
             flat
             icon="fa-solid fa-user-plus"
-          />
+          >
+            <q-tooltip> Mitglieder hinzufügen </q-tooltip>
+          </q-btn>
         </div>
       </div>
       <q-tab-panels v-model="panel" animated class="shadow-2 rounded-borders">
@@ -183,28 +188,30 @@ onBeforeUnmount(() => {
           </div>
         </q-tab-panel>
         <q-tab-panel name="user">
-          <div class="custom-select-lg q-mb-xl">
-            <q-select
-              v-model="memberSelected"
-              :options="workspaceMemberOptions"
-              label="Ausgewähltes Mitglied"
-            />
-          </div>
-          <q-expansion-item
-            class="q-mb-xl"
-            style="width: fit-content"
-            icon="fa-solid fa-calendar-plus"
-            label="Neuer Zeiteintrag"
-            header-class="text-accent"
-            @before-show="setOpenTimeEntry"
-          >
-            <template v-if="openTimeEntry">
-              <component
-                :is="lazyAdminAddTimeEntryComponent"
-                :memberId="userStore.selectedWorkspaceMember?.userId"
+          <section class="user-action">
+            <div class="custom-select-lg q-mb-xl">
+              <q-select
+                v-model="memberSelected"
+                :options="workspaceMemberOptions"
+                label="Ausgewähltes Mitglied"
+                label-color="primary"
               />
-            </template>
-          </q-expansion-item>
+            </div>
+            <div>
+              <q-btn
+                @click="showAddNewTime = true"
+                class="btn--no-hover"
+                dense
+                round
+                flat
+                color="accent"
+                size="lg"
+                icon="fa-regular fa-calendar-plus"
+              >
+                <q-tooltip> Zeiteintrag hinzufügen </q-tooltip>
+              </q-btn>
+            </div>
+          </section>
           <component :is="lazyGroupedTimeTablesComponent" />
         </q-tab-panel>
       </q-tab-panels>
@@ -223,5 +230,16 @@ onBeforeUnmount(() => {
         @hide="showEditWorkspaceDialog = false"
       />
     </template>
+    <q-dialog class="create-workspace" v-model="showAddNewTime">
+      <q-card style="width: 800px; max-width: 80vw; min-height: 180px">
+        <component
+          :is="lazyAdminAddTimeEntryComponent"
+          :memberId="userStore.selectedWorkspaceMember?.userId"
+        />
+        <q-card-actions align="right" class="bg-white text-teal">
+          <q-btn v-if="!loading" flat label="Abbrechen" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </section>
 </template>

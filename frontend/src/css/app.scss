@@ -205,6 +205,13 @@
   }
 }
 
+.time-calculator.admin{
+  border: 0;
+  .time-diff{
+    margin-top: 2rem;
+  }
+}
+
 .create-workspace{
   .custom-height {
     height: 30px;
@@ -371,7 +378,13 @@ span {
   }
 }
 
-
+section.user-action{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 20px;
+  justify-content: space-between;
+  align-items: baseline;
+}
 .select-wrapper{
   width: 180px;
   .q-field__control{
@@ -380,7 +393,7 @@ span {
 }
 
 .custom-select-lg{
-  max-width: 400px;
+  width: 320px;
   margin-left: 1rem;
   .q-field__inner{
     font-size: 2rem;
