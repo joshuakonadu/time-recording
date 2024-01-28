@@ -119,7 +119,7 @@ const processData = async (userId) => {
     setUserSelectedMember(userId);
     setQuery("user", userId);
     await adminloadTimeTables(userId);
-    alertStore.success("Aktion erfolgreich");
+    alertStore.success("Erfolgreich geladen");
   } catch (err) {
     alertStore.error("Zeiteinträge Laden fehlgeschlagen", 4000);
   }
@@ -236,8 +236,8 @@ onBeforeUnmount(() => {
           :is="lazyAdminAddTimeEntryComponent"
           :memberId="userStore.selectedWorkspaceMember?.userId"
         />
-        <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn v-if="!loading" flat label="Abbrechen" v-close-popup />
+        <q-card-actions align="right" class="bg-white text-primary">
+          <q-btn flat label="Schliessen" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
