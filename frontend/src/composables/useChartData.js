@@ -21,6 +21,10 @@ export default function useChartData(dateLabels) {
         legend: {
           display: false,
         },
+        title: {
+          display: true,
+          text: "Stunden pro Wochentag",
+        },
       },
       scales: {
         y: {

@@ -11,7 +11,6 @@ import { useRouter } from "vue-router";
 import { adminloadTimeTables } from "../../helpers";
 import EditableUserTable from "../../components/admin/EditableUserTable.vue";
 import SelectMember from "../../components/admin/SelectMember.vue";
-import TimeCharts from "../../components/admin/TimeCharts.vue";
 import { useUserStore, useAlertStore, useAuthStore } from "src/stores";
 import { getWorkspace } from "../../service";
 
@@ -40,6 +39,10 @@ const lazyAddUserDialogComponent = defineAsyncComponent(() =>
 
 const lazyEditWorkspaceDialogComponent = defineAsyncComponent(() =>
   import("../../components/admin/EditWorkspaceDialog.vue")
+);
+
+const lazyTimeChartsComponent = defineAsyncComponent(() =>
+  import("../../components/admin/TimeCharts.vue")
 );
 
 const initializeData = async () => {
@@ -206,7 +209,7 @@ onBeforeUnmount(() => {
             <SelectMember @onSelect="(userId) => processChartData(userId)" />
           </div>
           <div>
-            <TimeCharts />
+            <component :is="lazyTimeChartsComponent" />
           </div>
         </q-tab-panel>
       </q-tab-panels>
