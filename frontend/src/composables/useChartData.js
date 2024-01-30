@@ -2,32 +2,7 @@ import { computed, watch } from "vue";
 import { DateTime } from "luxon";
 import { useUserStore } from "src/stores";
 import { calculateTimeNumber, minutesInHoursMinutes } from "../helpers";
-
-const chartLabels = {
-  weekday: [
-    "Montag",
-    "Dienstag",
-    "Mittwoch",
-    "Donnerstag",
-    "Freitag",
-    "Samstag",
-    "Sonntag",
-  ],
-  month: [
-    "Januar",
-    "Februar",
-    "März",
-    "April",
-    "Mai",
-    "Juni",
-    "Juli",
-    "August",
-    "September",
-    "Oktober",
-    "November",
-    "Dezember",
-  ],
-};
+import { colors, chartLabels } from "../helpers";
 
 export default function useChartData(dateLabels) {
   const userStore = useUserStore();
@@ -43,6 +18,9 @@ export default function useChartData(dateLabels) {
             },
           },
         },
+        legend: {
+          display: false,
+        },
       },
       scales: {
         y: {
@@ -51,6 +29,44 @@ export default function useChartData(dateLabels) {
               return minutesInHoursMinutes(value);
             },
           },
+        },
+      },
+    };
+  });
+
+  const chartOptionsProjectPie = computed(() => {
+    return {
+      responsive: true,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (data) => {
+              return `Zeit: ${minutesInHoursMinutes(data.raw)}`;
+            },
+          },
+        },
+        title: {
+          display: true,
+          text: "Projekte",
+        },
+      },
+    };
+  });
+
+  const chartOptionsRolePie = computed(() => {
+    return {
+      responsive: true,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (data) => {
+              return `Zeit: ${minutesInHoursMinutes(data.raw)}`;
+            },
+          },
+        },
+        title: {
+          display: true,
+          text: "Rollen",
         },
       },
     };
@@ -81,12 +97,66 @@ export default function useChartData(dateLabels) {
     const finalData = [
       {
         data: data,
-        backgroundColor: "#27aeef",
+        backgroundColor: colors,
       },
     ];
     return {
       labels: chartLabels[labels],
       datasets: finalData,
+    };
+  });
+
+  const pieChartProjectData = computed(() => {
+    let index = 0;
+    const indexMap = {};
+    const labels = [];
+    const data = [];
+    userStore.timeTablesData.forEach((timeObj) => {
+      if (!labels.includes(timeObj.project)) {
+        labels.push(timeObj.project);
+        indexMap[timeObj.project] = index;
+        const calcTime = calculateTimeNumber(timeObj);
+        data[index++] = calcTime;
+      } else {
+        data[indexMap[timeObj.project]] += calculateTimeNumber(timeObj);
+      }
+    });
+
+    return {
+      labels,
+      datasets: [
+        {
+          data,
+          backgroundColor: colors,
+        },
+      ],
+    };
+  });
+
+  const pieChartRoleData = computed(() => {
+    let index = 0;
+    const indexMap = {};
+    const labels = [];
+    const data = [];
+    userStore.timeTablesData.forEach((timeObj) => {
+      if (!labels.includes(timeObj.role)) {
+        labels.push(timeObj.role);
+        indexMap[timeObj.role] = index;
+        const calcTime = calculateTimeNumber(timeObj);
+        data[index++] = calcTime;
+      } else {
+        data[indexMap[timeObj.role]] += calculateTimeNumber(timeObj);
+      }
+    });
+
+    return {
+      labels,
+      datasets: [
+        {
+          data,
+          backgroundColor: colors,
+        },
+      ],
     };
   });
 
@@ -97,5 +167,9 @@ export default function useChartData(dateLabels) {
   return {
     chartOptions,
     barChartData,
+    pieChartProjectData,
+    chartOptionsProjectPie,
+    pieChartRoleData,
+    chartOptionsRolePie,
   };
 }

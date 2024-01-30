@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import useChartData from "../../composables/useChartData.js";
 import { useTimeTablesData } from "../../composables/useTimeTablesData.js";
-import { Bar, Line } from "vue-chartjs";
+import { Bar, Line, Pie } from "vue-chartjs";
 import {
   Chart as ChartJS,
   Title,
@@ -12,6 +12,8 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  ArcElement,
+  Legend,
 } from "chart.js";
 import { useUserStore } from "../../stores/user.store.js";
 ChartJS.register(
@@ -21,7 +23,9 @@ ChartJS.register(
   LineElement,
   BarElement,
   CategoryScale,
-  LinearScale
+  LinearScale,
+  ArcElement,
+  Legend
 );
 
 const userStore = useUserStore();
@@ -29,7 +33,14 @@ const dateLabels = ref("weekday");
 userStore.setTimeRange("month");
 const selectTimeRange = ref("Diesen Monat");
 const { calculateAllTime } = useTimeTablesData();
-const { chartOptions, barChartData } = useChartData(dateLabels);
+const {
+  chartOptions,
+  barChartData,
+  pieChartProjectData,
+  chartOptionsProjectPie,
+  pieChartRoleData,
+  chartOptionsRolePie,
+} = useChartData(dateLabels);
 const selectTimeRangeOptions = ["Diese Woche", "Diesen Monat", "Dieses Jahr"];
 
 const changeTimeRange = (val) => {
@@ -68,13 +79,25 @@ const changeTimeRange = (val) => {
     <div class="q-mb-lg" style="background: #ffffff; padding: 28px">
       <Bar id="my-chart-bar-id" :options="chartOptions" :data="barChartData" />
     </div>
-
-    <div style="background: #ffffff; padding: 28px">
+    <!--  <div class="q-mb-lg" style="background: #ffffff; padding: 28px">
       <Line
         id="my-chart-line-id"
         :options="chartOptions"
         :data="barChartData"
       />
+    </div> -->
+    <div
+      class="q-mb-lg flex justify-center"
+      style="background: #ffffff; padding: 28px; max-height: 500px"
+    >
+      <Pie :data="pieChartProjectData" :options="chartOptionsProjectPie" />
+    </div>
+
+    <div
+      class="q-mb-lg flex justify-center"
+      style="background: #ffffff; padding: 28px; max-height: 500px"
+    >
+      <Pie :data="pieChartRoleData" :options="chartOptionsRolePie" />
     </div>
   </div>
 </template>
