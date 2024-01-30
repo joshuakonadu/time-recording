@@ -95,13 +95,13 @@ const update = async () => {
   }
 };
 
-const emitSelectedMember = (data) => {
+const emitSelectedMember = (data, tab) => {
   const newData = {
     firstname: data.firstname,
     lastname: data.lastname,
     userId: data.userId,
   };
-  emit("selectMember", newData);
+  emit("selectMember", newData, tab);
 };
 
 const deleteMember = async () => {
@@ -159,6 +159,7 @@ function updateMessages(deleteMemberId) {
       <template v-slot:header="props">
         <q-tr :props="props">
           <q-th auto-width />
+          <q-th auto-width />
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.label }}
             <q-icon
@@ -176,13 +177,25 @@ function updateMessages(deleteMemberId) {
           <q-td auto-width>
             <q-btn
               size="md"
-              color="primary"
+              color="accent"
               dense
               flat
               icon="fa-regular fa-clock"
-              @click="emitSelectedMember(props.row)"
+              @click="emitSelectedMember(props.row, 'user')"
             >
               <q-tooltip> Zeiten einsehen/bearbeiten </q-tooltip>
+            </q-btn>
+          </q-td>
+          <q-td auto-width>
+            <q-btn
+              size="md"
+              color="primary"
+              dense
+              flat
+              icon="fa-solid fa-chart-line"
+              @click="emitSelectedMember(props.row, 'charts')"
+            >
+              <q-tooltip> Zeiten Diagramme </q-tooltip>
             </q-btn>
           </q-td>
           <q-td key="firstname" :props="props">

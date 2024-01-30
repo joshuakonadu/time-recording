@@ -10,6 +10,8 @@ import {
 import { useRouter } from "vue-router";
 import { adminloadTimeTables } from "../../helpers";
 import EditableUserTable from "../../components/admin/EditableUserTable.vue";
+import SelectMember from "../../components/admin/SelectMember.vue";
+import TimeCharts from "../../components/admin/TimeCharts.vue";
 import { useUserStore, useAlertStore, useAuthStore } from "src/stores";
 import { getWorkspace } from "../../service";
 
@@ -70,10 +72,10 @@ onMounted(() => {
   initializeData();
 });
 
-const setSelectedMember = async (data) => {
+const setSelectedMember = async (data, tab) => {
   userStore.selectedWorkspaceMember = data;
-  panel.value = "user";
-  setQuery("user", data.userId);
+  panel.value = tab;
+  setQuery(tab, data.userId);
   try {
     await adminloadTimeTables(data.userId);
   } catch (err) {
@@ -102,22 +104,21 @@ const setOpenTimeEntry = () => {
   openTimeEntry.value = true;
 };
 
-const memberSelected = computed({
-  get() {
-    return {
-      label: `${userStore.selectedWorkspaceMember?.firstname} ${userStore.selectedWorkspaceMember?.lastname}`,
-      value: userStore.selectedWorkspaceMember?.userId,
-    };
-  },
-  set(obj) {
-    processData(obj.value);
-  },
-});
-
 const processData = async (userId) => {
   try {
     setUserSelectedMember(userId);
     setQuery("user", userId);
+    await adminloadTimeTables(userId);
+    alertStore.success("Erfolgreich geladen");
+  } catch (err) {
+    alertStore.error("Zeiteinträge Laden fehlgeschlagen", 4000);
+  }
+};
+
+const processChartData = async (userId) => {
+  try {
+    setUserSelectedMember(userId);
+    setQuery("charts", userId);
     await adminloadTimeTables(userId);
     alertStore.success("Erfolgreich geladen");
   } catch (err) {
@@ -132,15 +133,6 @@ const setUserSelectedMember = (userId) => {
   if (!findMember) throw new Error("Member nicht gefunden");
   userStore.selectedWorkspaceMember = findMember;
 };
-
-const workspaceMemberOptions = computed(() => {
-  return userStore.activeWorkspace.members.map((member) => {
-    return {
-      label: `${member.firstname} ${member.lastname}`,
-      value: member.userId,
-    };
-  });
-});
 
 onBeforeUnmount(() => {
   userStore.resetTimeData();
@@ -190,12 +182,7 @@ onBeforeUnmount(() => {
         <q-tab-panel name="user">
           <section class="user-action">
             <div class="custom-select-lg q-mb-xl">
-              <q-select
-                v-model="memberSelected"
-                :options="workspaceMemberOptions"
-                label="Ausgewähltes Mitglied"
-                label-color="primary"
-              />
+              <SelectMember @onSelect="(userId) => processData(userId)" />
             </div>
             <div>
               <q-btn
@@ -213,6 +200,14 @@ onBeforeUnmount(() => {
             </div>
           </section>
           <component :is="lazyGroupedTimeTablesComponent" />
+        </q-tab-panel>
+        <q-tab-panel name="charts">
+          <div class="custom-select-lg q-mb-xl">
+            <SelectMember @onSelect="(userId) => processChartData(userId)" />
+          </div>
+          <div>
+            <TimeCharts />
+          </div>
         </q-tab-panel>
       </q-tab-panels>
     </div>

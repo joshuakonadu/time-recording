@@ -40,6 +40,23 @@ export const calculateTime = (data) => {
   return `${hours}:${minutes}`;
 };
 
+export const calculateTimeNumber = (data) => {
+  const minutesDiff = Interval.fromDateTimes(
+    DateTime.fromISO(data.from),
+    DateTime.fromISO(data.to)
+  ).length("minute");
+  return minutesDiff;
+};
+
+export const minutesInHoursMinutes = (minutes) => {
+  const hours = Math.floor(minutes / 60)
+    .toString()
+    .padStart(2, "0");
+  const restMinutes = (Math.floor(minutes) % 60).toString().padStart(2, "0");
+
+  return `${hours}:${restMinutes}h`;
+};
+
 export const sortDate = (data1, data2) => {
   return data1.from > data2.from ? -1 : data1.from < data2.from ? 1 : 0;
 };
