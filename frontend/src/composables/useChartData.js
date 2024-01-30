@@ -73,6 +73,11 @@ export default function useChartData(dateLabels) {
           ? calculateTime
           : data[dateIndex] + calculateTime;
     });
+    for (let i = 0; i < data.length; i++) {
+      if (data[i] === undefined) {
+        data[i] = 0;
+      }
+    }
     const finalData = [
       {
         data: data,

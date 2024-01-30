@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import useChartData from "../../composables/useChartData.js";
 import { useTimeTablesData } from "../../composables/useTimeTablesData.js";
-import { Bar } from "vue-chartjs";
+import { Bar, Line } from "vue-chartjs";
 import {
   Chart as ChartJS,
   Title,
@@ -10,9 +10,19 @@ import {
   BarElement,
   CategoryScale,
   LinearScale,
+  PointElement,
+  LineElement,
 } from "chart.js";
 import { useUserStore } from "../../stores/user.store.js";
-ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
+ChartJS.register(
+  Title,
+  Tooltip,
+  PointElement,
+  LineElement,
+  BarElement,
+  CategoryScale,
+  LinearScale
+);
 
 const userStore = useUserStore();
 const dateLabels = ref("weekday");
@@ -43,7 +53,7 @@ const changeTimeRange = (val) => {
 
 <template>
   <div>
-    <div class="flex items-end justify-between q-mb-lg">
+    <div class="flex items-end justify-between q-mb-xl">
       <div>
         <span class="text-h5">Insgesamt: {{ calculateAllTime }}</span>
       </div>
@@ -55,8 +65,16 @@ const changeTimeRange = (val) => {
         label="Zeitraum"
       />
     </div>
+    <div class="q-mb-lg" style="background: #ffffff; padding: 28px">
+      <Bar id="my-chart-bar-id" :options="chartOptions" :data="barChartData" />
+    </div>
+
     <div style="background: #ffffff; padding: 28px">
-      <Bar id="my-chart-id" :options="chartOptions" :data="barChartData" />
+      <Line
+        id="my-chart-line-id"
+        :options="chartOptions"
+        :data="barChartData"
+      />
     </div>
   </div>
 </template>
