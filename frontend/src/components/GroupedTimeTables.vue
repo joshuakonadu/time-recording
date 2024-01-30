@@ -114,7 +114,7 @@ const updateChangedObject = async (data) => {
       </div>
     </template>
     <template v-else>
-      <h2 class="text-center text-h4">
+      <h2 class="text-center text-h4 q-py-xl">
         Keine Zeiteinträge für diesen Zeitraum
       </h2>
     </template>

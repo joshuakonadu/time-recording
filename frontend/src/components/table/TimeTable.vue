@@ -261,5 +261,3 @@ watch(
     </q-dialog>
   </div>
 </template>
-
-<style></style>
