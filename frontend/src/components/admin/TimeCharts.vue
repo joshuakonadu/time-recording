@@ -1,8 +1,7 @@
 <script setup>
-import { computed } from "vue";
-import { calculateTimeNumber, minutesInHoursMinutes } from "../../helpers";
-import { useUserStore } from "src/stores";
-import { DateTime } from "luxon";
+import { ref } from "vue";
+import useChartData from "../../composables/useChartData.js";
+import { useTimeTablesData } from "../../composables/useTimeTablesData.js";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -12,78 +11,52 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
+import { useUserStore } from "../../stores/user.store.js";
 ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
 
 const userStore = useUserStore();
+const dateLabels = ref("weekday");
+userStore.setTimeRange("month");
+const selectTimeRange = ref("Diesen Monat");
+const { calculateAllTime } = useTimeTablesData();
+const { chartOptions, barChartData } = useChartData(dateLabels);
+const selectTimeRangeOptions = ["Diese Woche", "Diesen Monat", "Dieses Jahr"];
 
-const testLabel = [
-  "Montag",
-  "Dienstag",
-  "Mittwoch",
-  "Donnerstag",
-  "Freitag",
-  "Samstag",
-  "Sonntag",
-];
-
-const chartOptions = computed(() => {
-  return {
-    responsive: true,
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (data) => {
-            return `Zeit: ${minutesInHoursMinutes(data.raw)}`;
-          },
-        },
-      },
-    },
-    scales: {
-      y: {
-        ticks: {
-          callback(value) {
-            return minutesInHoursMinutes(value);
-          },
-        },
-      },
-    },
-  };
-});
-
-const barChartData = computed(() => {
-  const data = [[]];
-  const times = [...userStore.timeTablesData].reverse();
-  times.forEach((timeObj) => {
-    const weekdayIndex = DateTime.fromISO(timeObj.from).weekday - 1;
-    const calculateTime = calculateTimeNumber(timeObj);
-    const emptyIndex = data.findIndex((list) => {
-      return list[weekdayIndex] === undefined;
-    });
-    if (emptyIndex >= 0) {
-      data[emptyIndex][weekdayIndex] = calculateTime;
-    } else {
-      data.push([]);
-      data.at(-1)[weekdayIndex] = calculateTime;
-    }
-  });
-
-  const finalData = [];
-
-  for (let i = 0; i < data.length; i++) {
-    finalData.push({
-      data: data[i],
-    });
+const changeTimeRange = (val) => {
+  const selectedTime = val.split(" ")[1];
+  switch (selectedTime) {
+    case "Woche":
+      userStore.setTimeRange("week");
+      dateLabels.value = "weekday";
+      break;
+    case "Monat":
+      userStore.setTimeRange("month");
+      dateLabels.value = "weekday";
+      break;
+    case "Jahr":
+      userStore.setTimeRange("year");
+      dateLabels.value = "month";
+      break;
   }
-
-  return {
-    labels: testLabel,
-    datasets: finalData,
-  };
-});
+};
 </script>
 
 <template>
-  <div style="background: #ffffff; padding: 28px">
-    <Bar id="my-chart-id" :options="chartOptions" :data="barChartData" />
+  <div>
+    <div class="flex items-end justify-between q-mb-lg">
+      <div>
+        <span class="text-h5">Insgesamt: {{ calculateAllTime }}</span>
+      </div>
+      <q-select
+        style="width: 300px"
+        @update:model-value="(val) => changeTimeRange(val)"
+        v-model="selectTimeRange"
+        :options="selectTimeRangeOptions"
+        label="Zeitraum"
+      />
+    </div>
+    <div style="background: #ffffff; padding: 28px">
+      <Bar id="my-chart-id" :options="chartOptions" :data="barChartData" />
+    </div>
   </div>
 </template>

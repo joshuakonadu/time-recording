@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { DateTime } from "luxon";
 import { getAllWorkspaces, getAllInvitations } from "../service";
 import {
   sortDate,
@@ -86,6 +87,12 @@ export const useUserStore = defineStore({
       this.timeTablesDate = {
         from: getFirstOfMonth(),
         to: getDateNow(),
+      };
+    },
+    setTimeRange(range) {
+      this.timeTablesDate = {
+        from: DateTime.now().startOf(range).toString(),
+        to: DateTime.now().endOf(range).toString(),
       };
     },
     resetTimeData() {
