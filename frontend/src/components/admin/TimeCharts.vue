@@ -32,6 +32,7 @@ const userStore = useUserStore();
 const dateLabels = ref("weekday");
 userStore.setTimeRange("month");
 const selectTimeRange = ref("Diesen Monat");
+const barType = ref("bar");
 const { calculateAllTime } = useTimeTablesData();
 const {
   chartOptions,
@@ -68,6 +69,34 @@ const changeTimeRange = (val) => {
       <div>
         <span class="text-h5">Insgesamt: {{ calculateAllTime }}</span>
       </div>
+      <div>
+        <q-btn-toggle
+          v-model="barType"
+          class="my-custom-toggle"
+          no-caps
+          rounded
+          unelevated
+          toggle-color="primary"
+          color="white"
+          text-color="primary"
+          :options="[
+            { slot: 'bar', value: 'bar' },
+            { slot: 'line', value: 'line' },
+          ]"
+        >
+          <template v-slot:bar>
+            <q-icon name="fa-solid fa-chart-simple">
+              <q-tooltip> Bar Chart </q-tooltip>
+            </q-icon>
+          </template>
+
+          <template v-slot:line>
+            <q-icon name="fa-solid fa-chart-line">
+              <q-tooltip> Line Chart </q-tooltip>
+            </q-icon>
+          </template>
+        </q-btn-toggle>
+      </div>
       <q-select
         style="width: 300px"
         @update:model-value="(val) => changeTimeRange(val)"
@@ -76,10 +105,18 @@ const changeTimeRange = (val) => {
         label="Zeitraum"
       />
     </div>
-    <div class="q-mb-lg" style="background: #ffffff; padding: 28px">
+    <div
+      v-if="barType === 'bar'"
+      class="q-mb-lg"
+      style="background: #ffffff; padding: 28px"
+    >
       <Bar id="my-chart-bar-id" :options="chartOptions" :data="barChartData" />
     </div>
-    <div class="q-mb-lg" style="background: #ffffff; padding: 28px">
+    <div
+      v-else-if="barType === 'line'"
+      class="q-mb-lg"
+      style="background: #ffffff; padding: 28px"
+    >
       <Line
         id="my-chart-line-id"
         :options="chartOptions"
