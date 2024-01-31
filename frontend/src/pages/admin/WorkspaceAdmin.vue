@@ -208,9 +208,7 @@ onBeforeUnmount(() => {
           <div class="custom-select-lg q-mb-xl">
             <SelectMember @onSelect="(userId) => processChartData(userId)" />
           </div>
-          <div>
-            <component :is="lazyTimeChartsComponent" />
-          </div>
+          <component :is="lazyTimeChartsComponent" />
         </q-tab-panel>
       </q-tab-panels>
     </div>

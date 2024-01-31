@@ -105,36 +105,47 @@ const changeTimeRange = (val) => {
         label="Zeitraum"
       />
     </div>
-    <div
-      v-if="barType === 'bar'"
-      class="q-mb-lg"
-      style="background: #ffffff; padding: 28px"
-    >
-      <Bar id="my-chart-bar-id" :options="chartOptions" :data="barChartData" />
-    </div>
-    <div
-      v-else-if="barType === 'line'"
-      class="q-mb-lg"
-      style="background: #ffffff; padding: 28px"
-    >
-      <Line
-        id="my-chart-line-id"
-        :options="chartOptions"
-        :data="barChartData"
-      />
-    </div>
-    <div
-      class="q-mb-lg flex justify-center"
-      style="background: #ffffff; padding: 28px; max-height: 500px"
-    >
-      <Pie :data="pieChartProjectData" :options="chartOptionsProjectPie" />
-    </div>
+    <section v-if="calculateAllTime !== '00:00'">
+      <div
+        v-if="barType === 'bar'"
+        class="q-mb-lg"
+        style="background: #ffffff; padding: 28px"
+      >
+        <Bar
+          id="my-chart-bar-id"
+          :options="chartOptions"
+          :data="barChartData"
+        />
+      </div>
+      <div
+        v-else-if="barType === 'line'"
+        class="q-mb-lg"
+        style="background: #ffffff; padding: 28px"
+      >
+        <Line
+          id="my-chart-line-id"
+          :options="chartOptions"
+          :data="barChartData"
+        />
+      </div>
+      <div
+        class="q-mb-lg flex justify-center"
+        style="background: #ffffff; padding: 28px; max-height: 500px"
+      >
+        <Pie :data="pieChartProjectData" :options="chartOptionsProjectPie" />
+      </div>
 
-    <div
-      class="q-mb-lg flex justify-center"
-      style="background: #ffffff; padding: 28px; max-height: 500px"
-    >
-      <Pie :data="pieChartRoleData" :options="chartOptionsRolePie" />
-    </div>
+      <div
+        class="q-mb-lg flex justify-center"
+        style="background: #ffffff; padding: 28px; max-height: 500px"
+      >
+        <Pie :data="pieChartRoleData" :options="chartOptionsRolePie" />
+      </div>
+    </section>
+    <section v-else>
+      <h2 class="text-center text-h4 q-py-xl">
+        Keine Daten für diesen Zeitraum
+      </h2>
+    </section>
   </div>
 </template>

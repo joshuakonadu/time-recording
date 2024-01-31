@@ -116,7 +116,16 @@ export default function useChartData(dateLabels) {
     const labels = [];
     const data = [];
     userStore.timeTablesData.forEach((timeObj) => {
-      if (!labels.includes(timeObj.project)) {
+      if (timeObj.project === null) {
+        if (labels.includes("Nicht ausgewählt")) {
+          data[indexMap["Nicht ausgewählt"]] += calculateTimeNumber(timeObj);
+        } else {
+          labels.push("Nicht ausgewählt");
+          indexMap["Nicht ausgewählt"] = index;
+          const calcTime = calculateTimeNumber(timeObj);
+          data[index++] = calcTime;
+        }
+      } else if (!labels.includes(timeObj.project)) {
         labels.push(timeObj.project);
         indexMap[timeObj.project] = index;
         const calcTime = calculateTimeNumber(timeObj);
@@ -143,7 +152,16 @@ export default function useChartData(dateLabels) {
     const labels = [];
     const data = [];
     userStore.timeTablesData.forEach((timeObj) => {
-      if (!labels.includes(timeObj.role)) {
+      if (timeObj.role === null) {
+        if (labels.includes("Nicht ausgewählt")) {
+          data[indexMap["Nicht ausgewählt"]] += calculateTimeNumber(timeObj);
+        } else {
+          labels.push("Nicht ausgewählt");
+          indexMap["Nicht ausgewählt"] = index;
+          const calcTime = calculateTimeNumber(timeObj);
+          data[index++] = calcTime;
+        }
+      } else if (!labels.includes(timeObj.role)) {
         labels.push(timeObj.role);
         indexMap[timeObj.role] = index;
         const calcTime = calculateTimeNumber(timeObj);
