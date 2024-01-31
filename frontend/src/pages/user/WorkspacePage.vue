@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
   <q-page class="workspace-page">
     <div class="container flex-container flex-between align-center">
       <div class="title">
-        <h1 class="container text-h2">{{ userStore.activeWorkspace?.name }}</h1>
+        <h1 class="text-h2">{{ userStore.activeWorkspace?.name }}</h1>
       </div>
       <div class="admin-button" v-if="userStore.isActiveWorkspaceAdmin">
         <q-btn
@@ -72,7 +72,7 @@ onBeforeUnmount(() => {
         />
       </div>
     </div>
-    <q-tabs narrow-indicator v-model="tab" class="text-teal q-mb-xl">
+    <q-tabs narrow-indicator v-model="tab" class="text-teal q-mb-sm">
       <q-tab
         :ripple="false"
         @click="setQuery('times')"

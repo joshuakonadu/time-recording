@@ -2,7 +2,7 @@ import { computed, watch } from "vue";
 import { DateTime } from "luxon";
 import { useUserStore } from "src/stores";
 import { calculateTimeNumber, minutesInHoursMinutes } from "../helpers";
-import { colors, chartLabels } from "../helpers";
+import { chartLabels, shuffleColors } from "../helpers";
 
 export default function useChartData(dateLabels) {
   const userStore = useUserStore();
@@ -101,7 +101,7 @@ export default function useChartData(dateLabels) {
     const finalData = [
       {
         data: data,
-        backgroundColor: colors,
+        backgroundColor: shuffleColors(),
       },
     ];
     return {
@@ -131,7 +131,7 @@ export default function useChartData(dateLabels) {
       datasets: [
         {
           data,
-          backgroundColor: colors,
+          backgroundColor: shuffleColors(),
         },
       ],
     };
@@ -158,7 +158,7 @@ export default function useChartData(dateLabels) {
       datasets: [
         {
           data,
-          backgroundColor: colors,
+          backgroundColor: shuffleColors(),
         },
       ],
     };

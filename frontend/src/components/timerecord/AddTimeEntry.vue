@@ -82,7 +82,7 @@ const clearValue = () => {
 </script>
 
 <template>
-  <div class="time-calculator align-end q-mt-lg q-mb-xl container">
+  <div class="time-calculator align-end q-mt-lg container">
     <div class="input-container">
       <q-input v-model="description" autogrow label="Beschreibung" />
     </div>
@@ -106,7 +106,7 @@ const clearValue = () => {
         label="Rolle"
       />
     </div>
-    <div class="flex-container flex-center flex-100 q-mt-xl q-mb-xl">
+    <div class="flex-container flex-center flex-100 q-mt-xl q-mb-lg">
       <component
         :is="activeDateMode"
         @changeFrom="changeFrom"

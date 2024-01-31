@@ -86,7 +86,7 @@
 .time-diff {
   font-size: 1rem;
   @media screen and (min-width: 590px) {
-    margin-left: 24px;
+    margin-left: 32px;
   }
 }
 .input-container {
@@ -132,10 +132,14 @@
     flex: 0 0 100%
   }
   .title h1{
-    font-size: 2.8rem;
+    font-size: 2rem;
+    font-weight: 500;
   }
   .admin-button{
     flex: 0 0 100%;
+  }
+  .time-calculator {
+    margin-bottom: 60px;
   }
   @media screen and (min-width: 700px) {
     .title{
@@ -143,11 +147,13 @@
     }
     .admin-button{
       flex: 0 0 30%;
+      display: flex;
+      justify-content: flex-end;
     }
   }
   @media screen and (min-width: 900px) {
     .title h1{
-      font-size: 3.5rem;
+      font-size: 2.5rem;
     }
     .title{
       flex: 0 0 80%
@@ -161,8 +167,6 @@
   }
   .time-calculator{
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 15px );
-    -webkit-backdrop-filter: blur( 15px );
     border-radius: 10px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
   }
@@ -174,11 +178,12 @@
 
 .workspace-admin{
   h1{
-    font-size: 2.8rem;
+    font-size: 2rem;
+    font-weight: 500;
   }
   @media screen and (min-width: 900px) {
     h1{
-      font-size: 3.5rem;
+      font-size: 2.5rem;
     }
   }
   .q-tab-panels{
