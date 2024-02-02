@@ -7,7 +7,7 @@ import {
   defineAsyncComponent,
   computed,
 } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { adminloadTimeTables } from "../../helpers";
 import EditableUserTable from "../../components/admin/EditableUserTable.vue";
 import SelectMember from "../../components/admin/SelectMember.vue";
@@ -18,6 +18,7 @@ const userStore = useUserStore();
 const alertStore = useAlertStore();
 const authStore = useAuthStore();
 const router = useRouter();
+const route = useRoute();
 
 const panel = ref(router.currentRoute.value.query.tab || "table");
 const openTimeEntry = ref(false);
@@ -137,6 +138,20 @@ const setUserSelectedMember = (userId) => {
   userStore.selectedWorkspaceMember = findMember;
 };
 
+const openTab = (tab) => {
+  panel.value = tab;
+  router.replace({
+    query: {
+      tab,
+      id: route.query.id,
+    },
+  });
+};
+
+const goBackLabel = computed(() => {
+  return route.query.tab ? "Zur Tabelle" : "Standard-Ansicht";
+});
+
 onBeforeUnmount(() => {
   userStore.resetTimeData();
 });
@@ -150,9 +165,36 @@ onBeforeUnmount(() => {
       </h1>
       <div class="flex-container flex-between align-center q-mb-lg">
         <div>
-          <q-btn @click="goBack" color="accent" flat label="Zurück"></q-btn>
+          <q-btn
+            @click="goBack"
+            color="accent"
+            flat
+            :label="goBackLabel"
+          ></q-btn>
         </div>
         <div>
+          <q-btn
+            v-if="route.query.tab === 'user'"
+            @click="() => openTab('charts')"
+            class="q-mr-xl btn--no-hover"
+            dense
+            round
+            flat
+            icon="fa-solid fa-chart-line"
+          >
+            <q-tooltip> Zeitdiagramme ansehen </q-tooltip>
+          </q-btn>
+          <q-btn
+            v-else-if="route.query.tab === 'charts'"
+            @click="() => openTab('user')"
+            class="q-mr-xl btn--no-hover"
+            dense
+            round
+            flat
+            icon="fa-solid fa-clock"
+          >
+            <q-tooltip> Zeiten ansehen/bearbeiten </q-tooltip>
+          </q-btn>
           <q-btn
             @click="showEditWorkspaceDialog = true"
             class="q-mr-xl btn--no-hover"

@@ -67,7 +67,7 @@ onBeforeUnmount(() => {
         <q-btn
           :to="`/adminworkspace/${router.currentRoute.value.params?.id}`"
           flat
-          label="Zur Admin Ansicht"
+          label="Admin-Ansicht"
           color="primary"
         />
       </div>
