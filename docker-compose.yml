@@ -4,6 +4,8 @@ services:
     image: mongo:latest
     ports:
       - "27017:27017"
+    volumes:
+      - db-data:/data/db
   redis:
     image: "redis:alpine"
     ports:
@@ -27,3 +29,6 @@ services:
     build: ./frontend
     ports:
       - "9000:80"
+
+volumes:
+  db-data:
