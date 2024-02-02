@@ -23,7 +23,9 @@ export default function useChartData(dateLabels) {
         },
         title: {
           display: true,
-          text: "Stunden pro Wochentag",
+          text: `Stunden pro ${
+            dateLabels.value === "month" ? "Monat" : "Wochentag"
+          }`,
         },
       },
       scales: {
