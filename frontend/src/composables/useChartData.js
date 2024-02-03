@@ -119,21 +119,22 @@ export default function useChartData(dateLabels) {
     const data = [];
     userStore.timeTablesData.forEach((timeObj) => {
       if (timeObj.project === null) {
-        if (labels.includes("Nicht ausgewählt")) {
-          data[indexMap["Nicht ausgewählt"]] += calculateTimeNumber(timeObj);
-        } else {
-          labels.push("Nicht ausgewählt");
-          indexMap["Nicht ausgewählt"] = index;
-          const calcTime = calculateTimeNumber(timeObj);
-          data[index++] = calcTime;
-        }
-      } else if (!labels.includes(timeObj.project)) {
-        labels.push(timeObj.project);
-        indexMap[timeObj.project] = index;
-        const calcTime = calculateTimeNumber(timeObj);
-        data[index++] = calcTime;
+        index = handleUnsetRoleOrProject({
+          labels,
+          data,
+          indexMap,
+          timeObj,
+          index,
+        });
       } else {
-        data[indexMap[timeObj.project]] += calculateTimeNumber(timeObj);
+        index = handleRoleOrProject({
+          data,
+          labels,
+          timeObj,
+          prop: "project",
+          indexMap,
+          index,
+        });
       }
     });
 
@@ -155,21 +156,22 @@ export default function useChartData(dateLabels) {
     const data = [];
     userStore.timeTablesData.forEach((timeObj) => {
       if (timeObj.role === null) {
-        if (labels.includes("Nicht ausgewählt")) {
-          data[indexMap["Nicht ausgewählt"]] += calculateTimeNumber(timeObj);
-        } else {
-          labels.push("Nicht ausgewählt");
-          indexMap["Nicht ausgewählt"] = index;
-          const calcTime = calculateTimeNumber(timeObj);
-          data[index++] = calcTime;
-        }
-      } else if (!labels.includes(timeObj.role)) {
-        labels.push(timeObj.role);
-        indexMap[timeObj.role] = index;
-        const calcTime = calculateTimeNumber(timeObj);
-        data[index++] = calcTime;
+        index = handleUnsetRoleOrProject({
+          labels,
+          data,
+          indexMap,
+          timeObj,
+          index,
+        });
       } else {
-        data[indexMap[timeObj.role]] += calculateTimeNumber(timeObj);
+        index = handleRoleOrProject({
+          data,
+          labels,
+          timeObj,
+          prop: "role",
+          indexMap,
+          index,
+        });
       }
     });
 
@@ -197,3 +199,40 @@ export default function useChartData(dateLabels) {
     chartOptionsRolePie,
   };
 }
+
+const handleUnsetRoleOrProject = ({
+  labels,
+  data,
+  indexMap,
+  timeObj,
+  index,
+}) => {
+  if (labels.includes("Nicht ausgewählt")) {
+    data[indexMap["Nicht ausgewählt"]] += calculateTimeNumber(timeObj);
+  } else {
+    labels.push("Nicht ausgewählt");
+    indexMap["Nicht ausgewählt"] = index;
+    const calcTime = calculateTimeNumber(timeObj);
+    data[index++] = calcTime;
+  }
+  return index;
+};
+
+const handleRoleOrProject = ({
+  data,
+  labels,
+  timeObj,
+  prop,
+  indexMap,
+  index,
+}) => {
+  if (!labels.includes(timeObj[prop])) {
+    labels.push(timeObj[prop]);
+    indexMap[timeObj[prop]] = index;
+    const calcTime = calculateTimeNumber(timeObj);
+    data[index++] = calcTime;
+  } else {
+    data[indexMap[timeObj[prop]]] += calculateTimeNumber(timeObj);
+  }
+  return index;
+};
