@@ -3,11 +3,11 @@ import { ref, computed, defineAsyncComponent, onMounted } from "vue";
 import { DateTime, Interval } from "luxon";
 import { useUserStore, useAlertStore } from "../../stores";
 import { addNewTimeRecord, notifyNewTimeToAdmins } from "../../helpers";
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
-const router = useRouter();
+const route = useRoute();
 
 const dateModes = {
   "24h": defineAsyncComponent(() => import("./SameDate.vue")),
@@ -53,7 +53,7 @@ const saveNewTimeEntry = async () => {
     alertStore.info("Bitte Beschreibung hinzufügen");
     return;
   }
-  const workspaceId = router.currentRoute.value.params?.id;
+  const workspaceId = route.params.id;
   const newData = {
     from: from.value,
     to: to.value,

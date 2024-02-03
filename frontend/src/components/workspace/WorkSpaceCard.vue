@@ -1,14 +1,10 @@
 <script setup>
-import { useRouter } from "vue-router";
-
 const props = defineProps({
   data: {
     type: Object,
     required: true,
   },
 });
-
-const router = useRouter();
 </script>
 
 <template>

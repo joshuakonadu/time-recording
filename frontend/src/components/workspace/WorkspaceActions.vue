@@ -3,7 +3,7 @@ import { ref, computed } from "vue";
 import { DateTime } from "luxon";
 import { deleteWorkspaceUser, getWorkspaceMembers } from "../../service";
 import { useAlertStore, useAuthStore } from "../../stores";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { notifyUsersInWorkspaceToUpdateMembers } from "../../helpers";
 
 const props = defineProps({
@@ -13,11 +13,12 @@ const props = defineProps({
 });
 const verifyLeave = ref(false);
 const router = useRouter();
+const route = useRoute();
 const authStore = useAuthStore();
 
 //const emit = defineEmits(["change"]);
 const leaveWorkspace = async () => {
-  const workspaceId = router.currentRoute.value.params?.id;
+  const workspaceId = route.params.id;
   verifyLeave.value = false;
   const alertStore = useAlertStore();
   try {
@@ -36,7 +37,7 @@ const navigateHome = () => {
 };
 
 const notifyWorkspaceUsers = async () => {
-  const workspaceId = router.currentRoute.value.params?.id;
+  const workspaceId = route.params.id;
   const { data } = await getWorkspaceMembers(workspaceId);
   try {
     const excludeThisMember = data.filter(

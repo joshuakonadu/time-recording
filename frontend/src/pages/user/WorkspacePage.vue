@@ -11,12 +11,13 @@ import GroupedTimeTables from "../../components/GroupedTimeTables.vue";
 import { getWorkspace } from "../../service";
 import { useUserStore, useAlertStore, useAuthStore } from "src/stores";
 import { loadTimeTables } from "../../helpers";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
 const authStore = useAuthStore();
 const router = useRouter();
+const route = useRoute();
 
 const lazyUserTableComponent = defineAsyncComponent(() =>
   import("../../components/table/UserTable.vue")
@@ -25,11 +26,11 @@ const lazyWorkspaceActionsComponent = defineAsyncComponent(() =>
   import("../../components/workspace/WorkspaceActions.vue")
 );
 
-const tab = ref(router.currentRoute.value.query.tab || "times");
+const tab = ref(route.query.tab || "times");
 
 const initializeData = async () => {
   await router.isReady();
-  const workspaceId = router.currentRoute.value.params?.id;
+  const workspaceId = route.params.id;
   try {
     const workspace = await getWorkspace(workspaceId);
     userStore.setActiveWorkspace(workspace.data);
@@ -65,7 +66,7 @@ onBeforeUnmount(() => {
       </div>
       <div class="admin-button" v-if="userStore.isActiveWorkspaceAdmin">
         <q-btn
-          :to="`/adminworkspace/${router.currentRoute.value.params?.id}`"
+          :to="`/adminworkspace/${route.params.id}`"
           flat
           label="Admin-Ansicht"
           color="primary"

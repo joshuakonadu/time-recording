@@ -1,4 +1,3 @@
-import router from "../router";
 import { useAuthStore } from "../stores";
 
 export function useAuthentication() {

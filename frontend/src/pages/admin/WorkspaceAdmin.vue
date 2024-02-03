@@ -20,7 +20,7 @@ const authStore = useAuthStore();
 const router = useRouter();
 const route = useRoute();
 
-const panel = ref(router.currentRoute.value.query.tab || "table");
+const panel = ref(route.query.tab || "table");
 const openTimeEntry = ref(false);
 const showAddUserDialog = ref(false);
 const showAddNewTime = ref(false);
@@ -47,7 +47,7 @@ const lazyTimeChartsComponent = defineAsyncComponent(() =>
 );
 
 const initializeData = async () => {
-  const workspaceId = router.currentRoute.value.params?.id;
+  const workspaceId = route.params.id;
   try {
     const workspace = await getWorkspace(workspaceId);
     userStore.setActiveWorkspace(workspace.data);
@@ -56,8 +56,8 @@ const initializeData = async () => {
       if (!authStore.user) return router.push("/login");
       return router.push("/auth");
     }
-    if (router.currentRoute.value.query.id) {
-      const routeUserId = router.currentRoute.value.query.id;
+    if (route.query.id) {
+      const routeUserId = route.query.id;
       const member = userStore.activeWorkspace.members.find(
         (member) => member.userId === routeUserId
       );
@@ -94,7 +94,7 @@ const goBack = () => {
     userStore.resetTimeRange();
     setQuery("table");
   } else {
-    const workspaceId = router.currentRoute.value.params?.id;
+    const workspaceId = route.params.id;
     router.push(`/workspace/${workspaceId}`);
   }
 };

@@ -8,7 +8,7 @@ import {
   NotifyNewTimeToUser,
 } from "../../helpers";
 import AllDate from "../timerecord/AllDate.vue";
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 const props = defineProps({
   memberId: {
@@ -19,7 +19,7 @@ const props = defineProps({
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
-const router = useRouter();
+const route = useRoute();
 
 const reactiveMemberId = computed(() => props.memberId);
 
@@ -58,7 +58,7 @@ const saveNewTimeEntry = async () => {
     alertStore.info("Bitte Beschreibung hinzufügen");
     return;
   }
-  const workspaceId = router.currentRoute.value.params?.id;
+  const workspaceId = route.params.id;
   const newData = {
     from: from.value,
     to: to.value,

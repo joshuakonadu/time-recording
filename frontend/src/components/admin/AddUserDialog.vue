@@ -3,7 +3,7 @@ import { defineAsyncComponent, computed, ref } from "vue";
 import { useUserStore, useAuthStore, useAlertStore } from "../../stores";
 import { inviteUserToWorkspace } from "../../service";
 import { recieverNotifyUpdateByUserId } from "../../client.socket.js";
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 const props = defineProps({
   show: {
@@ -24,7 +24,7 @@ const emit = defineEmits(["hide"]);
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
-const router = useRouter();
+const route = useRoute();
 
 const loading = ref(false);
 const success = ref(false);
@@ -58,7 +58,7 @@ const sendInvitation = async () => {
   if (!email.value) return;
   loading.value = true;
   const sendData = {
-    workspaceId: props.workspaceId || router.currentRoute.value.params?.id,
+    workspaceId: props.workspaceId || route.params.id,
     workspaceName: props.workspaceName || userStore.activeWorkspace.name,
     isAdmin: isAdmin.value,
     email: email.value,

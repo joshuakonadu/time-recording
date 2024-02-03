@@ -6,12 +6,12 @@ import {
   adminloadTimeTables,
 } from "../helpers";
 import { useUserStore, useAlertStore } from "src/stores";
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 export function useTimeTablesData() {
   const userStore = useUserStore();
   const alertStore = useAlertStore();
-  const router = useRouter();
+  const route = useRoute();
   const groupedTimeTablesData = ref(groupDatesByDay(userStore.timeTablesData));
   const calculateAllTime = ref(calculateTime(userStore.timeTablesData));
   watch(
@@ -35,7 +35,7 @@ export function useTimeTablesData() {
     () => userStore.selectedTimeRange,
     async () => {
       try {
-        const path = router.currentRoute.value.path;
+        const path = route.path;
         if (path.includes("adminworkspace")) {
           if (!userStore.selectedWorkspaceMember?.userId) {
             throw new Error("no member selected");
@@ -58,7 +58,7 @@ export function useTimeTablesData() {
     () => userStore.selectedProjectFilter,
     async () => {
       try {
-        const path = router.currentRoute.value.path;
+        const path = route.path;
         if (path.includes("adminworkspace")) {
           if (!userStore.selectedWorkspaceMember?.userId) {
             throw new Error("no member selected");
@@ -78,7 +78,7 @@ export function useTimeTablesData() {
     () => userStore.selectedRoleFilter,
     async () => {
       try {
-        const path = router.currentRoute.value.path;
+        const path = route.path;
         if (path.includes("adminworkspace")) {
           if (!userStore.selectedWorkspaceMember?.userId) {
             throw new Error("no member selected");
