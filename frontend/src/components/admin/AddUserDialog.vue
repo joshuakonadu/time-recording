@@ -55,7 +55,10 @@ const cleanUp = () => {
 };
 
 const sendInvitation = async () => {
-  if (!email.value) return;
+  if (!email.value) {
+    alertStore.info("Bitte Email hinzufügen");
+    return;
+  }
   loading.value = true;
   const sendData = {
     workspaceId: props.workspaceId || route.params.id,
