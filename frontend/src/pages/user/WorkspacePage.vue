@@ -79,21 +79,18 @@ onBeforeUnmount(() => {
         @click="setQuery('times')"
         name="times"
         icon="alarm"
-        label="Zeiten"
       />
       <q-tab
         :ripple="false"
         @click="setQuery('info')"
         name="info"
         icon="info"
-        label="Info"
       />
       <q-tab
         :ripple="false"
         @click="setQuery('settings')"
         name="settings"
         icon="settings"
-        label="Einstellung"
       />
     </q-tabs>
     <q-tab-panels v-model="tab" animated>

@@ -150,6 +150,9 @@
       display: flex;
       justify-content: flex-end;
     }
+    .time-calculator {
+      margin-bottom: 100px;
+    }
   }
   @media screen and (min-width: 900px) {
     .title h1{
@@ -161,12 +164,15 @@
     .admin-button{
       flex: 0 0 20%;
     }
+    .time-calculator {
+      margin-bottom: 120px;
+    }
   }
   .q-panel.scroll{
     overflow: hidden;
   }
   .time-calculator{
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    box-shadow: 0 8px 32px 0 rgba(58, 58, 65, 0.37);
     border-radius: 10px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
   }
