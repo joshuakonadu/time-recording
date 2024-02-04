@@ -106,7 +106,7 @@ const clearValue = () => {
         label="Rolle"
       />
     </div>
-    <div class="flex-container flex-center flex-100 q-mt-xl q-mb-lg">
+    <div class="flex-container flex-center flex-100 q-mt-xl q-mb-xl">
       <component
         :is="activeDateMode"
         @changeFrom="changeFrom"
