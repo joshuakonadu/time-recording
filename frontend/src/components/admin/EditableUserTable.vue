@@ -313,5 +313,3 @@ function updateMessages(deleteMemberId) {
     </q-dialog>
   </div>
 </template>
-
-<style></style>

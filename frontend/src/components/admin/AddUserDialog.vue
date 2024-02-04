@@ -77,7 +77,7 @@ const sendInvitation = async () => {
 </script>
 
 <template>
-  <q-dialog v-model="reactiveShow">
+  <q-dialog class="add-user-dialog" v-model="reactiveShow">
     <q-card style="width: 800px; max-width: 80vw; min-height: 180px">
       <q-card-section>
         <div class="text-h6">Neues Mitglied</div>
@@ -142,19 +142,3 @@ const sendInvitation = async () => {
     </q-card>
   </q-dialog>
 </template>
-<style scoped>
-.name {
-  width: 100%;
-}
-
-@media screen and (min-width: 750px) {
-  .name {
-    width: 70%;
-  }
-
-  .mode {
-    width: 20%;
-    margin-left: 24px;
-  }
-}
-</style>

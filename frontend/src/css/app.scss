@@ -421,3 +421,20 @@ section.user-action{
 .custom-cursor .q-field__native{
   cursor: pointer !important;
 }
+
+.add-user-dialog{
+  .name {
+    width: 100%;
+  }
+  
+  @media screen and (min-width: 750px) {
+    .name {
+      width: 70%;
+    }
+  
+    .mode {
+      width: 20%;
+      margin-left: 24px;
+    }
+  }
+}
