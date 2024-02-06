@@ -63,10 +63,9 @@ export const sortDate = (data1, data2) => {
 
 export const loadTimeTables = async () => {
   const userStore = useUserStore();
-  await router.isReady();
-  const routeId = router.currentRoute.value.params?.id;
+  const workspaceId = userStore.activeWorkspace._id;
   const sendData = {
-    workspaceId: routeId,
+    workspaceId: workspaceId,
     from: userStore.selectedTimeRange?.from,
     to: userStore.selectedTimeRange?.to,
     project: userStore.selectedProjectFilter,
@@ -106,10 +105,9 @@ export const adminAddNewTimeRecord = async (data) => {
 
 export const adminloadTimeTables = async (userId) => {
   const userStore = useUserStore();
-  await router.isReady();
-  const routeId = router.currentRoute.value.params?.id;
+  const workspaceId = userStore.activeWorkspace._id;
   const sendData = {
-    workspaceId: routeId,
+    workspaceId: workspaceId,
     from: userStore.selectedTimeRange?.from,
     to: userStore.selectedTimeRange?.to,
     project: userStore.selectedProjectFilter,
@@ -217,9 +215,8 @@ export const updateUserDeletedTime = (time) => {
 
 const adminIsInUserView = (workspaceId, userId) => {
   const userStore = useUserStore();
-  const routeId = router.currentRoute.value.params?.id;
 
-  return workspaceId === routeId &&
+  return workspaceId === userStore.activeWorkspace._id &&
     userStore.selectedWorkspaceMember?.userId === userId
     ? true
     : false;
@@ -227,7 +224,7 @@ const adminIsInUserView = (workspaceId, userId) => {
 
 const userIsInWorkspace = (workspaceId) => {
   const userStore = useUserStore();
-  const routeId = router.currentRoute.value.params?.id;
+  const routeId = userStore.activeWorkspace._id;
   const path = router.currentRoute.value.path;
   const isInWorkspace = path.split("/")[1] === "workspace";
 

@@ -10,8 +10,7 @@ import {
 
 export const updateMembers = async () => {
   const userStore = useUserStore();
-  await router.isReady();
-  const routeId = router.currentRoute.value.params?.id;
+  const routeId = userStore.activeWorkspace._id;
   let apiData = null;
   try {
     apiData = await updateWorkspaceMembers(
@@ -28,8 +27,7 @@ export const updateMembers = async () => {
 export const deleteWorkspaceMember = async (id) => {
   const userStore = useUserStore();
   const authStore = useAuthStore();
-  await router.isReady();
-  const routeId = router.currentRoute.value.params?.id;
+  const routeId = userStore.activeWorkspace._id;
   try {
     const { data } = await deleteMember(routeId, {
       deleteUserId: id,
@@ -45,10 +43,9 @@ export const deleteWorkspaceMember = async (id) => {
 };
 
 export const updateWorkspaceAction = async (workspaceId) => {
-  await router.isReady();
-  const routeId = router.currentRoute.value.params?.id;
+  const userStore = useUserStore();
+  const routeId = userStore.activeWorkspace._id;
   if (routeId === workspaceId) {
-    const userStore = useUserStore();
     const apiData = await getWorkspaceMembers(workspaceId);
     userStore.updateWorkspaceMembers(apiData.data);
   }
@@ -56,19 +53,18 @@ export const updateWorkspaceAction = async (workspaceId) => {
 
 export const removedWorkspaceAction = async (workspaceId) => {
   await router.isReady();
+  const userStore = useUserStore();
   if (router.currentRoute.value.path === "/auth") {
-    const userStore = useUserStore();
     userStore.getWorkspaces();
-  } else if (router.currentRoute.value.params?.id === workspaceId) {
+  } else if (userStore.activeWorkspace._id === workspaceId) {
     router.push("/auth");
   }
 };
 
 export const updateChangedWorkspace = async (workspaceId) => {
-  await router.isReady();
-  const routeId = router.currentRoute.value.params?.id;
-  const routePath = router.currentRoute.value.path;
   const userStore = useUserStore();
+  const routeId = userStore.activeWorkspace._id;
+  const routePath = router.currentRoute.value.path;
   if (routeId === workspaceId) {
     const workspace = await getWorkspace(workspaceId);
     userStore.setActiveWorkspace(workspace.data);

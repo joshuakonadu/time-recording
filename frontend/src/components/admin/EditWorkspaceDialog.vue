@@ -3,7 +3,6 @@ import { defineAsyncComponent, computed, ref, toRaw } from "vue";
 import { useUserStore, useAuthStore, useAlertStore } from "../../stores";
 import { notifyAllToUpdateWorkspace } from "../../helpers";
 import { updateWorkspace, updateRegisterWorkspace } from "../../service";
-import { useRoute } from "vue-router";
 
 const props = defineProps({
   show: {
@@ -16,7 +15,6 @@ const emit = defineEmits(["hide"]);
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
-const route = useRoute();
 
 const loading = ref(false);
 const activeWorkspace = toRaw(userStore.activeWorkspace);
@@ -36,7 +34,7 @@ const timeModeOptions = [
 
 const saveData = async () => {
   if (!name.value) return;
-  const workspaceId = route.params.id;
+  const workspaceId = userStore.activeWorkspace._id;
   loading.value = true;
   const data = {
     name: name.value.toLowerCase(),

@@ -2,31 +2,31 @@ import { io } from "socket.io-client";
 import { useAuthStore } from "src/stores";
 import { handleMsg } from "./helpers";
 
-export const data = {};
+let socket = null;
 
 export function recieverNotifyUpdateByUserId(
   id,
   msg = JSON.stringify({ action: "update_messages" })
 ) {
-  data.socket?.emit("update", id, msg);
+  socket.emit("update", id, msg);
 }
 
 export const socketConnection = () => {
-  if (data.socket) return;
+  if (socket) return;
 
-  data.socket = io("http://localhost:5000", { transports: ["websocket"] });
+  socket = io("http://localhost:5000", { transports: ["websocket"] });
 
-  data.socket?.on("connect", () => {
+  socket.on("connect", () => {
     const authStore = useAuthStore();
-    data.socket.emit("user", authStore.user?._id);
+    socket.emit("user", authStore.user?._id);
   });
 
-  data.socket?.on("update", (msg) => {
+  socket.on("update", (msg) => {
     if (msg) handleMsg(msg);
   });
 };
 
 export const socketConnectionClose = () => {
-  data.socket?.emit("close-connection");
-  if (data.socket) delete data.socket;
+  socket.emit("close-connection");
+  if (socket) socket = null;
 };

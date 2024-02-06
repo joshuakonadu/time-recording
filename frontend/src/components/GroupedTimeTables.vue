@@ -7,11 +7,9 @@ import { useUserStore, useAlertStore } from "../stores";
 import { updateTimeRecord, getTimesByWorkspaceUser } from "../service";
 import TimeRange from "./workspace/TimeRange.vue";
 import { notifyUserAndAdminsUpdatedTimeRecord } from "../helpers";
-import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
-const router = useRouter();
 
 const { groupedTimeTablesData, calculateAllTime } = useTimeTablesData();
 
@@ -91,7 +89,7 @@ const updateChangedObject = async (data) => {
     notifyUserAndAdminsUpdatedTimeRecord(apiResponse.data);
   } catch (err) {
     alertStore.error("Speichern Fehlgeschlagen", 3000);
-    const workspaceId = router.currentRoute.value.params?.id;
+    const workspaceId = userStore.activeWorkspace._id;
     const { data } = await getTimesByWorkspaceUser(workspaceId);
     userStore.setTimeTablesData(data);
   } finally {

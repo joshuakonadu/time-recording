@@ -10,13 +10,12 @@ import {
 } from "../../helpers";
 import { recieverNotifyUpdateByUserId } from "../../client.socket.js";
 import { getWorkspaceMembers } from "../../service";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const alertStore = useAlertStore();
 const authStore = useAuthStore();
 const router = useRouter();
-const route = useRoute();
 
 const showConfirmDelete = ref(false);
 let deleteMemberId = null;
@@ -86,7 +85,7 @@ const update = async () => {
     alertStore.success("Erfolgreich geändert");
     await nextTick();
     if (!userStore.isActiveWorkspaceAdmin) {
-      const workspaceId = route.params.id;
+      const workspaceId = userStore.activeWorkspace._id;
       router.push("/workspace/" + workspaceId);
     }
   } catch (err) {
@@ -113,7 +112,7 @@ const deleteMember = async () => {
     if (deleteMemberId === authStore.user._id) {
       router.push("/auth");
     } else {
-      const workspaceId = route.params.id;
+      const workspaceId = userStore.activeWorkspace._id;
       sendRemoveInvitationMessage(
         {
           sendUserId: deleteMemberId,
@@ -131,7 +130,7 @@ const deleteMember = async () => {
 };
 
 const notifyWorkspaceUsers = () => {
-  const workspaceId = route.params.id;
+  const workspaceId = userStore.activeWorkspace._id;
   getWorkspaceMembers(workspaceId)
     .then(({ data }) => {
       const excludeThisMember = data.filter(
