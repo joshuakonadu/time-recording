@@ -1,8 +1,13 @@
 // app global css in SCSS form
 .container{
-  width: 80%;
+  width: 100%;
+  padding-inline: 20px;
   max-width: 1400px;
   margin-inline: auto;
+  @media screen and (min-width: 900px) {
+    width: 80%;
+    padding-inline: 0;
+  }
 }
 
 .invalid-feedback{
@@ -442,5 +447,17 @@ section.user-action{
       width: 20%;
       margin-left: 24px;
     }
+  }
+}
+
+.editable-table, .time-table{
+  td{
+    cursor: pointer;
+  }
+}
+
+.editable-table{
+  .joined{
+    cursor: initial;
   }
 }

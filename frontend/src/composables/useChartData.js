@@ -79,7 +79,7 @@ export default function useChartData(dateLabels) {
   });
 
   const barChartData = computed(() => {
-    const data = [];
+    const data = new Array(chartLabels[labels].length).fill(0);
     const times = [...userStore.timeTablesData].reverse();
     if (!times.length) {
       return {
@@ -95,11 +95,6 @@ export default function useChartData(dateLabels) {
           ? calculateTime
           : data[dateIndex] + calculateTime;
     });
-    for (let i = 0; i < data.length; i++) {
-      if (data[i] === undefined) {
-        data[i] = 0;
-      }
-    }
     const finalData = [
       {
         data: data,

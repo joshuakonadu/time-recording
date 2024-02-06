@@ -15,6 +15,8 @@ import {
 export const addTime = asyncHandler(async (req, res) => {
   const data = req.body;
   data.userId = req.user._id;
+  //for rare case when user recently left workspace
+  await checkIsStillWorkspaceMember(data.userId, data.workspaceId);
   const timeRecord = await createTimeRecord(data);
   res.status(201).json(timeRecord);
 });

@@ -84,7 +84,7 @@ watch(
 </script>
 
 <template>
-  <div>
+  <div class="time-table">
     <q-table
       :title="`${DateTime.fromISO(props.day).toLocaleString(
         DateTime.DATE_HUGE

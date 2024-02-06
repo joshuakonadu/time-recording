@@ -148,7 +148,7 @@ function updateMessages(deleteMemberId) {
 </script>
 
 <template>
-  <div>
+  <div class="editable-table">
     <q-table
       title="Mitglieder bearbeiten"
       :rows="userStore.activeWorkspace.members"
@@ -266,7 +266,7 @@ function updateMessages(deleteMemberId) {
               />
             </q-popup-edit>
           </q-td>
-          <q-td key="joined" :props="props">
+          <q-td class="joined" key="joined" :props="props">
             {{ formatDate(props.row.joined) }}
           </q-td>
           <q-td auto-width>
